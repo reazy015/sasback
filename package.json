@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "prestart": "npm install",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "webpack --mode production"
   },
   "keywords": [
     "swagger"
@@ -17,6 +18,11 @@
     "connect": "^3.2.0",
     "js-yaml": "^3.3.0",
     "jsonfile": "^6.0.1",
-    "oas3-tools": "^2.0.2"
+    "oas3-tools": "^2.0.2",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "devDependencies": {
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }
