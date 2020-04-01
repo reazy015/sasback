@@ -1,4 +1,8 @@
 'use strict';
+const jsonfile = require('jsonfile');
+const appRoot = require('app-root-path');
+const fileNum = '/temp/num-constraints.json';
+const fileDim = '/temp/dim-constraints.json';
 
 
 /**
@@ -8,23 +12,15 @@
  **/
 exports.getDimConstraints = function() {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "constraints" : [ {
-    "DIM_TABLE_NAME" : "DIM_TABLE_NAME",
-    "ATTR_NAME" : "ATTR_NAME",
-    "ATTR_LABEL" : "ATTR_LABEL"
-  }, {
-    "DIM_TABLE_NAME" : "DIM_TABLE_NAME",
-    "ATTR_NAME" : "ATTR_NAME",
-    "ATTR_LABEL" : "ATTR_LABEL"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    jsonfile.readFile(appRoot + fileNum, function (err, obj) {
+      console.log(obj);
+      if (err) console.error(err);
+      if (Object.keys(obj).length > 0) {
+        resolve(obj[Object.keys(obj)[0]]);
+      } else {
+        resolve();
+      }
+    });
   });
 }
 
@@ -36,21 +32,14 @@ exports.getDimConstraints = function() {
  **/
 exports.getNumConstraints = function() {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "constraints" : [ {
-    "ATTR_NAME" : "ATTR_NAME",
-    "ATTR_LABEL" : "ATTR_LABEL"
-  }, {
-    "ATTR_NAME" : "ATTR_NAME",
-    "ATTR_LABEL" : "ATTR_LABEL"
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    jsonfile.readFile(appRoot + fileNum, function (err, obj) {
+      if (err) console.error(err);
+      if (Object.keys(obj).length > 0) {
+        resolve(obj[Object.keys(obj)[0]]);
+      } else {
+        resolve();
+      }
+    });
   });
 }
 
