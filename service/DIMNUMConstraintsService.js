@@ -32,7 +32,7 @@ exports.getDimConstraints = function() {
  **/
 exports.getNumConstraints = function() {
   return new Promise(function(resolve, reject) {
-    jsonfile.readFile(appRoot + fileNum, function (err, obj) {
+    jsonfile.readFile(appRoot + fileDim, function (err, obj) {
       if (err) console.error(err);
       if (Object.keys(obj).length > 0) {
         resolve(obj[Object.keys(obj)[0]]);
