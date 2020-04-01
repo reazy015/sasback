@@ -12,7 +12,7 @@ const fileDim = '/temp/dim-constraints.json';
  **/
 exports.getDimConstraints = function() {
   return new Promise(function(resolve, reject) {
-    jsonfile.readFile(appRoot + fileNum, function (err, obj) {
+    jsonfile.readFile(appRoot + fileDim, function (err, obj) {
       console.log(obj);
       if (err) console.error(err);
       if (Object.keys(obj).length > 0) {
@@ -32,7 +32,7 @@ exports.getDimConstraints = function() {
  **/
 exports.getNumConstraints = function() {
   return new Promise(function(resolve, reject) {
-    jsonfile.readFile(appRoot + fileDim, function (err, obj) {
+    jsonfile.readFile(appRoot + fileNum, function (err, obj) {
       if (err) console.error(err);
       if (Object.keys(obj).length > 0) {
         resolve(obj[Object.keys(obj)[0]]);
