@@ -3,8 +3,8 @@
 var utils = require('../utils/writer.js');
 var UserScenario = require('../service/UserScenarioService');
 
-module.exports.deleteUserScenario = function deleteUserScenario (req, res, next) {
-  UserScenario.deleteUserScenario()
+module.exports.deleteUserScenario = function deleteUserScenario (req, res, next, userScenarioCd, ifMatch, ifUnmodifiedSince) {
+  UserScenario.deleteUserScenario(userScenarioCd, ifMatch, ifUnmodifiedSince)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -23,8 +23,8 @@ module.exports.getUserScenarios = function getUserScenarios (req, res, next) {
     });
 };
 
-module.exports.patchUserScenario = function patchUserScenario (req, res, next) {
-  UserScenario.patchUserScenario()
+module.exports.patchUserScenario = function patchUserScenario (req, res, next, body, userScenarioCd, ifMatch, ifUnmodifiedSince) {
+  UserScenario.patchUserScenario(body, userScenarioCd, ifMatch, ifUnmodifiedSince)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -33,12 +33,12 @@ module.exports.patchUserScenario = function patchUserScenario (req, res, next) {
     });
 };
 
-module.exports.postUserScenario = function postUserScenario (req, res, next) {
-  UserScenario.postUserScenario()
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+module.exports.createUserScenario = function createUserScenario (req, res, next, body) {
+    UserScenario.createUserScenario(body)
+        .then(function (response) {
+            utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+            utils.writeJson(res, response);
+        });
 };

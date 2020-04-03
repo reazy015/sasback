@@ -3,6 +3,7 @@ const jsonfile = require('jsonfile');
 const appRoot = require('app-root-path');
 const file = '/temp/scenario-templates.json';
 
+
 /**
  * Creates a new scenario template
  *
@@ -10,7 +11,6 @@ const file = '/temp/scenario-templates.json';
  * returns scenarioTemplate
  **/
 exports.createScenarioTemplate = function(body) {
-  console.log(body);
   return new Promise(function(resolve, reject) {
     jsonfile.readFile(appRoot + file, function (err, obj) {
       if (err) console.error(err);
@@ -21,7 +21,29 @@ exports.createScenarioTemplate = function(body) {
       })
     });
   });
-};
+}
+
+
+/**
+ * Delete selected scenario template
+ *
+ * scenarioTemplateCd String The code of the deleting scenario
+ * ifMatch String The entity tag obtained from the most recent ETag response header. It must match the current entity tag.
+ * ifUnmodifiedSince String The value of the lastModified date of the object. If the object has been updated since this time, the update fails. (optional)
+ * no response value expected for this operation
+ **/
+exports.deleteScenarioTemplate = function(scenarioTemplateCd,ifMatch,ifUnmodifiedSince) {
+  return new Promise(function(resolve, reject) {
+    jsonfile.readFile(appRoot + file, function (err, obj) {
+      const indexOfItem = obj['items'].findIndex(item => item['SCENARIO_TEMPLATE_CD'] === scenarioTemplateCd);
+      obj['items'].splice(indexOfItem, 1);
+      jsonfile.writeFile(appRoot + file, obj, function (err) {
+        if (err) console.error(err);
+        resolve();
+      });
+    });
+  });
+}
 
 
 /**
@@ -45,7 +67,7 @@ exports.getScenarioTemplates = function(filterQuery,filter,sortBy,start,limit) {
       }
     });
   });
-};
+}
 
 
 /**
@@ -63,28 +85,6 @@ exports.patchScenarioTemplate = function(body,scenarioTemplateCd,ifMatch,ifUnmod
     jsonfile.readFile(appRoot + file, function (err, obj) {
       const indexOfItem = obj['items'].findIndex(item => item['SCENARIO_TEMPLATE_CD'] === scenarioTemplateCd);
       obj['items'][indexOfItem] = body;
-      jsonfile.writeFile(appRoot + file, obj, function (err) {
-        if (err) console.error(err);
-        resolve();
-      });
-    });
-  })
-};
-
-
-/**
- * Delete selected scenario template
- *
- * scenarioTemplateCd String The code of the deleting scenario
- * ifMatch String The entity tag obtained from the most recent ETag response header. It must match the current entity tag.
- * ifUnmodifiedSince String The value of the lastModified date of the object. If the object has been updated since this time, the update fails. (optional)
- * no response value expected for this operation
- **/
-exports.scenarioTemplateScenarioTemplateCdDELETE = function(scenarioTemplateCd,ifMatch,ifUnmodifiedSince) {
-  return new Promise(function(resolve, reject) {
-    jsonfile.readFile(appRoot + file, function (err, obj) {
-      const indexOfItem = obj['items'].findIndex(item => item['SCENARIO_TEMPLATE_CD'] === scenarioTemplateCd);
-      obj['items'].splice(indexOfItem, 1);
       jsonfile.writeFile(appRoot + file, obj, function (err) {
         if (err) console.error(err);
         resolve();

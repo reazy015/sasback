@@ -22,3 +22,13 @@ module.exports.getNumConstraints = function getNumConstraints (req, res, next) {
       utils.writeJson(res, response);
     });
 };
+
+module.exports.getTemplateDimConstraints = function getTemplateDimConstraints (req, res, next, scenarioTemplateCd) {
+  DIMNUMConstraints.getTemplateDimConstraints(scenarioTemplateCd)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};

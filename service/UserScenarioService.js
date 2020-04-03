@@ -1,14 +1,27 @@
 'use strict';
+const jsonfile = require('jsonfile');
+const appRoot = require('app-root-path');
+const file = '/temp/user-scenarios.json';
 
 
 /**
  * Deletes user scenario
  *
+ * userScenarioCd String The code of the updatable scenario template
+ * ifMatch String The entity tag obtained from the most recent ETag response header. It must match the current entity tag.
+ * ifUnmodifiedSince String The value of the lastModified date of the object. If the object has been updated since this time, the update fails. (optional)
  * no response value expected for this operation
  **/
-exports.deleteUserScenario = function() {
+exports.deleteUserScenario = function(userScenarioCd,ifMatch,ifUnmodifiedSince) {
   return new Promise(function(resolve, reject) {
-    resolve();
+      jsonfile.readFile(appRoot + file, function (err, obj) {
+          const indexOfItem = obj['items'].findIndex(item => item['SCENARIO_TEMPLATE_CD'] === userScenarioCd);
+          obj['items'].splice(indexOfItem, 1);
+          jsonfile.writeFile(appRoot + file, obj, function (err) {
+              if (err) console.error(err);
+              resolve();
+          });
+      });
   });
 }
 
@@ -16,25 +29,18 @@ exports.deleteUserScenario = function() {
 /**
  * Returns a collections of the user scenarios
  *
- * returns userScenariosCollections
+ * returns userScenariosCollection
  **/
 exports.getUserScenarios = function() {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "NAME_SCN" : "NAME_SCN",
-  "SCENARIO_CD" : "SCENARIO_CD",
-  "DTIME_LAST_OPTIMIZATION" : "DTIME_LAST_OPTIMIZATION",
-  "USER_UPDATED" : "USER_UPDATED",
-  "NAME_SCT" : "NAME_SCT",
-  "DTTM_UPDATED" : "DTTM_UPDATED",
-  "TEXT_COMMENT" : "TEXT_COMMENT"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    jsonfile.readFile(appRoot + file, function (err, obj) {
+          if (err) console.error(err);
+          if (Object.keys(obj).length > 0) {
+              resolve(obj[Object.keys(obj)[0]]);
+          } else {
+              resolve();
+          }
+});
   });
 }
 
@@ -42,43 +48,40 @@ exports.getUserScenarios = function() {
 /**
  * Updates user scenarion and specify constraints
  *
+ * body UserScenarioPatch The scenario template to patch
+ * userScenarioCd String The code of the updatable scenario template
+ * ifMatch String The entity tag obtained from the most recent ETag response header. It must match the current entity tag.
+ * ifUnmodifiedSince String The value of the lastModified date of the object. If the object has been updated since this time, the update fails. (optional)
  * returns userScenario
  **/
-exports.patchUserScenario = function() {
+exports.patchUserScenario = function(body,userScenarioCd,ifMatch,ifUnmodifiedSince) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "NAME_SCN" : "NAME_SCN",
-  "NAME_SCT" : "NAME_SCT",
-  "TEXT_COMMENT" : "TEXT_COMMENT"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    jsonfile.readFile(appRoot + file, function (err, obj) {
+          const indexOfItem = obj['items'].findIndex(item => item['SCENARIO_CD'] === userScenarioCd);
+          obj['items'][indexOfItem] = body;
+          jsonfile.writeFile(appRoot + file, obj, function (err) {
+              if (err) console.error(err);
+              resolve();
+          });
+  });
   });
 }
-
 
 /**
  * Posts  user scenario
  *
+ * body UserScenarioCreate The new scenario template
  * returns userScenarioCreate
  **/
-exports.postUserScenario = function() {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "NAME_SCN" : "NAME_SCN",
-  "NAME_SCT" : "NAME_SCT",
-  "TEXT_COMMENT" : "TEXT_COMMENT"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.createUserScenario = function(body) {
+    return new Promise(function(resolve, reject) {
+        jsonfile.readFile(appRoot + file, function (err, obj) {
+            if (err) console.error(err);
+            obj['items'].push(body);
+            jsonfile.writeFile(appRoot + file, obj, function (err) {
+                if (err) console.error(err);
+                resolve();
+            })
+        });
+    });
 }
-

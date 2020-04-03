@@ -4,68 +4,70 @@ info:
   description: MEG19008 Middleware API
   version: 0.0.1
 servers:
-- url: http://localhost:8080/
+  - url: http://localhost:8080/
 tags:
-- name: scenarioTemplate
-  description: Scenario templates
-- name: DIM, NUM constraints
-  description: DIM and NUM constraints
-- name: userScenario
-  description: User scenarios
-- name: optimizations
-  description: optimizations list
+  - name: scenarioTemplate
+    description: Scenario templates
+  - name: DIM, NUM constraints
+    description: DIM, NUM constraints endpoints
+  - name: userScenario
+    description: User scenarios
+  - name: optimizations
+    description: optimizations list
+  - name: other
+    description: Other endpoints
 paths:
   /scenarioTemplate:
     get:
       tags:
-      - scenarioTemplate
+        - scenarioTemplate
       summary: Returns a collection of the scenario templates
       operationId: getScenarioTemplates
       parameters:
-      - name: filterQuery
-        in: query
-        description: |
-          Basic filtering criteria in exploded form. See [Basic Filtering](https://developer.sas.com/apis/rest/Topics/#basic-filtering)
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          additionalProperties:
+        - name: filterQuery
+          in: query
+          description: |
+            Basic filtering criteria in exploded form. See [Basic Filtering](https://developer.sas.com/apis/rest/Topics/#basic-filtering)
+          required: false
+          style: form
+          explode: true
+          schema:
             type: string
-      - name: filter
-        in: query
-        description: |
-          Filter criteria for selecting objects to return. See [Filtering in SAS Viya REST APIs](https://developer.sas.com/apis/rest/Topics/#filters)
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: sortBy
-        in: query
-        description: Sort criteria for the collection
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: start
-        in: query
-        description: Offset of the first object to return. Defaults to 0.
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: integer
-      - name: limit
-        in: query
-        description: Maximum number of objecs to return. Defaults to 10.
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: integer
+            additionalProperties:
+              type: string
+        - name: filter
+          in: query
+          description: |
+            Filter criteria for selecting objects to return. See [Filtering in SAS Viya REST APIs](https://developer.sas.com/apis/rest/Topics/#filters)
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Sort criteria for the collection
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: start
+          in: query
+          description: Offset of the first object to return. Defaults to 0.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Maximum number of objecs to return. Defaults to 10.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
       responses:
         "200":
           description: A collection of templates.
@@ -76,7 +78,7 @@ paths:
       x-swagger-router-controller: ScenarioTemplate
     post:
       tags:
-      - scenarioTemplate
+        - scenarioTemplate
       summary: Creates a new scenario template
       operationId: createScenarioTemplate
       requestBody:
@@ -104,74 +106,74 @@ paths:
   /scenarioTemplate/{scenarioTemplateCd}:
     delete:
       tags:
-      - scenarioTemplate
+        - scenarioTemplate
       summary: Delete selected scenario template
-      operationId: scenarioTemplateScenarioTemplateCdDELETE
+      operationId: deleteScenarioTemplate
       parameters:
-      - name: scenarioTemplateCd
-        in: path
-        description: The code of the deleting scenario
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: If-Match
-        in: header
-        description: The entity tag obtained from the most recent ETag response header.
-          It must match the current entity tag.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: If-Unmodified-Since
-        in: header
-        description: The value of the lastModified date of the object. If the object
-          has been updated since this time, the update fails.
-        required: false
-        style: simple
-        explode: false
-        schema:
-          type: string
+        - name: scenarioTemplateCd
+          in: path
+          description: The code of the deleting scenario
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: The entity tag obtained from the most recent ETag response header.
+            It must match the current entity tag.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Unmodified-Since
+          in: header
+          description: The value of the lastModified date of the object. If the object
+            has been updated since this time, the update fails.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            type: string
       responses:
         "200":
           description: Removed scenario template
       x-swagger-router-controller: ScenarioTemplate
     patch:
       tags:
-      - scenarioTemplate
+        - scenarioTemplate
       summary: Make a partial update of a scenario template
       description: |
         Updates the provided fields of a scenario template. The client can provide a sparsely populated object, and only the non-null fields contribute to the updates. A body such as { "name": "NewScenarioTemplateName" } causes the scenario template to have its name changed, but no other field is affected. The full resulting object is returned in the response.
       operationId: patchScenarioTemplate
       parameters:
-      - name: scenarioTemplateCd
-        in: path
-        description: The code of the updatable scenario template
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: If-Match
-        in: header
-        description: The entity tag obtained from the most recent ETag response header.
-          It must match the current entity tag.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: If-Unmodified-Since
-        in: header
-        description: The value of the lastModified date of the object. If the object
-          has been updated since this time, the update fails.
-        required: false
-        style: simple
-        explode: false
-        schema:
-          type: string
+        - name: scenarioTemplateCd
+          in: path
+          description: The code of the updatable scenario template
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: The entity tag obtained from the most recent ETag response header.
+            It must match the current entity tag.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Unmodified-Since
+          in: header
+          description: The value of the lastModified date of the object. If the object
+            has been updated since this time, the update fails.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            type: string
       requestBody:
         description: The scenario template to patch
         content:
@@ -192,11 +194,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/scenarioTemplate'
       x-swagger-router-controller: ScenarioTemplate
-  /dimConstraints:
+  /constraints/dim:
     get:
       tags:
-      - DIM, NUM constraints
-      summary: Returns a collection of DIM constraints
+        - DIM, NUM constraints
+      summary: Returns list of DIM constraints
       operationId: getDimConstraints
       responses:
         "200":
@@ -204,13 +206,36 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/dimConstraints'
+                $ref: '#/components/schemas/constraints'
       x-swagger-router-controller: DIMNUMConstraints
-  /numConstraint:
+  /constraints/dim/{scenarioTemplateCd}:
     get:
       tags:
-      - DIM, NUM constraints
-      summary: Returns a collection of NUM constraints
+        - DIM, NUM constraints
+      summary: Returns array of DIM restriction of particular template
+      operationId: getTemplateDimConstraints
+      parameters:
+        - name: scenarioTemplateCd
+          in: path
+          description: Scenario template code for DIM constraints receiving
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Scenario template DIM constraints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scenarioTemplateDIMConstraints'
+      x-swagger-router-controller: DIMNUMConstraints
+  /constraints/num:
+    get:
+      tags:
+        - DIM, NUM constraints
+      summary: Returns list of NUM constraints
       operationId: getNumConstraints
       responses:
         "200":
@@ -218,12 +243,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/numConstraints'
+                $ref: '#/components/schemas/constraints'
       x-swagger-router-controller: DIMNUMConstraints
-  /userScenarios:
+  /userScenario:
     get:
       tags:
-      - userScenario
+        - userScenario
       summary: Returns a collections of the user scenarios
       operationId: getUserScenarios
       responses:
@@ -232,13 +257,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userScenariosCollections'
+                $ref: '#/components/schemas/userScenariosCollection'
       x-swagger-router-controller: UserScenario
     post:
       tags:
-      - userScenario
+        - userScenario
       summary: Posts  user scenario
-      operationId: postUserScenario
+      operationId: createUserScenario
+      requestBody:
+        description: The new scenario template
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioCreate'
+        required: true
       responses:
         "201":
           description: User scenario posted
@@ -254,20 +286,82 @@ paths:
               schema:
                 $ref: '#/components/schemas/userScenarioCreate'
       x-swagger-router-controller: UserScenario
+  /userScenario/{userScenarioCd}:
     delete:
       tags:
-      - userScenario
+        - userScenario
       summary: Deletes user scenario
       operationId: deleteUserScenario
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: The code of the updatable scenario template
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: The entity tag obtained from the most recent ETag response header.
+            It must match the current entity tag.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Unmodified-Since
+          in: header
+          description: The value of the lastModified date of the object. If the object
+            has been updated since this time, the update fails.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            type: string
       responses:
         "200":
           description: Removed scenario template
       x-swagger-router-controller: UserScenario
     patch:
       tags:
-      - userScenario
+        - userScenario
       summary: Updates user scenarion and specify constraints
       operationId: patchUserScenario
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: The code of the updatable scenario template
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: The entity tag obtained from the most recent ETag response header.
+            It must match the current entity tag.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Unmodified-Since
+          in: header
+          description: The value of the lastModified date of the object. If the object
+            has been updated since this time, the update fails.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: The scenario template to patch
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioPatch'
+        required: true
       responses:
         "200":
           description: The patched user scenario
@@ -299,14 +393,14 @@ components:
     scenarioTemplateCollection:
       description: A collection of scenario templates
       allOf:
-      - $ref: '#/components/schemas/baseCollection'
-      - type: object
-        properties:
-          items:
-            type: array
-            description: An array consisting of scenario templates.
+        - $ref: '#/components/schemas/baseCollection'
+        - type: object
+          properties:
             items:
-              $ref: '#/components/schemas/scenarioTemplate'
+              type: array
+              description: An array consisting of scenario templates.
+              items:
+                $ref: '#/components/schemas/scenarioTemplate'
     scenarioTemplatePatch:
       properties:
         PATH:
@@ -333,66 +427,66 @@ components:
       description: The scenario template to be patched
     scenarioTemplateCreate:
       required:
-      - NAME
-      - PATH
-      - SCT_CONSTRAINT_DIM_PARAMS
-      - SCT_CONSTRAINT_NUM_PARAMS
-      - TARGET_ATTR_LABEL
+        - NAME
+        - PATH
+        - SCT_CONSTRAINT_DIM_PARAMS
+        - SCT_CONSTRAINT_NUM_PARAMS
+        - TARGET_ATTR_LABEL
       description: The new scenario template
       allOf:
-      - $ref: '#/components/schemas/scenarioTemplatePatch'
-      - type: object
-        properties:
-          NAME:
-            type: string
-            description: The name of the scenario template
+        - $ref: '#/components/schemas/scenarioTemplatePatch'
+        - type: object
+          properties:
+            NAME:
+              type: string
+              description: The name of the scenario template
     scenarioTemplate:
       description: The full representation of the scenario template
       allOf:
-      - $ref: '#/components/schemas/scenarioTemplateCreate'
-      - type: object
-        properties:
-          SCENARIO_TEMPLATE_CD:
-            type: string
-            description: The code of the scenario template
-          USER_CREATED:
-            type: string
-            description: The user created the scenario template
-          DTTM_CREATED:
-            type: string
-            description: The date and time the scenario template was created
-            format: date-time
-          USER_UPDATED:
-            type: string
-            description: The user updated the scenario template
-          DTTM_UPDATED:
-            type: string
-            description: The date and time the scenario template was updated
-            format: date-time
+        - $ref: '#/components/schemas/scenarioTemplateCreate'
+        - type: object
+          properties:
+            SCENARIO_TEMPLATE_CD:
+              type: string
+              description: The code of the scenario template
+            USER_CREATED:
+              type: string
+              description: The user created the scenario template
+            DTTM_CREATED:
+              type: string
+              description: The date and time the scenario template was created
+              format: date-time
+            USER_UPDATED:
+              type: string
+              description: The user updated the scenario template
+            DTTM_UPDATED:
+              type: string
+              description: The date and time the scenario template was updated
+              format: date-time
     scenarioTemplateConstraintDimParam:
       example:
         ATTR_NAME: CPCHANNEL_CD+OFFER_ID
         ATTR_LABEL: Канал+Предложение
         DIM_TABLE_NAME: CON_CH_OF_UC
       allOf:
-      - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
-      - required:
-        - DIM_TABLE_NAME
-        type: object
-        properties:
-          DIM_TABLE_NAME:
-            type: string
-            description: The short name of the optimizator table
+        - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
+        - required:
+            - DIM_TABLE_NAME
+          type: object
+          properties:
+            DIM_TABLE_NAME:
+              type: string
+              description: The short name of the optimizator table
     scenarioTemplateConstraintNumParam:
       example:
         ATTR_NAME: CONV
         ATTR_LABEL: Конверсия
       allOf:
-      - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
+        - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
     scenarioTemplateConstraintParam:
       required:
-      - ATTR_LABEL
-      - ATTR_NAME
+        - ATTR_LABEL
+        - ATTR_NAME
       properties:
         ATTR_NAME:
           type: string
@@ -402,11 +496,14 @@ components:
           type: string
           description: The label of the attribute of the constraint param
       description: A scenario template constraint param
-    userScenariosCollections:
+    userScenariosCollection:
       properties:
         SCENARIO_CD:
           type: string
           description: user scenario code
+        SCENARIO_TEMPLATE_CD:
+          type: string
+          description: scenario template code attached to user scenario
         NAME_SCN:
           type: string
           description: user scenario name
@@ -430,15 +527,24 @@ components:
         NAME_SCN: NAME_SCN
         SCENARIO_CD: SCENARIO_CD
         DTIME_LAST_OPTIMIZATION: DTIME_LAST_OPTIMIZATION
+        SCENARIO_TEMPLATE_CD: SCENARIO_TEMPLATE_CD
         USER_UPDATED: USER_UPDATED
         NAME_SCT: NAME_SCT
         DTTM_UPDATED: DTTM_UPDATED
         TEXT_COMMENT: TEXT_COMMENT
     userScenarioCreate:
       required:
-      - NAME_SCN
-      - NAME_SCT
+        - NAME_SCN
+        - NAME_SCT
+        - SCENARIO_CD
+        - SCENARIO_TEMPLATE_CD
       properties:
+        SCENARIO_CD:
+          type: string
+          description: New User scenario code
+        SCENARIO_TEMPLATE_CD:
+          type: string
+          description: Scenario template code attached to user scenario
         NAME_SCN:
           type: string
           description: User scenario name
@@ -451,12 +557,14 @@ components:
       description: The new user scenario
       example:
         NAME_SCN: NAME_SCN
+        SCENARIO_CD: SCENARIO_CD
+        SCENARIO_TEMPLATE_CD: SCENARIO_TEMPLATE_CD
         NAME_SCT: NAME_SCT
         TEXT_COMMENT: TEXT_COMMENT
     userScenario:
       required:
-      - NAME_SCN
-      - NAME_SCT
+        - NAME_SCN
+        - NAME_SCT
       properties:
         NAME_SCN:
           type: string
@@ -472,62 +580,36 @@ components:
         NAME_SCN: NAME_SCN
         NAME_SCT: NAME_SCT
         TEXT_COMMENT: TEXT_COMMENT
-    dimConstraints:
+    userScenarioPatch:
+      description: user scenario path requested body
+      allOf:
+        - $ref: '#/components/schemas/userScenariosCollection'
+    constraints:
       properties:
-        constraints:
+        items:
           type: array
-          description: An array consisting of scenario templates.
+          description: An array of constraints
           items:
-            $ref: '#/components/schemas/dimConstraints_constraints'
-      description: List of DIM constraints
+            allOf:
+              - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
+      description: Constraints
       example:
-        constraints:
-        - DIM_TABLE_NAME: DIM_TABLE_NAME
-          ATTR_NAME: ATTR_NAME
-          ATTR_LABEL: ATTR_LABEL
-        - DIM_TABLE_NAME: DIM_TABLE_NAME
-          ATTR_NAME: ATTR_NAME
-          ATTR_LABEL: ATTR_LABEL
-    numConstraints:
+        items:
+          - ""
+          - ""
+    scenarioTemplateDIMConstraints:
       properties:
-        constraints:
+        items:
           type: array
-          description: An array consisting of scenario templates.
+          description: An array of constraints and table name
           items:
-            $ref: '#/components/schemas/numConstraints_constraints'
-      description: List of NUM constraints
+            allOf:
+              - $ref: '#/components/schemas/scenarioTemplateConstraintDimParam'
+      description: A collection of DIM constraints associated with template
       example:
-        constraints:
-        - ATTR_NAME: ATTR_NAME
-          ATTR_LABEL: ATTR_LABEL
-        - ATTR_NAME: ATTR_NAME
-          ATTR_LABEL: ATTR_LABEL
-    dimConstraints_constraints:
-      properties:
-        ATTR_NAME:
-          type: string
-          description: Attribute name of the constraint
-        ATTR_LABEL:
-          type: string
-          description: Attribute label of the constraint
-        DIM_TABLE_NAME:
-          type: string
-          description: Name of dim table
-      example:
-        DIM_TABLE_NAME: DIM_TABLE_NAME
-        ATTR_NAME: ATTR_NAME
-        ATTR_LABEL: ATTR_LABEL
-    numConstraints_constraints:
-      properties:
-        ATTR_NAME:
-          type: string
-          description: Attribute name of the constraint
-        ATTR_LABEL:
-          type: string
-          description: Attribute label of the constraint
-      example:
-        ATTR_NAME: ATTR_NAME
-        ATTR_LABEL: ATTR_LABEL
+        items:
+          - ""
+          - ""
   parameters:
     ifMatch:
       name: If-Match

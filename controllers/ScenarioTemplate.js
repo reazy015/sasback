@@ -13,6 +13,16 @@ module.exports.createScenarioTemplate = function createScenarioTemplate (req, re
     });
 };
 
+module.exports.deleteScenarioTemplate = function deleteScenarioTemplate (req, res, next, scenarioTemplateCd, ifMatch, ifUnmodifiedSince) {
+  ScenarioTemplate.deleteScenarioTemplate(scenarioTemplateCd, ifMatch, ifUnmodifiedSince)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.getScenarioTemplates = function getScenarioTemplates (req, res, next, filterQuery, filter, sortBy, start, limit) {
   ScenarioTemplate.getScenarioTemplates(filterQuery, filter, sortBy, start, limit)
     .then(function (response) {
@@ -25,16 +35,6 @@ module.exports.getScenarioTemplates = function getScenarioTemplates (req, res, n
 
 module.exports.patchScenarioTemplate = function patchScenarioTemplate (req, res, next, body, scenarioTemplateCd, ifMatch, ifUnmodifiedSince) {
   ScenarioTemplate.patchScenarioTemplate(body, scenarioTemplateCd, ifMatch, ifUnmodifiedSince)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
-
-module.exports.scenarioTemplateScenarioTemplateCdDELETE = function scenarioTemplateScenarioTemplateCdDELETE (req, res, next, scenarioTemplateCd, ifMatch, ifUnmodifiedSince) {
-  ScenarioTemplate.scenarioTemplateScenarioTemplateCdDELETE(scenarioTemplateCd, ifMatch, ifUnmodifiedSince)
     .then(function (response) {
       utils.writeJson(res, response);
     })
