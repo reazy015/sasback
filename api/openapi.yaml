@@ -373,7 +373,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userScenario'
+                $ref: '#/components/schemas/userScenarioPatch'
       x-swagger-router-controller: UserScenario
 components:
   schemas:
@@ -576,10 +576,6 @@ components:
           type: string
           description: User scenario text comment
       description: The new user scenario
-      example:
-        NAME_SCN: NAME_SCN
-        NAME_SCT: NAME_SCT
-        TEXT_COMMENT: TEXT_COMMENT
     userScenarioPatch:
       description: user scenario path requested body
       allOf:
