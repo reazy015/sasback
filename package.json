@@ -16,6 +16,7 @@
     "allow-methods": "^2.0.0",
     "app-root-path": "^3.0.0",
     "connect": "^3.2.0",
+    "cors": "^2.8.5",
     "js-yaml": "^3.3.0",
     "jsonfile": "^6.0.1",
     "oas3-tools": "^2.0.2"
