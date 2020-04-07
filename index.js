@@ -2,7 +2,7 @@
 
 var path = require('path');
 var http = require('http');
-
+var allowMethods = require('allow-methods');
 var oas3Tools = require('oas3-tools');
 var serverPort = 8080;
 
@@ -21,6 +21,7 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET, PATCH, PUT, POST, DELETE, OPTIONS");
     next();
 });
+app.use(allowMethods(['get', 'head', 'post', 'patch', 'delete']));
 
 // Initialize the Swagger middleware
 http.createServer(app).listen(serverPort, function () {

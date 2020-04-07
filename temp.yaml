@@ -1,0 +1,538 @@
+openapi: 3.0.0
+info:
+  description: MEG19008 Middleware API
+  version: 0.0.1
+  title: MEG19008 Middleware API
+servers:
+  - url: http://localhost:8080/
+tags:
+  - name: scenarioTemplate
+    description: Scenario templates
+  - name: DIM, NUM constraints
+    description: DIM, NUM constraints endpoints
+  - name: userScenario
+    description: User scenarios
+  - name: optimizations
+    description: optimizations list
+  - name: other
+    description: Other endpoints
+paths:
+  /scenarioTemplate:
+    get:
+      tags:
+        - scenarioTemplate
+      summary: Returns a collection of the scenario templates
+      description: ""
+      operationId: getScenarioTemplates
+      parameters:
+        - $ref: '#/components/parameters/filterQuery'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/sortBy'
+        - $ref: '#/components/parameters/start'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        200:
+          description: A collection of templates.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/scenarioTemplateCollection"
+    post:
+      tags:
+        - scenarioTemplate
+      summary: Creates a new scenario template
+      description: ""
+      operationId: createScenarioTemplate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/scenarioTemplateCreate'
+        description: The new scenario template
+        required: true
+      responses:
+        201:
+          description: The scenario template created
+          headers:
+            Location:
+              description: The URI of the newly created scenario template.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scenarioTemplate'
+  /scenarioTemplate/{scenarioTemplateCd}:
+    patch:
+      summary: Make a partial update of a scenario template
+      description: >
+        Updates the provided fields of a scenario template. The client can provide
+        a sparsely populated object, and only the non-null fields contribute to
+        the updates. A body such as { "name": "NewScenarioTemplateName" } causes
+        the scenario template to have its name changed, but no other field is
+        affected. The full resulting object is returned in the response.
+      operationId: patchScenarioTemplate
+      tags:
+        - scenarioTemplate
+      parameters:
+        - name: scenarioTemplateCd
+          in: path
+          description: The code of the updatable scenario template
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/ifMatch'
+        - $ref: '#/components/parameters/ifUnmodifiedSince'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/scenarioTemplatePatch'
+        description: The scenario template to patch
+        required: true
+      responses:
+        200:
+          description: The patched scenario template
+          headers:
+            Last-Modified:
+              $ref: "#/components/headers/Last-Modified"
+            Etag:
+              $ref: "#/components/headers/Etag"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scenarioTemplate'
+    delete:
+      tags:
+        - scenarioTemplate
+      summary: Delete selected scenario template
+      operationId: deleteScenarioTemplate
+      description: ""
+      parameters:
+        - name: scenarioTemplateCd
+          in: path
+          description: The code of the deleting scenario
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/ifMatch'
+        - $ref: '#/components/parameters/ifUnmodifiedSince'
+      responses:
+        200:
+          description: Removed scenario template
+  /constraints/dim:
+    get:
+      tags:
+        - DIM, NUM constraints
+      summary: Returns list of DIM constraints
+      description: ""
+      operationId: getDimConstraints
+      responses:
+        200:
+          description: A collection of DIM constraints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/constraints'
+  /constraints/dim/{scenarioTemplateCd}:
+    get:
+      tags:
+        - DIM, NUM constraints
+      summary: Returns array of DIM restriction of particular template
+      description: ""
+      operationId: getTemplateDimConstraints
+      parameters:
+        - name: scenarioTemplateCd
+          in: path
+          description: Scenario template code for DIM constraints receiving
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Scenario template DIM constraints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scenarioTemplateDIMConstraints'
+  /constraints/num:
+    get:
+      tags:
+        - DIM, NUM constraints
+      summary: Returns list of NUM constraints
+      description: ""
+      operationId: getNumConstraints
+      responses:
+        200:
+          description: A collection of NUM constraints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/constraints'
+  /userScenario:
+    get:
+      tags:
+        - userScenario
+      summary: Returns a collections of the user scenarios
+      description: ""
+      operationId: getUserScenarios
+      responses:
+        200:
+          description: A collections of user scenarios
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/userScenariosCollection"
+    post:
+      tags:
+        - userScenario
+      summary: Posts  user scenario
+      description: ""
+      operationId: createUserScenario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioCreate'
+        description: The new scenario template
+        required: true
+      responses:
+        201:
+          description: User scenario posted
+          headers:
+            Location:
+              description: The URI of the newly created scenario template.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userScenarioCreate'
+  /userScenario/{userScenarioCd}:
+    patch:
+      tags:
+        - userScenario
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: The code of the updatable scenario template
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/ifMatch'
+        - $ref: '#/components/parameters/ifUnmodifiedSince'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioPatch'
+        description: The scenario template to patch
+        required: true
+      summary: Updates user scenarion and specify constraints
+      description: ""
+      operationId: patchUserScenario
+      responses:
+        200:
+          description: The patched user scenario
+          headers:
+            Last-Modified:
+              $ref: "#/components/headers/Last-Modified"
+            Etag:
+              $ref: "#/components/headers/Etag"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userScenarioPatch'
+    delete:
+      tags:
+        - userScenario
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: The code of the updatable scenario template
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/ifMatch'
+        - $ref: '#/components/parameters/ifUnmodifiedSince'
+      summary: Deletes user scenario
+      description: ""
+      operationId: deleteUserScenario
+      responses:
+        200:
+          description: Removed scenario template
+components:
+  headers:
+    Etag:
+      description: A tag that identifies this revision of this object.
+      schema:
+        type: string
+    Last-Modified:
+      description: The RFC 1123 date string representing the timestamp of the last
+        update to this object.
+      schema:
+        type: string
+  parameters:
+    ifMatch:
+      name: If-Match
+      required: true
+      in: header
+      description: The entity tag obtained from the most recent ETag response header. It
+        must match the current entity tag.
+      schema:
+        type: string
+    ifUnmodifiedSince:
+      name: If-Unmodified-Since
+      in: header
+      description: The value of the lastModified date of the object. If the object has been
+        updated since this time, the update fails.
+      schema:
+        type: string
+    start:
+      name: start
+      in: query
+      description: Offset of the first object to return. Defaults to 0.
+      schema:
+        type: integer
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of objecs to return. Defaults to 10.
+      schema:
+        type: integer
+    filterQuery:
+      name: filterQuery
+      in: query
+      explode: true
+      style: form
+      description: >
+        Basic filtering criteria in exploded form. See
+        [Basic Filtering](https://developer.sas.com/apis/rest/Topics/#basic-filtering)
+      schema:
+        type: object
+        additionalProperties:
+          type: string
+    filter:
+      name: filter
+      in: query
+      description: >
+        Filter criteria for selecting objects to return. See
+        [Filtering in SAS Viya REST APIs](https://developer.sas.com/apis/rest/Topics/#filters)
+      schema:
+        type: string
+    sortBy:
+      name: sortBy
+      in: query
+      description: Sort criteria for the collection
+      schema:
+        type: string
+  schemas:
+    baseCollection:
+      description: >
+        This is a base schema used to define paginated collections of resources.
+        This base schema is extended by other schemas in APIs by adding an
+        'items' array property.
+      properties:
+        start:
+          type: integer
+          description: The zero-based index of the first item in the collection.
+        limit:
+          type: integer
+          description: The number of items that were requested for the collection.
+        count:
+          type: integer
+          description: The number of items in the collection.
+    scenarioTemplateCollection:
+      description: A collection of scenario templates
+      allOf:
+        - $ref: '#/components/schemas/baseCollection'
+        - type: object
+          properties:
+            items:
+              description: An array consisting of scenario templates.
+              type: array
+              items:
+                $ref: '#/components/schemas/scenarioTemplate'
+    scenarioTemplatePatch:
+      description: The scenario template to be patched
+      properties:
+        PATH:
+          description: The path to the file
+          type: string
+        TARGET_ATTR_LABEL:
+          description: The used target function
+          type: string
+        TEXT_COMMENT:
+          description: The comment to the scenario template
+          type: string
+        SCT_CONSTRAINT_DIM_PARAMS:
+          description: An array consisting of the scenario template constraint params
+          type: array
+          minLength: 1
+          items:
+            $ref: '#/components/schemas/scenarioTemplateConstraintDimParam'
+        SCT_CONSTRAINT_NUM_PARAMS:
+          description: An array consisting of scenario template constraint params
+          type: array
+          minLength: 1
+          items:
+            $ref: '#/components/schemas/scenarioTemplateConstraintNumParam'
+    scenarioTemplateCreate:
+      description: The new scenario template
+      allOf:
+        - $ref: '#/components/schemas/scenarioTemplatePatch'
+        - type: object
+          properties:
+            NAME:
+              description: The name of the scenario template
+              type: string
+      required:
+        - NAME
+        - PATH
+        - TARGET_ATTR_LABEL
+        - SCT_CONSTRAINT_DIM_PARAMS
+        - SCT_CONSTRAINT_NUM_PARAMS
+    scenarioTemplate:
+      description: The full representation of the scenario template
+      allOf:
+        - $ref: '#/components/schemas/scenarioTemplateCreate'
+        - type: object
+          properties:
+            SCENARIO_TEMPLATE_CD:
+              description: The code of the scenario template
+              type: string
+            USER_CREATED:
+              description: The user created the scenario template
+              type: string
+            DTTM_CREATED:
+              description: The date and time the scenario template was created
+              type: string
+              format: date-time
+            USER_UPDATED:
+              description: The user updated the scenario template
+              type: string
+            DTTM_UPDATED:
+              description: The date and time the scenario template was updated
+              type: string
+              format: date-time
+    scenarioTemplateConstraintDimParam:
+      allOf:
+        - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
+        - type: object
+          properties:
+            DIM_TABLE_NAME:
+              description: The short name of the optimizator table
+              type: string
+          required:
+            - DIM_TABLE_NAME
+      example:
+        ATTR_NAME: CPCHANNEL_CD+OFFER_ID
+        ATTR_LABEL: Канал+Предложение
+        DIM_TABLE_NAME: CON_CH_OF_UC
+    scenarioTemplateConstraintNumParam:
+      allOf:
+        - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
+      example:
+        ATTR_NAME: CONV
+        ATTR_LABEL: Конверсия
+    scenarioTemplateConstraintParam:
+      description: A scenario template constraint param
+      properties:
+        ATTR_NAME:
+          description: >
+            The name of the attribute of the constraint param.
+          type: string
+        ATTR_LABEL:
+          description: The label of the attribute of the constraint param
+          type: string
+      required:
+        - ATTR_NAME
+        - ATTR_LABEL
+    userScenariosCollection:
+      description: user scenarios collection
+      properties:
+        SCENARIO_CD:
+          description: user scenario code
+          type: string
+        SCENARIO_TEMPLATE_CD:
+          description: scenario template code attached to user scenario
+          type: string
+        NAME_SCN:
+          description: user scenario name
+          type: string
+        NAME_SCT:
+          description: scenario template name
+          type: string
+        TEXT_COMMENT:
+          description: user scenario comment
+          type: string
+        USER_UPDATED:
+          description: user name who updated scenario last
+          type: string
+        DTTM_UPDATED:
+          description: datetime of last edition
+          type: string
+        DTIME_LAST_OPTIMIZATION:
+          description: datetime of last optimization start
+          type: string
+    userScenarioCreate:
+      description: The new user scenario
+      properties:
+        SCENARIO_CD:
+          description: New User scenario code
+          type: string
+        SCENARIO_TEMPLATE_CD:
+          description: Scenario template code attached to user scenario
+          type: string
+        NAME_SCN:
+          description: User scenario name
+          type: string
+        NAME_SCT:
+          description: Scenario template name attached to user scenario
+          type: string
+        TEXT_COMMENT:
+          description: User scenario text comment
+          type: string
+      required:
+        - NAME_SCN
+        - NAME_SCT
+        - SCENARIO_CD
+        - SCENARIO_TEMPLATE_CD
+    userScenario:
+      description: The new user scenario
+      properties:
+        NAME_SCN:
+          description: User scenario name
+          type: string
+        NAME_SCT:
+          description: Scenario template name attached to user scenario
+          type: string
+        TEXT_COMMENT:
+          description: User scenario text comment
+          type: string
+      required:
+        - NAME_SCN
+        - NAME_SCT
+    userScenarioPatch:
+      description: user scenario path requested body
+      allOf:
+        - $ref: '#/components/schemas/userScenariosCollection'
+    constraints:
+      description: Constraints
+      properties:
+        items:
+          description: An array of constraints
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
+    scenarioTemplateDIMConstraints:
+      description: A collection of DIM constraints associated with template
+      properties:
+        items:
+          description: An array of constraints and table name
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/scenarioTemplateConstraintDimParam'
+
