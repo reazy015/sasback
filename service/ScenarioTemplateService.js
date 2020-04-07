@@ -14,6 +14,7 @@ exports.createScenarioTemplate = function(body) {
   return new Promise(function(resolve, reject) {
     jsonfile.readFile(appRoot + file, function (err, obj) {
       if (err) console.error(err);
+      body.USER_CREATED = 'Cas'; //temp
       obj['items'].push(body);
       jsonfile.writeFile(appRoot + file, obj, function (err) {
         if (err) console.error(err);
@@ -84,6 +85,7 @@ exports.patchScenarioTemplate = function(body,scenarioTemplateCd,ifMatch,ifUnmod
   return new Promise(function(resolve, reject) {
     jsonfile.readFile(appRoot + file, function (err, obj) {
       const indexOfItem = obj['items'].findIndex(item => item['SCENARIO_TEMPLATE_CD'] === scenarioTemplateCd);
+      body.USER_UPDATED = 'Cas'; //temp
       obj['items'][indexOfItem] = body;
       jsonfile.writeFile(appRoot + file, obj, function (err) {
         if (err) console.error(err);

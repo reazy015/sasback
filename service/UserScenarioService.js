@@ -77,6 +77,7 @@ exports.createUserScenario = function(body) {
     return new Promise(function(resolve, reject) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
             if (err) console.error(err);
+            body.USER_UPDATED = 'Cas'; //temp
             obj['items'].push(body);
             jsonfile.writeFile(appRoot + file, obj, function (err) {
                 if (err) console.error(err);
