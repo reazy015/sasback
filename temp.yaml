@@ -169,6 +169,111 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/constraints'
+  /constraints/{userScenarioCd}:
+    get:
+      tags:
+        - DIM, NUM constraints
+      summary: Returns constraints for particular user scenario constraint grid
+      description: ""
+      operationId: getScenarioConstraints
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: user scenario code
+          required: true
+          schema:
+            type: string
+        - name: attrlist
+          in: query
+          description: list if of constraint attrs separated by comma
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: User scenario constraints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userScenarioConstraints'
+  /constraints:
+    post:
+      tags:
+        - DIM, NUM constraints
+      summary: Posts scenario constraints from user scenario constraints grid
+      description: ""
+      operationId: postScenarioConstraint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioConstraintsCreate'
+        description: New user scenario constraint
+        required: true
+      responses:
+        200:
+          description: User scenario constraint been created
+          headers:
+            Location:
+              description: The URI of the newly created scenario template.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userScenario'
+  /constraints/dim/{userScenarioCd}:
+    patch:
+      tags:
+        - DIM, NUM constraints
+      summary: Updates constraint ACTIVE_FLG status
+      description: ""
+      operationId: updateScenarioConstraintStatus
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: user scenario code
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioConstraintsUpdate'
+        description: New user scenario constraint
+        required: true
+      responses:
+        200:
+          description: Status successfully updated
+    delete:
+      tags:
+        - DIM, NUM constraints
+      summary: Deletes constraint bundle of particuler scenario
+      description: ""
+      operationId: deleteScenarioConstraintBundle
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: user scenario code
+          required: true
+          schema:
+            type: string
+        - name: constraintBundleCd
+          in: path
+          description: array of constraint bundles
+          required: true
+          schema:
+            type: string
+        - name: attrlist
+          in: query
+          description: list if of constraint attrs separated by comma
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Removed user scenario bundle
   /userScenario:
     get:
       tags:
@@ -423,12 +528,11 @@ components:
             DIM_TABLE_NAME:
               description: The short name of the optimizator table
               type: string
+            CONSTRAINT_BUNDLE_CD:
+              description: Code of particular bundle
+              type: string
           required:
             - DIM_TABLE_NAME
-      example:
-        ATTR_NAME: CPCHANNEL_CD+OFFER_ID
-        ATTR_LABEL: Канал+Предложение
-        DIM_TABLE_NAME: CON_CH_OF_UC
     scenarioTemplateConstraintNumParam:
       allOf:
         - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
@@ -535,4 +639,94 @@ components:
           items:
             allOf:
               - $ref: '#/components/schemas/scenarioTemplateConstraintDimParam'
+    userScenarioDimConstraintParam:
+      description: single constraint param for user scenario constraint grid
+      properties:
+        ATTR_NAME:
+          description: constraint attr name
+          type: string
+        VALUE:
+          description: constraint value
+          type: string
+    userScenarioConstraintBundle:
+      description: Single user scenario constraint bundle
+      properties:
+        CONSTRAINT_BUNDLE_CD:
+          description: bundle code
+          type: string
+        ATTR_NAME:
+          description: bundle attr name
+          type: string
+        CVALUE:
+          description: bundle string value
+          type: string
+        NVALUE:
+          description: bundle number value
+          type: string
+        USER_CREATED:
+          description: bundle author
+          type: string
+    userScenarioConstraints:
+      description: User scenario constraints
+      type: array
+      items:
+        properties:
+          CONSTRAINT_PARAMETER:
+            description: user scenario constraint bundle parameter
+            type: string
+          BOUND_TYPE:
+            description: user scenario constraint bundle bound type
+            type: string
+          VALUE:
+            description: user scneario constraint bundle value
+            type: string
+          CORRECT_COEF:
+            description: user scenario constraint bundle correct coef
+            type: string
+          CONSTRAINT_BUNDLE_ITEMS:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/components/schemas/userScenarioConstraintBundle'
+    userScenarioConstraintsCreate:
+      description: Schema for creating scenario constraints
+      properties:
+        SCENARIO_CD:
+          description: user scenario code
+          type: string
+        CONSTRAINT_BUNDLE_CD:
+          description: user scneario constraint bundle code
+          type: string
+        CONSTRAINT_PARAMETER:
+          description: user scenario constraint parameter
+          type: string
+        BOUND_TYPE:
+          description: user scneario consrtaint bound type
+          type: string
+        VALUE:
+          description: user scneario constraint value
+          type: string
+        CORRECT_COEF:
+          description: user scenario constraint correction coef
+          type: string
+        CONSTRAINT_BUNDLE_ITEMS:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/userScenarioConstraintBundle'
+    userScenarioConstraintsUpdate:
+      description: Scenario constraints
+      type: array
+      items:
+        properties:
+          CONSTRAINT_BUNDLE_CD:
+            description: Single attr name
+            type: string
+          ACTIVE_FLG:
+            description: Constraint flag status
+            type: boolean
+
+
+
+
 

@@ -245,6 +245,161 @@ paths:
               schema:
                 $ref: '#/components/schemas/constraints'
       x-swagger-router-controller: DIMNUMConstraints
+  /constraints/{userScenarioCd}:
+    get:
+      tags:
+        - DIM, NUM constraints
+      summary: Returns constraints for particular user scenario constraint grid
+      operationId: getScenarioConstraints
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: user scenario code
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: attrlist
+          in: query
+          description: list if of constraint attrs separated by comma
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User scenario constraints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userScenarioConstraints'
+      x-swagger-router-controller: DIMNUMConstraints
+    patch:
+      tags:
+        - DIM, NUM constraints
+      summary: Updates user scenario constraints bundles ACTIVE_FLG status
+      operationId: patchUserScenarioBundles
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: user scenario code
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: The entity tag obtained from the most recent ETag response header.
+            It must match the current entity tag.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Unmodified-Since
+          in: header
+          description: The value of the lastModified date of the object. If the object
+            has been updated since this time, the update fails.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: The new scenario template
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioConstraintsUpdate'
+        required: true
+      responses:
+        "200":
+          description: Bundles successfully updated
+      x-swagger-router-controller: DIMNUMConstraints
+  /constraints:
+    post:
+      tags:
+        - DIM, NUM constraints
+      summary: Posts scenario constraints from user scenario constraints grid
+      operationId: postScenarioConstraint
+      requestBody:
+        description: New user scenario constraint
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioConstraintsCreate'
+        required: true
+      responses:
+        "200":
+          description: User scenario constraint been created
+          headers:
+            Location:
+              description: The URI of the newly created scenario template.
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userScenario'
+      x-swagger-router-controller: DIMNUMConstraints
+  /constraints/{userScenarioCd}/{constraintBundleCd}:
+    delete:
+      tags:
+        - DIM, NUM constraints
+      summary: Deletes constraint bundle of particular scenario
+      operationId: deleteScenarioConstraintBundle
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: user scenario code
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: constraintBundleCd
+          in: path
+          description: code of constraint bundle
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: attrlist
+          in: query
+          description: list if of constraint attrs separated by comma
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: If-Match
+          in: header
+          description: The entity tag obtained from the most recent ETag response header.
+            It must match the current entity tag.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: If-Unmodified-Since
+          in: header
+          description: The value of the lastModified date of the object. If the object
+            has been updated since this time, the update fails.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Removed user scenario bundle
+      x-swagger-router-controller: DIMNUMConstraints
   /userScenario:
     get:
       tags:
@@ -464,10 +619,6 @@ components:
               description: The date and time the scenario template was updated
               format: date-time
     scenarioTemplateConstraintDimParam:
-      example:
-        ATTR_NAME: CPCHANNEL_CD+OFFER_ID
-        ATTR_LABEL: Канал+Предложение
-        DIM_TABLE_NAME: CON_CH_OF_UC
       allOf:
         - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
         - required:
@@ -477,6 +628,9 @@ components:
             DIM_TABLE_NAME:
               type: string
               description: The short name of the optimizator table
+            CONSTRAINT_BUNDLE_CD:
+              type: string
+              description: Code of particular bundle
     scenarioTemplateConstraintNumParam:
       example:
         ATTR_NAME: CONV
@@ -576,6 +730,10 @@ components:
           type: string
           description: User scenario text comment
       description: The new user scenario
+      example:
+        NAME_SCN: NAME_SCN
+        NAME_SCT: NAME_SCT
+        TEXT_COMMENT: TEXT_COMMENT
     userScenarioPatch:
       description: user scenario path requested body
       allOf:
@@ -606,6 +764,104 @@ components:
         items:
           - ""
           - ""
+    userScenarioDimConstraintParam:
+      properties:
+        ATTR_NAME:
+          type: string
+          description: constraint attr name
+        VALUE:
+          type: string
+          description: constraint value
+      description: single constraint param for user scenario constraint grid
+    userScenarioConstraintBundle:
+      properties:
+        CONSTRAINT_BUNDLE_CD:
+          type: string
+          description: bundle code
+        ATTR_NAME:
+          type: string
+          description: bundle attr name
+        CVALUE:
+          type: string
+          description: bundle string value
+        NVALUE:
+          type: string
+          description: bundle number value
+        USER_CREATED:
+          type: string
+          description: bundle author
+      description: Single user scenario constraint bundle
+    userScenarioConstraints:
+      type: array
+      description: User scenario constraints
+      items:
+        $ref: '#/components/schemas/userScenarioConstraints_inner'
+    userScenarioConstraintsCreate:
+      properties:
+        SCENARIO_CD:
+          type: string
+          description: user scenario code
+        CONSTRAINT_BUNDLE_CD:
+          type: string
+          description: user scneario constraint bundle code
+        CONSTRAINT_PARAMETER:
+          type: string
+          description: user scenario constraint parameter
+        BOUND_TYPE:
+          type: string
+          description: user scneario consrtaint bound type
+        VALUE:
+          type: string
+          description: user scneario constraint value
+        CORRECT_COEF:
+          type: string
+          description: user scenario constraint correction coef
+        CONSTRAINT_BUNDLE_ITEMS:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/userScenarioConstraintBundle'
+      description: Schema for creating scenario constraints
+    userScenarioConstraintsUpdate:
+      type: array
+      description: Scenario constraints
+      items:
+        $ref: '#/components/schemas/userScenarioConstraintsUpdate_inner'
+    userScenarioConstraints_inner:
+      properties:
+        CONSTRAINT_PARAMETER:
+          type: string
+          description: user scenario constraint bundle parameter
+        BOUND_TYPE:
+          type: string
+          description: user scenario constraint bundle bound type
+        VALUE:
+          type: string
+          description: user scneario constraint bundle value
+        CORRECT_COEF:
+          type: string
+          description: user scenario constraint bundle correct coef
+        CONSTRAINT_BUNDLE_ITEMS:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/userScenarioConstraintBundle'
+      example:
+        CORRECT_COEF: CORRECT_COEF
+        BOUND_TYPE: BOUND_TYPE
+        VALUE: VALUE
+        CONSTRAINT_BUNDLE_ITEMS:
+          - ""
+          - ""
+        CONSTRAINT_PARAMETER: CONSTRAINT_PARAMETER
+    userScenarioConstraintsUpdate_inner:
+      properties:
+        CONSTRAINT_BUNDLE_CD:
+          type: string
+          description: Single attr name
+        ACTIVE_FLG:
+          type: boolean
+          description: Constraint flag status
   parameters:
     ifMatch:
       name: If-Match
