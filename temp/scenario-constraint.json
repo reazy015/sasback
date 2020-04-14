@@ -44,6 +44,30 @@
       "VALUE": "123",
       "CORRECT_COEF": "1.2",
       "ACTIVE_FLG": true
+    },
+    {
+      "SCENARIO_CD": "SCN001",
+      "CONSTRAINT_PARAMETER": "COUNT",
+      "BOUND_TYPE": "MIN",
+      "VALUE": "123",
+      "CORRECT_COEF": "1.2",
+      "CONSTRAINT_BUNDLE_CD": "CBN059"
+    },
+    {
+      "SCENARIO_CD": "SCN001",
+      "CONSTRAINT_PARAMETER": "COUNT",
+      "BOUND_TYPE": "MIN",
+      "VALUE": "123",
+      "CORRECT_COEF": "1.2",
+      "CONSTRAINT_BUNDLE_CD": "CBN092"
+    },
+    {
+      "SCENARIO_CD": "SCN001",
+      "CONSTRAINT_PARAMETER": "COUNT",
+      "BOUND_TYPE": "MAX",
+      "VALUE": "12000",
+      "CORRECT_COEF": "1.1",
+      "CONSTRAINT_BUNDLE_CD": "CBN009"
     }
   ]
 }

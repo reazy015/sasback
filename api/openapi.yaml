@@ -797,31 +797,10 @@ components:
       items:
         $ref: '#/components/schemas/userScenarioConstraints_inner'
     userScenarioConstraintsCreate:
-      properties:
-        SCENARIO_CD:
-          type: string
-          description: user scenario code
-        CONSTRAINT_BUNDLE_CD:
-          type: string
-          description: user scneario constraint bundle code
-        CONSTRAINT_PARAMETER:
-          type: string
-          description: user scenario constraint parameter
-        BOUND_TYPE:
-          type: string
-          description: user scneario consrtaint bound type
-        VALUE:
-          type: string
-          description: user scneario constraint value
-        CORRECT_COEF:
-          type: string
-          description: user scenario constraint correction coef
-        CONSTRAINT_BUNDLE_ITEMS:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/userScenarioConstraintBundle'
+      type: array
       description: Schema for creating scenario constraints
+      items:
+        $ref: '#/components/schemas/userScenarioConstraintsCreate_inner'
     userScenarioConstraintsUpdate:
       type: array
       description: Scenario constraints
@@ -854,6 +833,31 @@ components:
           - ""
           - ""
         CONSTRAINT_PARAMETER: CONSTRAINT_PARAMETER
+    userScenarioConstraintsCreate_inner:
+      properties:
+        SCENARIO_CD:
+          type: string
+          description: user scenario code
+        CONSTRAINT_BUNDLE_CD:
+          type: string
+          description: user scneario constraint bundle code
+        CONSTRAINT_PARAMETER:
+          type: string
+          description: user scenario constraint parameter
+        BOUND_TYPE:
+          type: string
+          description: user scneario consrtaint bound type
+        VALUE:
+          type: string
+          description: user scneario constraint value
+        CORRECT_COEF:
+          type: string
+          description: user scenario constraint correction coef
+        CONSTRAINT_BUNDLE_ITEMS:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/userScenarioConstraintBundle'
     userScenarioConstraintsUpdate_inner:
       properties:
         CONSTRAINT_BUNDLE_CD:

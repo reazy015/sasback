@@ -1,6 +1,7 @@
 'use strict';
 const jsonfile = require('jsonfile');
 const appRoot = require('app-root-path');
+const getUniqueIds = require('../utils/idGen.js');
 const fileNum = '/temp/num-constraints.json';
 const fileDim = '/temp/dim-constraints.json';
 const fileScenarioTemplate = '/temp/scenario-templates.json';
@@ -111,29 +112,39 @@ exports.getScenarioConstraints = function(attrlist, userScenarioCd) {
  * returns userScenario
  **/
 exports.postScenarioConstraint = function(body) {
-    console.log(body);
-    const bundles = body.CONSTRAINT_BUNDLE_ITEMS.slice();
-    // console.log(bundles);
+    let bundles = [];
     return new Promise(function(resolve, reject) {
         jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
-            delete body.CONSTRAINT_BUNDLE_ITEMS;
-            console.log(body);
-            obj.constraints.push(body);
-            console.log(obj.constraints);
+            const idList = getUniqueIds(body.length, obj, 'CONSTRAINT_BUNDLE_CD', 'CBN');
+            idList.forEach((item, index) => {
+                body[index]['CONSTRAINT_BUNDLE_CD'] = item;
+                body[index]['CONSTRAINT_BUNDLE_ITEMS'].forEach(bundle => bundle['CONSTRAINT_BUNDLE_CD'] = item);
+            });
+
+            bundles = body.map(item => {
+                return item.CONSTRAINT_BUNDLE_ITEMS;
+            });
+            bundles = [].concat(...bundles);
+
+            body.forEach(item => {
+                delete item.CONSTRAINT_BUNDLE_ITEMS;
+                obj.constraints.push(item);
+            });
 
             jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err) {
                 if (err) console.error(err);
+
+                jsonfile.readFile(appRoot + fileConstraintBundleItems, function (err, obj) {
+                    obj.bundles = obj.bundles.concat(bundles);
+
+                    jsonfile.writeFile(appRoot + fileConstraintBundleItems, obj, function (err) {
+                        if (err) console.error(err);
+
+                        resolve();
+                    });
+                });
             });
         });
-
-        jsonfile.readFile(appRoot + fileConstraintBundleItems, function (err, obj) {
-            obj.bundles = obj.bundles.concat(bundles);
-            jsonfile.writeFile(appRoot + fileConstraintBundleItems, obj, function (err) {
-                if (err) console.error(err);
-            });
-        });
-
-        resolve();
     });
 }
 
@@ -146,7 +157,6 @@ exports.postScenarioConstraint = function(body) {
  * no response value expected for this operation
  **/
 exports.deleteScenarioConstraintBundle = function(attrlist, userScenarioCd,constraintBundleCd) {
-    console.log(userScenarioCd, constraintBundleCd, attrlist);
     return new Promise(function(resolve, reject) {
         jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, objScn) {
             const attrNamesList = attrlist.split(',');
@@ -165,19 +175,18 @@ exports.deleteScenarioConstraintBundle = function(attrlist, userScenarioCd,const
 
                     jsonfile.writeFile(appRoot + fileConstraintBundleItems, obj, function (err) {
                         if (err) console.error(err);
-                    });
 
-                    jsonfile.writeFile(appRoot + fileScenarioConstraint, objScn, function (err) {
-                        if (err) console.error(err);
+                        jsonfile.writeFile(appRoot + fileScenarioConstraint, objScn, function (err) {
+                            if (err) console.error(err);
+
+                            resolve();
+                        });
                     });
                 } else {
                     console.log(false);
                 }
-
-                resolve();
             });
         });
-
     });
 };
 
@@ -197,8 +206,6 @@ exports.patchUserScenarioBundles = function(body,userScenarioCd,ifMatch,ifUnmodi
             body.forEach(constraint => {
                 obj.constraints.find(item => item.SCENARIO_CD === userScenarioCd && item.CONSTRAINT_BUNDLE_CD === constraint.CONSTRAINT_BUNDLE_CD)
                     .ACTIVE_FLG = constraint.ACTIVE_FLG;
-                console.log(constraint.ACTIVE_FLG);
-                console.log(obj.constraints);
             });
 
             jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err) {
