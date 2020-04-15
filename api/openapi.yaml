@@ -245,6 +245,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/constraints'
       x-swagger-router-controller: DIMNUMConstraints
+  /constraints/num/{scenarioTemplateCd}:
+    get:
+      tags:
+        - DIM, NUM constraints
+      summary: Returns list of NUM constraints for particular template
+      operationId: getTemplateNumConstraints
+      parameters:
+        - name: scenarioTemplateCd
+          in: path
+          description: Scenario template code for DIM constraints receiving
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A collection of NUM constraints for particular template
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/constraints'
+      x-swagger-router-controller: DIMNUMConstraints
   /constraints/{userScenarioCd}:
     get:
       tags:
@@ -530,6 +553,52 @@ paths:
               schema:
                 $ref: '#/components/schemas/userScenarioPatch'
       x-swagger-router-controller: UserScenario
+  /namecheck/template/{name}:
+    get:
+      tags:
+        - other
+      summary: Checks if template name exists
+      operationId: checkIfTemplateNameExists
+      parameters:
+        - name: name
+          in: path
+          description: name to be checked
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns boolean
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nameCheckResponse'
+      x-swagger-router-controller: Other
+  /namecheck/scenario/{name}:
+    get:
+      tags:
+        - other
+      summary: Checks if template name exists
+      operationId: checkIfScenarioNameExists
+      parameters:
+        - name: name
+          in: path
+          description: name to be checked
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns boolean
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nameCheckResponse'
+      x-swagger-router-controller: Other
 components:
   schemas:
     baseCollection:
@@ -739,40 +808,15 @@ components:
       allOf:
         - $ref: '#/components/schemas/userScenariosCollection'
     constraints:
-      properties:
-        items:
-          type: array
-          description: An array of constraints
-          items:
-            allOf:
-              - $ref: '#/components/schemas/scenarioTemplateConstraintParam'
+      type: array
       description: Constraints
-      example:
-        items:
-          - ""
-          - ""
+      items:
+        $ref: '#/components/schemas/constraints_inner'
     scenarioTemplateDIMConstraints:
-      properties:
-        items:
-          type: array
-          description: An array of constraints and table name
-          items:
-            allOf:
-              - $ref: '#/components/schemas/scenarioTemplateConstraintDimParam'
+      type: array
       description: A collection of DIM constraints associated with template
-      example:
-        items:
-          - ""
-          - ""
-    userScenarioDimConstraintParam:
-      properties:
-        ATTR_NAME:
-          type: string
-          description: constraint attr name
-        VALUE:
-          type: string
-          description: constraint value
-      description: single constraint param for user scenario constraint grid
+      items:
+        $ref: '#/components/schemas/scenarioTemplateDIMConstraints_inner'
     userScenarioConstraintBundle:
       properties:
         CONSTRAINT_BUNDLE_CD:
@@ -791,6 +835,12 @@ components:
           type: string
           description: bundle author
       description: Single user scenario constraint bundle
+      example:
+        CVALUE: CVALUE
+        ATTR_NAME: ATTR_NAME
+        CONSTRAINT_BUNDLE_CD: CONSTRAINT_BUNDLE_CD
+        USER_CREATED: USER_CREATED
+        NVALUE: NVALUE
     userScenarioConstraints:
       type: array
       description: User scenario constraints
@@ -806,6 +856,44 @@ components:
       description: Scenario constraints
       items:
         $ref: '#/components/schemas/userScenarioConstraintsUpdate_inner'
+    nameCheckResponse:
+      properties:
+        NAME_EXISTS:
+          type: boolean
+          description: Boolean flag
+      description: response with boolean
+      example:
+        NAME_EXISTS: true
+    constraints_inner:
+      properties:
+        ATTR_NAME:
+          type: string
+          description: attr name
+        ATTR_LABEL:
+          type: string
+          description: attr label
+      example:
+        ATTR_NAME: ATTR_NAME
+        ATTR_LABEL: ATTR_LABEL
+    scenarioTemplateDIMConstraints_inner:
+      properties:
+        ATTR_NAME:
+          type: string
+          description: attr name
+        ATTR_LABEL:
+          type: string
+          description: attr label
+        DIM_TABLE_NAME:
+          type: string
+          description: attr table name
+        CONSTRAINT_BUNDLE_CD:
+          type: string
+          description: constraint bundle cd
+      example:
+        DIM_TABLE_NAME: DIM_TABLE_NAME
+        ATTR_NAME: ATTR_NAME
+        ATTR_LABEL: ATTR_LABEL
+        CONSTRAINT_BUNDLE_CD: CONSTRAINT_BUNDLE_CD
     userScenarioConstraints_inner:
       properties:
         CONSTRAINT_PARAMETER:
@@ -823,15 +911,22 @@ components:
         CONSTRAINT_BUNDLE_ITEMS:
           type: array
           items:
-            allOf:
-              - $ref: '#/components/schemas/userScenarioConstraintBundle'
+            $ref: '#/components/schemas/userScenarioConstraintBundle'
       example:
         CORRECT_COEF: CORRECT_COEF
         BOUND_TYPE: BOUND_TYPE
         VALUE: VALUE
         CONSTRAINT_BUNDLE_ITEMS:
-          - ""
-          - ""
+          - CVALUE: CVALUE
+            ATTR_NAME: ATTR_NAME
+            CONSTRAINT_BUNDLE_CD: CONSTRAINT_BUNDLE_CD
+            USER_CREATED: USER_CREATED
+            NVALUE: NVALUE
+          - CVALUE: CVALUE
+            ATTR_NAME: ATTR_NAME
+            CONSTRAINT_BUNDLE_CD: CONSTRAINT_BUNDLE_CD
+            USER_CREATED: USER_CREATED
+            NVALUE: NVALUE
         CONSTRAINT_PARAMETER: CONSTRAINT_PARAMETER
     userScenarioConstraintsCreate_inner:
       properties:

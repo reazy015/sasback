@@ -1,16 +1,14 @@
-{
-  "constraints": [
-    {
-      "ATTR_NAME" : "CONV",
-      "ATTR_LABEL" : "Конверсия"
-    },
-    {
-      "ATTR_NAME" : "COUNT",
-      "ATTR_LABEL" : "Count"
-    },
-    {
-      "ATTR_NAME": "REVENUE",
-      "ATTR_LABEL": "Revenue"
-    }
-  ]
-}
+[
+  {
+    "ATTR_NAME" : "CONV",
+    "ATTR_LABEL" : "Конверсия"
+  },
+  {
+    "ATTR_NAME" : "COUNT",
+    "ATTR_LABEL" : "Count"
+  },
+  {
+    "ATTR_NAME": "REVENUE",
+    "ATTR_LABEL": "Revenue"
+  }
+]

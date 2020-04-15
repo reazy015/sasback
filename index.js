@@ -6,6 +6,10 @@ var cors = require('cors');
 var oas3Tools = require('oas3-tools');
 var serverPort = 8080;
 
+
+var oas3Tools = require('oas3-tools');
+var serverPort = 8080;
+
 // swaggerRouter configuration
 var options = {
     controllers: path.join(__dirname, './controllers')

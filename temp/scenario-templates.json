@@ -1,1 +1,38 @@
-{"items":[{"PATH":"opt/path/test","TARGET_ATTR_LABEL":"ONE","TEXT_COMMENT":"Тестовый комментарий","SCT_CONSTRAINT_DIM_PARAMS":[{"ATTR_NAME":"CPCHANNEL_ID+OFFER_ID","ATTR_LABEL":"Канал+Предложение","DIM_TABLE_NAME":"CON_CH_OF_UC"},{"ATTR_NAME":"USECASE_ID","ATTR_LABEL":"Юзкейс","DIM_TABLE_NAME":"CHECK"},{"ATTR_NAME":"OFFER_ID","ATTR_LABEL":"Предложение","DIM_TABLE_NAME":"SOME"}],"SCT_CONSTRAINT_NUM_PARAMS":[{"ATTR_NAME":"CONV","ATTR_LABEL":"Конверсия"}],"NAME":"Шаблон базового","SCENARIO_TEMPLATE_CD":"SCT001","USER_CREATED":"Cas","DTTM_CREATED":"2020-03-31T06:58:32.509Z","USER_UPDATED":"Cas","DTTM_UPDATED":"2020-04-10T13:44:08.425Z"}]}
+{
+  "items": [
+    {
+      "PATH": "opt/path/test",
+      "TARGET_ATTR_LABEL": "ONE",
+      "TEXT_COMMENT": "Тестовый комментарий",
+      "SCT_CONSTRAINT_DIM_PARAMS": [
+        {
+          "ATTR_NAME": "CPCHANNEL_ID+OFFER_ID",
+          "ATTR_LABEL": "Канал+Предложение",
+          "DIM_TABLE_NAME": "CON_CH_OF_UC"
+        },
+        {
+          "ATTR_NAME": "USECASE_ID",
+          "ATTR_LABEL": "Юзкейс",
+          "DIM_TABLE_NAME": "CHECK"
+        },
+        {
+          "ATTR_NAME": "OFFER_ID",
+          "ATTR_LABEL": "Предложение",
+          "DIM_TABLE_NAME": "SOME"
+        }
+      ],
+      "SCT_CONSTRAINT_NUM_PARAMS": [
+        {
+          "ATTR_NAME": "CONV",
+          "ATTR_LABEL": "Конверсия"
+        }
+      ],
+      "NAME": "Шаблон базового",
+      "SCENARIO_TEMPLATE_CD": "SCT001",
+      "USER_CREATED": "Cas",
+      "DTTM_CREATED": "2020-03-31T06:58:32.509Z",
+      "USER_UPDATED": "Cas",
+      "DTTM_UPDATED": "2020-04-10T13:44:08.425Z"
+    }
+  ]
+}

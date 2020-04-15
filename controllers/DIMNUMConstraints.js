@@ -53,6 +53,16 @@ module.exports.getTemplateDimConstraints = function getTemplateDimConstraints (r
         });
 };
 
+module.exports.getTemplateNumConstraints = function getTemplateNumConstraints (req, res, next, scenarioTemplateCd) {
+    DIMNUMConstraints.getTemplateNumConstraints(scenarioTemplateCd)
+        .then(function (response) {
+            utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+            utils.writeJson(res, response);
+        });
+};
+
 module.exports.patchUserScenarioBundles = function patchUserScenarioBundles (req, res, next, body, userScenarioCd, ifMatch, ifUnmodifiedSince) {
     DIMNUMConstraints.patchUserScenarioBundles(body, userScenarioCd, ifMatch, ifUnmodifiedSince)
         .then(function (response) {

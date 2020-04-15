@@ -1,16 +1,14 @@
-{
-  "constraints": [
-    {
-      "ATTR_NAME": "CPCHANNEL_ID",
-      "ATTR_LABEL" : "Канал"
-    },
-    {
-      "ATTR_NAME": "OFFER_ID",
-      "ATTR_LABEL" : "Предложение"
-    },
-    {
-      "ATTR_NAME": "USECASE_ID",
-      "ATTR_LABEL" : "Юзкейс"
-    }
-  ]
-}
+[
+  {
+    "ATTR_NAME": "CPCHANNEL_ID",
+    "ATTR_LABEL" : "Канал"
+  },
+  {
+    "ATTR_NAME": "OFFER_ID",
+    "ATTR_LABEL" : "Предложение"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "ATTR_LABEL" : "Юзкейс"
+  }
+]
