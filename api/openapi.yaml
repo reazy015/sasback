@@ -286,7 +286,7 @@ paths:
         - name: attrlist
           in: query
           description: list if of constraint attrs separated by comma
-          required: true
+          required: false
           style: form
           explode: true
           schema:
@@ -396,7 +396,7 @@ paths:
         - name: attrlist
           in: query
           description: list if of constraint attrs separated by comma
-          required: true
+          required: false
           style: form
           explode: true
           schema:
