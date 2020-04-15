@@ -16,6 +16,8 @@ tags:
     description: optimizations list
   - name: other
     description: Other endpoints
+  - name: temp
+    description: temp
 paths:
   /scenarioTemplate:
     get:
@@ -599,6 +601,48 @@ paths:
               schema:
                 $ref: '#/components/schemas/nameCheckResponse'
       x-swagger-router-controller: Other
+  /namechecktemp/template:
+    post:
+      tags:
+        - temp
+      summary: Checks if template name exists
+      operationId: checkIfTemplateNameExistsTemp
+      requestBody:
+        description: The new scenario template
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/nameCheckRequest'
+        required: true
+      responses:
+        "200":
+          description: Returns boolean
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nameCheckResponse'
+      x-swagger-router-controller: Temp
+  /namechecktemp/scenario:
+    post:
+      tags:
+        - temp
+      summary: Checks if template name exists
+      operationId: checkIfScenarioNameExistsTemp
+      requestBody:
+        description: The new scenario template
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/nameCheckRequest'
+        required: true
+      responses:
+        "200":
+          description: Returns boolean
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nameCheckResponse'
+      x-swagger-router-controller: Temp
 components:
   schemas:
     baseCollection:
@@ -856,6 +900,12 @@ components:
       description: Scenario constraints
       items:
         $ref: '#/components/schemas/userScenarioConstraintsUpdate_inner'
+    nameCheckRequest:
+      properties:
+        NAME:
+          type: string
+          description: name for name check request
+      description: name check request temp
     nameCheckResponse:
       properties:
         NAME_EXISTS:
