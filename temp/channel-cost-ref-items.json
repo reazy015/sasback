@@ -1,0 +1,17 @@
+[
+  {
+    "CHANNEL_NAME": "string",
+    "CHANNEL_COST": "string",
+    "CHANNEL_ID": "CCR052"
+  },
+  {
+    "CHANNEL_NAME": "check",
+    "CHANNEL_COST": "123",
+    "CHANNEL_ID": "CCR072"
+  },
+  {
+    "CHANNEL_NAME": "check",
+    "CHANNEL_COST": "123",
+    "CHANNEL_ID": "CCR018"
+  }
+]

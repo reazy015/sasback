@@ -23,8 +23,8 @@ module.exports.deleteUserScenario = function deleteUserScenario (req, res, next,
         });
 };
 
-module.exports.getUserScenarios = function getUserScenarios (req, res, next) {
-    UserScenario.getUserScenarios()
+module.exports.getUserScenarios = function getUserScenarios (req, res, next, filterQuery, filter, sortBy, start, limit) {
+    UserScenario.getUserScenarios(filterQuery, filter, sortBy, start, limit)
         .then(function (response) {
             utils.writeJson(res, response);
         })

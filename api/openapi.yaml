@@ -16,8 +16,8 @@ tags:
     description: optimizations list
   - name: other
     description: Other endpoints
-  - name: temp
-    description: temp
+  - name: costref
+    description: costs ref dictionary
 paths:
   /scenarioTemplate:
     get:
@@ -431,6 +431,51 @@ paths:
         - userScenario
       summary: Returns a collections of the user scenarios
       operationId: getUserScenarios
+      parameters:
+        - name: filterQuery
+          in: query
+          description: |
+            Basic filtering criteria in exploded form. See [Basic Filtering](https://developer.sas.com/apis/rest/Topics/#basic-filtering)
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            additionalProperties:
+              type: string
+        - name: filter
+          in: query
+          description: |
+            Filter criteria for selecting objects to return. See [Filtering in SAS Viya REST APIs](https://developer.sas.com/apis/rest/Topics/#filters)
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Sort criteria for the collection
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: start
+          in: query
+          description: Offset of the first object to return. Defaults to 0.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Maximum number of objecs to return. Defaults to 10.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
       responses:
         "200":
           description: A collections of user scenarios
@@ -601,48 +646,63 @@ paths:
               schema:
                 $ref: '#/components/schemas/nameCheckResponse'
       x-swagger-router-controller: Other
-  /namechecktemp/template:
+  /costref:
+    get:
+      tags:
+        - costref
+      summary: get all items
+      operationId: getCostrefRecords
+      responses:
+        "200":
+          description: list of cost refs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/costRefRecord'
+      x-swagger-router-controller: Costref
     post:
       tags:
-        - temp
-      summary: Checks if template name exists
-      operationId: checkIfTemplateNameExistsTemp
+        - costref
+      summary: create new channel cost ref record
+      operationId: createCostrefRecord
       requestBody:
         description: The new scenario template
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/nameCheckRequest'
+              $ref: '#/components/schemas/body'
         required: true
       responses:
         "200":
-          description: Returns boolean
+          description: channel cost ref
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nameCheckResponse'
-      x-swagger-router-controller: Temp
-  /namechecktemp/scenario:
-    post:
+                $ref: '#/components/schemas/costRefRecord'
+      x-swagger-router-controller: Costref
+  /costref/{costrefId}:
+    delete:
       tags:
-        - temp
-      summary: Checks if template name exists
-      operationId: checkIfScenarioNameExistsTemp
-      requestBody:
-        description: The new scenario template
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/nameCheckRequest'
-        required: true
+        - costref
+      summary: create new channel cost ref record
+      operationId: deleteCostrefRecord
+      parameters:
+        - name: costrefId
+          in: path
+          description: id of channel cost ref
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
       responses:
         "200":
-          description: Returns boolean
+          description: channel cost ref
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nameCheckResponse'
-      x-swagger-router-controller: Temp
+                $ref: '#/components/schemas/costRefRecord'
+      x-swagger-router-controller: Costref
 components:
   schemas:
     baseCollection:
@@ -653,7 +713,7 @@ components:
         limit:
           type: integer
           description: The number of items that were requested for the collection.
-        count:
+        totalCount:
           type: integer
           description: The number of items in the collection.
       description: |
@@ -764,51 +824,22 @@ components:
           description: The label of the attribute of the constraint param
       description: A scenario template constraint param
     userScenariosCollection:
-      properties:
-        SCENARIO_CD:
-          type: string
-          description: user scenario code
-        SCENARIO_TEMPLATE_CD:
-          type: string
-          description: scenario template code attached to user scenario
-        NAME_SCN:
-          type: string
-          description: user scenario name
-        NAME_SCT:
-          type: string
-          description: scenario template name
-        TEXT_COMMENT:
-          type: string
-          description: user scenario comment
-        USER_UPDATED:
-          type: string
-          description: user name who updated scenario last
-        DTTM_UPDATED:
-          type: string
-          description: datetime of last edition
-        DTIME_LAST_OPTIMIZATION:
-          type: string
-          description: datetime of last optimization start
       description: user scenarios collection
-      example:
-        NAME_SCN: NAME_SCN
-        SCENARIO_CD: SCENARIO_CD
-        DTIME_LAST_OPTIMIZATION: DTIME_LAST_OPTIMIZATION
-        SCENARIO_TEMPLATE_CD: SCENARIO_TEMPLATE_CD
-        USER_UPDATED: USER_UPDATED
-        NAME_SCT: NAME_SCT
-        DTTM_UPDATED: DTTM_UPDATED
-        TEXT_COMMENT: TEXT_COMMENT
+      allOf:
+        - $ref: '#/components/schemas/baseCollection'
+        - type: object
+          properties:
+            items:
+              type: array
+              description: array of user scenarios
+              items:
+                $ref: '#/components/schemas/userScenariosCollection_items'
     userScenarioCreate:
       required:
         - NAME_SCN
         - NAME_SCT
-        - SCENARIO_CD
         - SCENARIO_TEMPLATE_CD
       properties:
-        SCENARIO_CD:
-          type: string
-          description: New User scenario code
         SCENARIO_TEMPLATE_CD:
           type: string
           description: Scenario template code attached to user scenario
@@ -824,7 +855,6 @@ components:
       description: The new user scenario
       example:
         NAME_SCN: NAME_SCN
-        SCENARIO_CD: SCENARIO_CD
         SCENARIO_TEMPLATE_CD: SCENARIO_TEMPLATE_CD
         NAME_SCT: NAME_SCT
         TEXT_COMMENT: TEXT_COMMENT
@@ -900,12 +930,6 @@ components:
       description: Scenario constraints
       items:
         $ref: '#/components/schemas/userScenarioConstraintsUpdate_inner'
-    nameCheckRequest:
-      properties:
-        NAME:
-          type: string
-          description: name for name check request
-      description: name check request temp
     nameCheckResponse:
       properties:
         NAME_EXISTS:
@@ -914,6 +938,46 @@ components:
       description: response with boolean
       example:
         NAME_EXISTS: true
+    costRefRecord:
+      type: array
+      description: cost ref record item
+      items:
+        $ref: '#/components/schemas/costRefRecord_inner'
+    body:
+      type: object
+      properties:
+        CHANNEL_NAME:
+          type: string
+          description: channel name
+        CHANNEL_COST:
+          type: string
+          description: channel cost
+    userScenariosCollection_items:
+      properties:
+        SCENARIO_CD:
+          type: string
+          description: user scenario code
+        SCENARIO_TEMPLATE_CD:
+          type: string
+          description: scenario template code attached to user scenario
+        NAME_SCN:
+          type: string
+          description: user scenario name
+        NAME_SCT:
+          type: string
+          description: scenario template name
+        TEXT_COMMENT:
+          type: string
+          description: user scenario comment
+        USER_UPDATED:
+          type: string
+          description: user name who updated scenario last
+        DTTM_UPDATED:
+          type: string
+          description: datetime of last edition
+        DTIME_LAST_OPTIMIZATION:
+          type: string
+          description: datetime of last optimization start
     constraints_inner:
       properties:
         ATTR_NAME:
@@ -1011,6 +1075,21 @@ components:
         ACTIVE_FLG:
           type: boolean
           description: Constraint flag status
+    costRefRecord_inner:
+      properties:
+        CHANNEL_ID:
+          type: string
+          description: id of channel cost ref
+        CHANNEL_NAME:
+          type: string
+          description: name of channel
+        CHANNEL_COST:
+          type: string
+          description: cost of channel
+      example:
+        CHANNEL_ID: CHANNEL_ID
+        CHANNEL_COST: CHANNEL_COST
+        CHANNEL_NAME: CHANNEL_NAME
   parameters:
     ifMatch:
       name: If-Match
