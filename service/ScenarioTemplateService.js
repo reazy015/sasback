@@ -16,6 +16,7 @@ exports.createScenarioTemplate = function (body) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
             if (err) console.error(err);
             body.SCENARIO_TEMPLATE_CD = getUniqueIds(1, obj.items, 'SCENARIO_TEMPLATE_CD', 'SCT')[0];
+            body.DTTM_CREATED = new Date();
             body.USER_CREATED = 'Cas'; //temp
             obj['items'].push(body);
             jsonfile.writeFile(appRoot + file, obj, function (err) {
@@ -95,6 +96,7 @@ exports.patchScenarioTemplate = function (body, scenarioTemplateCd, ifMatch, ifU
         jsonfile.readFile(appRoot + file, function (err, obj) {
             const indexOfItem = obj['items'].findIndex(item => item['SCENARIO_TEMPLATE_CD'] === scenarioTemplateCd);
             body.USER_UPDATED = 'Cas'; //temp
+            body.DTTM_UPDATED = new Date();
             obj['items'][indexOfItem] = body;
             jsonfile.writeFile(appRoot + file, obj, function (err) {
                 if (err) console.error(err);
