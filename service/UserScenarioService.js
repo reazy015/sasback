@@ -65,6 +65,7 @@ exports.patchUserScenario = function (body, userScenarioCd, ifMatch, ifUnmodifie
     return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
             const indexOfItem = obj['items'].findIndex(item => item['SCENARIO_CD'] === userScenarioCd);
+            body.DTTM_UPDATED = new Date();
             obj['items'][indexOfItem] = body;
             jsonfile.writeFile(appRoot + file, obj, function (err) {
                 if (err) console.error(err);
