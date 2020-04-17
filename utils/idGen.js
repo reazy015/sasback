@@ -4,7 +4,6 @@ const appRoot = require('app-root-path');
 
 module.exports =  (number, obj, field, prefix) => {
     const resultKeys = [];
-
     if (obj.length) {
         const uniqueIdKeys = [...new Set(obj.map(key => key[field]))];
 

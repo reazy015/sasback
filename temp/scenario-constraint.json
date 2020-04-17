@@ -77,6 +77,14 @@
       "CORRECT_COEF": "1.1",
       "CONSTRAINT_BUNDLE_CD": "CBN777",
       "ACTIVE_FLG": true
+    },
+    {
+      "SCENARIO_CD": "SCN001",
+      "CONSTRAINT_PARAMETER": "Конверсия",
+      "BOUND_TYPE": "MIN",
+      "VALUE": "123",
+      "CORRECT_COEF": "1",
+      "CONSTRAINT_BUNDLE_CD": "CBN014"
     }
   ]
 }

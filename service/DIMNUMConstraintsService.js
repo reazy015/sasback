@@ -169,7 +169,7 @@ exports.postScenarioConstraint = function(body) {
     if (!body[0].CONSTRAINT_BUNDLE_ITEMS.length) {
         return new Promise(function(resolve, reject) {
             jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
-                const idList = getUniqueIds(body.length, obj.bundles, 'CONSTRAINT_BUNDLE_CD', 'CBN');
+                const idList = getUniqueIds(body.length, obj.constraints, 'CONSTRAINT_BUNDLE_CD', 'CBN');
                 idList.forEach((item, index) => {
                     body[index]['CONSTRAINT_BUNDLE_CD'] = item;
                 });
@@ -189,6 +189,7 @@ exports.postScenarioConstraint = function(body) {
     } else {
         return new Promise(function(resolve, reject) {
             jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
+                console.log('Constraints', obj);
                 const idList = getUniqueIds(body.length, obj, 'CONSTRAINT_BUNDLE_CD', 'CBN');
                 idList.forEach((item, index) => {
                     body[index]['CONSTRAINT_BUNDLE_CD'] = item;
