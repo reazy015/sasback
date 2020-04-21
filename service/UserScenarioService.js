@@ -117,6 +117,24 @@ exports.getBusinessDates = function() {
             },
             {
                 DATE: new Date(2020, 3,24)
+            },
+            {
+                DATE: new Date(2020, 3,25)
+            },
+            {
+                DATE: new Date(2020, 4,3)
+            },
+            {
+                DATE: new Date(2020, 4,4)
+            },
+            {
+                DATE: new Date(2020, 4,5)
+            },
+            {
+                DATE: new Date(2020, 4,6)
+            },
+            {
+                DATE: new Date(2020, 3,24)
             }
         ];
         if (examples.length > 0) {
