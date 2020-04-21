@@ -2,6 +2,7 @@
 const jsonfile = require('jsonfile');
 const appRoot = require('app-root-path');
 const file = '/temp/user-scenarios.json';
+const optimizations = '/temp/optimizations.json';
 const getUniqueIds = require('../utils/idGen.js');
 
 
@@ -95,4 +96,99 @@ exports.createUserScenario = function (body) {
             })
         });
     });
-}
+};
+
+/**
+ * Returns list of available dates
+ *
+ * returns businessDates
+ **/
+exports.getBusinessDates = function() {
+    return new Promise(function(resolve, reject) {
+        var examples = [
+            {
+                DATE: new Date(2020, 3,21)
+            },
+            {
+                DATE: new Date(2020, 3,22)
+            },
+            {
+                DATE: new Date(2020, 3,23)
+            },
+            {
+                DATE: new Date(2020, 3,24)
+            }
+        ];
+        if (examples.length > 0) {
+            resolve(examples);
+        } else {
+            resolve();
+        }
+    });
+};
+
+/**
+ * Returns list of optimization ids for particular scenario
+ *
+ * userScenarioId String user scenario code
+ * returns optimizationsIdList
+ **/
+exports.getUserScenarioOptimizationIdList = function(userScenarioId) {
+    return new Promise(function(resolve, reject) {
+        console.log(true);
+        jsonfile.readFile(appRoot + optimizations, function (err, obj) {
+            if (err) return console.log(err);
+            const opts = obj.filter(item => item.SCENARIO_CD === userScenarioId);
+
+            if (opts.length) {
+                console.log(true);
+                const result = opts.map(item => {
+                    return {
+                        OPTIMIZATION_ID: item.OPTIMIZATION_ID,
+                        DATE: item.UPLOAD_DATE
+                    }
+                });
+                resolve(result);
+            } else {
+                console.log(false);
+                resolve([]);
+            }
+        });
+    });
+};
+
+/**
+ * Start new optimization calculation
+ *
+ * body UserScenarioOptimizationStart data for scenario optimization init
+ * returns userScenarioOptimizationRes
+ **/
+exports.startOptimization = function(body) {
+    return new Promise(function(resolve, reject) {
+        jsonfile.readFile(appRoot + optimizations, function (err, objOpt) {
+            if (err) console.error(err);
+
+            body.OPTIMIZATION_ID = getUniqueIds(1, objOpt, 'OPTIMIZATION_ID', 'OPT')[0];
+            body.USER_UPDATED = 'Cas'; //temp
+            body.BUSINESS_DTIME = new Date();
+            body.OPTIMIZATION_STATUS = 'test';
+            body.OPTIMIZATION_PUBLICATION_STATUS = 'test';
+            body.DTIME_LAST_OPTIMIZATION = null;
+
+            jsonfile.readFile(appRoot + file, function (err, obj) {
+                const scenario = obj.items.find(item => item.SCENARIO_CD === body.SCENARIO_CD);
+                body.SCENARIO_TEMPLATE_NAME = scenario.SCENARIO_TEMPLATE_NAME;
+                console.log(body);
+                objOpt.push(body);
+
+                jsonfile.writeFile(appRoot + optimizations, objOpt, function (err) {
+                    if (err) console.error(err);
+                    resolve({
+                        START_AVAILABLE: true,
+                        OPTIMIZATION_ID: body.OPTIMIZATION_ID
+                    });
+                })
+            });
+        });
+    });
+};

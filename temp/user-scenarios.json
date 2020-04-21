@@ -1,5 +1,8 @@
 {
   "items": [
-
+    {
+      "SCENARIO_CD": "SCN001",
+      "SCENARIO_TEMPLATE_NAME": "TEST111"
+    }
   ]
 }

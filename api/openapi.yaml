@@ -11,7 +11,7 @@ tags:
   - name: DIM, NUM constraints
     description: DIM, NUM constraints endpoints
   - name: userScenario
-    description: User scenarios
+    description: User scenariosa
   - name: optimizations
     description: optimizations list
   - name: other
@@ -77,6 +77,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/scenarioTemplateCollection'
+        "409":
+          description: Template with such name already exists
       x-swagger-router-controller: ScenarioTemplate
     post:
       tags:
@@ -510,6 +512,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userScenarioCreate'
+        "409":
+          description: Template with such name already exists
+      x-swagger-router-controller: UserScenario
+  /userScenario/start:
+    post:
+      tags:
+        - userScenario
+      description: Start new optimization calculation
+      operationId: startOptimization
+      requestBody:
+        description: data for scenario optimization init
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioOptimizationStart'
+        required: true
+      responses:
+        "200":
+          description: Optimization started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userScenarioOptimizationRes'
+      x-swagger-router-controller: UserScenario
+  /userScenario/dates:
+    get:
+      tags:
+        - userScenario
+      description: Returns list of available dates
+      operationId: getBusinessDates
+      responses:
+        "200":
+          description: list of dates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/businessDates'
+      x-swagger-router-controller: UserScenario
+  /userScenario/optid/{userScenarioId}:
+    get:
+      tags:
+        - userScenario
+      description: Returns list of optimization ids for particular scenario
+      operationId: getUserScenarioOptimizationIdList
+      parameters:
+        - name: userScenarioId
+          in: path
+          description: user scenario code
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: list of optimization ids
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/optimizationsIdList'
       x-swagger-router-controller: UserScenario
   /userScenario/{userScenarioCd}:
     delete:
@@ -600,6 +662,65 @@ paths:
               schema:
                 $ref: '#/components/schemas/userScenarioPatch'
       x-swagger-router-controller: UserScenario
+  /optimizations:
+    get:
+      tags:
+        - optimizations
+      description: Returns list of all scenario optimizations
+      operationId: getOptimizationsList
+      parameters:
+        - name: filterQuery
+          in: query
+          description: |
+            Basic filtering criteria in exploded form. See [Basic Filtering](https://developer.sas.com/apis/rest/Topics/#basic-filtering)
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            additionalProperties:
+              type: string
+        - name: filter
+          in: query
+          description: |
+            Filter criteria for selecting objects to return. See [Filtering in SAS Viya REST APIs](https://developer.sas.com/apis/rest/Topics/#filters)
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Sort criteria for the collection
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: start
+          in: query
+          description: Offset of the first object to return. Defaults to 0.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Maximum number of objecs to return. Defaults to 10.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: list of optimizations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/optimizationStartCollection'
+      x-swagger-router-controller: Optimizations
   /namecheck/template/{name}:
     get:
       tags:
@@ -881,6 +1002,36 @@ components:
       description: user scenario path requested body
       allOf:
         - $ref: '#/components/schemas/userScenariosCollection'
+    userScenarioOptimizationStart:
+      properties:
+        NAME_SCN:
+          type: string
+          description: User scenario name
+        SCENARIO_CD:
+          type: string
+          description: User scenario code
+        UPLOAD_DATE:
+          type: string
+          description: business date
+        OPTIMIZATION_ID:
+          type: string
+          description: optimization id
+        TEXT_COMMENT:
+          type: string
+          description: text comment
+      description: data for optimization start
+    userScenarioOptimizationRes:
+      properties:
+        START_AVAILABLE:
+          type: boolean
+          description: Flag is start available
+        OPTIMIZATION_ID:
+          type: string
+          description: Id of optimization if available
+      description: User scenario optimization start
+      example:
+        OPTIMIZATION_ID: OPTIMIZATION_ID
+        START_AVAILABLE: true
     constraints:
       type: array
       description: Constraints
@@ -943,6 +1094,27 @@ components:
       description: cost ref record item
       items:
         $ref: '#/components/schemas/costRefRecord_inner'
+    businessDates:
+      type: array
+      description: List of available business dates
+      items:
+        $ref: '#/components/schemas/businessDates_inner'
+    optimizationsIdList:
+      type: array
+      description: list of optimization ids
+      items:
+        $ref: '#/components/schemas/optimizationsIdList_inner'
+    optimizationStartCollection:
+      description: Optimization collection
+      allOf:
+        - $ref: '#/components/schemas/baseCollection'
+        - type: object
+          properties:
+            items:
+              type: array
+              description: array of optimizations
+              items:
+                $ref: '#/components/schemas/optimizationStartCollection_items'
     body:
       type: object
       properties:
@@ -1090,6 +1262,53 @@ components:
         CHANNEL_ID: CHANNEL_ID
         CHANNEL_COST: CHANNEL_COST
         CHANNEL_NAME: CHANNEL_NAME
+    businessDates_inner:
+      properties:
+        DATE:
+          type: string
+          description: business date
+      example:
+        DATE: DATE
+    optimizationsIdList_inner:
+      properties:
+        OPTIMIZATION_ID:
+          type: string
+          description: optimization id item
+        DATE:
+          type: string
+          description: date of optimization
+      example:
+        OPTIMIZATION_ID: OPTIMIZATION_ID
+        DATE: DATE
+    optimizationStartCollection_items:
+      properties:
+        OPTIMIZATION_ID:
+          type: string
+          description: optimization id
+        SCENARIO_NAME:
+          type: string
+          description: scenario name
+        SCENARIO_TEMPLATE_NAME:
+          type: string
+          description: template name
+        BUSINESS_DTIME:
+          type: string
+          description: business date
+        TEXT_COMMENT:
+          type: string
+          description: text comment
+        USER_UPDATED:
+          type: string
+          description: authour of optimization
+        DTIME_LAST_OPTIMIZATION:
+          type: string
+          description: date of last optimization
+        OPTIMIZATION_STATUS:
+          type: string
+          description: optimization status
+        OPTIMIZATION_PUBLICATION_STATUS:
+          type: string
+          description: status of publication
   parameters:
     ifMatch:
       name: If-Match

@@ -1,0 +1,15 @@
+[
+  {
+    "NAME_SCN": "checknew",
+    "SCENARIO_CD": "SCN001",
+    "UPLOAD_DATE": "string",
+    "OPTIMIZATION_ID": "OPT055",
+    "TEXT_COMMENT": "string",
+    "USER_UPDATED": "Cas",
+    "BUSINESS_DTIME": "2020-04-20T18:44:06.412Z",
+    "OPTIMIZATION_STATUS": "test",
+    "OPTIMIZATION_PUBLICATION_STATUS": "test",
+    "DTIME_LAST_OPTIMIZATION": null,
+    "SCENARIO_TEMPLATE_NAME": "TEST111"
+  }
+]
