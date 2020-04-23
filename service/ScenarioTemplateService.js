@@ -3,7 +3,7 @@ const jsonfile = require('jsonfile');
 const appRoot = require('app-root-path');
 const file = '/temp/scenario-templates.json';
 const getUniqueIds = require('../utils/idGen.js');
-
+const utils = require('../utils/writer');
 
 /**
  * Creates a new scenario template
@@ -14,15 +14,21 @@ const getUniqueIds = require('../utils/idGen.js');
 exports.createScenarioTemplate = function (body) {
     return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
-            if (err) console.error(err);
-            body.SCENARIO_TEMPLATE_CD = getUniqueIds(1, obj.items, 'SCENARIO_TEMPLATE_CD', 'SCT')[0];
-            body.DTTM_CREATED = new Date();
-            body.USER_CREATED = 'Cas'; //temp
-            obj['items'].push(body);
-            jsonfile.writeFile(appRoot + file, obj, function (err) {
-                if (err) console.error(err);
-                resolve();
-            })
+            if (err) return console.error(err);
+
+            const template = obj.items.find(item => item.NAME === body.NAME);
+            if (template) {
+                resolve('Name exists');
+            } else {
+                body.SCENARIO_TEMPLATE_CD = getUniqueIds(1, obj.items, 'SCENARIO_TEMPLATE_CD', 'SCT')[0];
+                body.DTTM_CREATED = new Date();
+                body.USER_CREATED = 'Cas'; //temp
+                obj['items'].push(body);
+                jsonfile.writeFile(appRoot + file, obj, function (err) {
+                    if (err) console.error(err);
+                    resolve();
+                })
+            }
         });
     });
 }

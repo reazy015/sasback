@@ -8,6 +8,7 @@ exports.respondWithCode = function(code, payload) {
 };
 
 var writeJson = exports.writeJson = function(response, arg1, arg2) {
+  console.log(response, arg1, arg2);
   var code;
   var payload;
 

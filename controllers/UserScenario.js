@@ -6,7 +6,11 @@ var UserScenario = require('../service/UserScenarioService');
 module.exports.createUserScenario = function createUserScenario (req, res, next, body) {
   UserScenario.createUserScenario(body)
     .then(function (response) {
-      utils.writeJson(res, response);
+        if (response === 'Name exists') {
+            utils.writeJson(res, response, 409);
+        } else {
+            utils.writeJson(res, response);
+        }
     })
     .catch(function (response) {
       utils.writeJson(res, response);

@@ -86,14 +86,19 @@ exports.createUserScenario = function (body) {
     return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
             if (err) console.error(err);
-            body.SCENARIO_CD = getUniqueIds(1, obj.items, 'SCENARIO_CD', 'SCN')[0];
-            body.USER_UPDATED = 'Cas'; //temp
-            console.log(body);
-            obj['items'].push(body);
-            jsonfile.writeFile(appRoot + file, obj, function (err) {
-                if (err) console.error(err);
-                resolve();
-            })
+            const scenario = obj.items.find(item => item.NAME_SCN === body.NAME_SCN);
+            if (scenario) {
+                resolve('Name exists');
+            } else {
+                body.SCENARIO_CD = getUniqueIds(1, obj.items, 'SCENARIO_CD', 'SCN')[0];
+                body.USER_UPDATED = 'Cas'; //temp
+                console.log(body);
+                obj['items'].push(body);
+                jsonfile.writeFile(appRoot + file, obj, function (err) {
+                    if (err) console.error(err);
+                    resolve();
+                })
+            }
         });
     });
 };
@@ -153,9 +158,10 @@ exports.getBusinessDates = function() {
  **/
 exports.getUserScenarioOptimizationIdList = function(userScenarioId) {
     return new Promise(function(resolve, reject) {
-        console.log(true);
+        console.log(userScenarioId);
         jsonfile.readFile(appRoot + optimizations, function (err, obj) {
             if (err) return console.log(err);
+            console.log(obj);
             const opts = obj.filter(item => item.SCENARIO_CD === userScenarioId);
 
             if (opts.length) {

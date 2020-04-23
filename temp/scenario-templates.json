@@ -1,4 +1,50 @@
 {
   "items": [
+    {
+      "PATH": "string",
+      "TARGET_ATTR_LABEL": "string",
+      "TEXT_COMMENT": "string",
+      "SCT_CONSTRAINT_DIM_PARAMS": [
+        {
+          "ATTR_NAME": "string",
+          "ATTR_LABEL": "string",
+          "DIM_TABLE_NAME": "string",
+          "CONSTRAINT_BUNDLE_CD": "string"
+        }
+      ],
+      "SCT_CONSTRAINT_NUM_PARAMS": [
+        {
+          "ATTR_NAME": "CONV",
+          "ATTR_LABEL": "Конверсия"
+        }
+      ],
+      "NAME": "string",
+      "SCENARIO_TEMPLATE_CD": "SCT068",
+      "DTTM_CREATED": "2020-04-23T11:50:39.672Z",
+      "USER_CREATED": "Cas"
+    },
+    {
+      "PATH": "string",
+      "TARGET_ATTR_LABEL": "string",
+      "TEXT_COMMENT": "string",
+      "SCT_CONSTRAINT_DIM_PARAMS": [
+        {
+          "ATTR_NAME": "string",
+          "ATTR_LABEL": "string",
+          "DIM_TABLE_NAME": "string",
+          "CONSTRAINT_BUNDLE_CD": "string"
+        }
+      ],
+      "SCT_CONSTRAINT_NUM_PARAMS": [
+        {
+          "ATTR_NAME": "CONV",
+          "ATTR_LABEL": "Конверсия"
+        }
+      ],
+      "NAME": "NEW NAME",
+      "SCENARIO_TEMPLATE_CD": "SCT062",
+      "DTTM_CREATED": "2020-04-23T12:18:55.443Z",
+      "USER_CREATED": "Cas"
+    }
   ]
 }

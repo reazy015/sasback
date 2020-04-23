@@ -11,13 +11,13 @@ tags:
   - name: DIM, NUM constraints
     description: DIM, NUM constraints endpoints
   - name: userScenario
-    description: User scenariosa
+    description: User scenarios
   - name: optimizations
     description: optimizations list
-  - name: other
-    description: Other endpoints
   - name: costref
     description: costs ref dictionary
+  - name: classification tables
+    description: classification tables endpoints
 paths:
   /scenarioTemplate:
     get:
@@ -77,8 +77,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/scenarioTemplateCollection'
-        "409":
-          description: Template with such name already exists
       x-swagger-router-controller: ScenarioTemplate
     post:
       tags:
@@ -106,6 +104,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/scenarioTemplate'
+        "409":
+          description: Template with such name already exists
       x-swagger-router-controller: ScenarioTemplate
   /scenarioTemplate/{scenarioTemplateCd}:
     delete:
@@ -513,7 +513,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/userScenarioCreate'
         "409":
-          description: Template with such name already exists
+          description: Scenario with such name already exists
       x-swagger-router-controller: UserScenario
   /userScenario/start:
     post:
@@ -721,16 +721,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/optimizationStartCollection'
       x-swagger-router-controller: Optimizations
-  /namecheck/template/{name}:
+  /optimizations/publish/{optimizationId}:
     get:
       tags:
-        - other
-      summary: Checks if template name exists
-      operationId: checkIfTemplateNameExists
+        - optimizations
+      description: publishes optimization
+      operationId: publishOptimization
       parameters:
-        - name: name
+        - name: optimizationId
           in: path
-          description: name to be checked
+          description: optimization id
           required: true
           style: simple
           explode: false
@@ -738,35 +738,8 @@ paths:
             type: string
       responses:
         "200":
-          description: Returns boolean
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/nameCheckResponse'
-      x-swagger-router-controller: Other
-  /namecheck/scenario/{name}:
-    get:
-      tags:
-        - other
-      summary: Checks if template name exists
-      operationId: checkIfScenarioNameExists
-      parameters:
-        - name: name
-          in: path
-          description: name to be checked
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Returns boolean
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/nameCheckResponse'
-      x-swagger-router-controller: Other
+          description: optimization publicated response
+      x-swagger-router-controller: Optimizations
   /costref:
     get:
       tags:
@@ -824,6 +797,65 @@ paths:
               schema:
                 $ref: '#/components/schemas/costRefRecord'
       x-swagger-router-controller: Costref
+  /classtables:
+    get:
+      tags:
+        - classification tables
+      description: Receives list of classification tables
+      operationId: getClassificationTablesList
+      responses:
+        "200":
+          description: list of classification tables
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/classificationTableList'
+      x-swagger-router-controller: ClassificationTables
+  /classtables/download/{tableId}:
+    get:
+      tags:
+        - classification tables
+      description: Downloads table file
+      operationId: getClassificationTableFile
+      parameters:
+        - name: tableId
+          in: path
+          description: table id
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: table file
+      x-swagger-router-controller: ClassificationTables
+  /classtables/upload/{tableId}:
+    post:
+      tags:
+        - classification tables
+      description: Uploads table file
+      operationId: postClassificationTableFile
+      parameters:
+        - name: tableId
+          in: path
+          description: table id
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/body_1'
+      responses:
+        "200":
+          description: table file
+        "400":
+          description: file not valid
+      x-swagger-router-controller: ClassificationTables
 components:
   schemas:
     baseCollection:
@@ -1013,7 +1045,7 @@ components:
         UPLOAD_DATE:
           type: string
           description: business date
-        OPTIMIZATION_ID:
+        PREV_OPTIMIZATION_ID:
           type: string
           description: optimization id
         TEXT_COMMENT:
@@ -1081,14 +1113,6 @@ components:
       description: Scenario constraints
       items:
         $ref: '#/components/schemas/userScenarioConstraintsUpdate_inner'
-    nameCheckResponse:
-      properties:
-        NAME_EXISTS:
-          type: boolean
-          description: Boolean flag
-      description: response with boolean
-      example:
-        NAME_EXISTS: true
     costRefRecord:
       type: array
       description: cost ref record item
@@ -1115,6 +1139,17 @@ components:
               description: array of optimizations
               items:
                 $ref: '#/components/schemas/optimizationStartCollection_items'
+    classificationTableList:
+      description: classification tables list
+      allOf:
+        - $ref: '#/components/schemas/baseCollection'
+        - type: object
+          properties:
+            items:
+              type: array
+              description: array of optimizations
+              items:
+                $ref: '#/components/schemas/classificationTableList_items'
     body:
       type: object
       properties:
@@ -1124,6 +1159,12 @@ components:
         CHANNEL_COST:
           type: string
           description: channel cost
+    body_1:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
     userScenariosCollection_items:
       properties:
         SCENARIO_CD:
@@ -1309,6 +1350,20 @@ components:
         OPTIMIZATION_PUBLICATION_STATUS:
           type: string
           description: status of publication
+    classificationTableList_items:
+      properties:
+        TABLE_NAME:
+          type: string
+          description: table name
+        TABLE_DESCRIPTION:
+          type: string
+          description: table description
+        TABLE_DTIME_UPDATE:
+          type: string
+          description: update date
+        TABLE_USER:
+          type: string
+          description: table user
   parameters:
     ifMatch:
       name: If-Match

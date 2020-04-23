@@ -1,8 +1,1 @@
-{
-  "items": [
-    {
-      "SCENARIO_CD": "SCN001",
-      "SCENARIO_TEMPLATE_NAME": "TEST111"
-    }
-  ]
-}
+{"items":[{"SCENARIO_CD":"SCN001","SCENARIO_TEMPLATE_NAME":"TEST111","NAME_SCN":"TEST"},{"SCENARIO_TEMPLATE_CD":"string","NAME_SCN":"string","NAME_SCT":"string","TEXT_COMMENT":"string","SCENARIO_CD":"SCN051","USER_UPDATED":"Cas"},{"TEXT_COMMENT":"","NAME_SCN":"check","SCENARIO_TEMPLATE_CD":"SCT028","NAME_SCT":"Test template","SCENARIO_CD":"SCN082","USER_UPDATED":"Cas"}]}
