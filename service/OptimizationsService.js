@@ -23,7 +23,12 @@ exports.getOptimizationsList = function(filterQuery,filter,sortBy,start,limit) {
         };
         resolve(final);
       } else {
-        resolve();
+        resolve({
+          start: start ? start : 0,
+          limit: limit ? limit : 0,
+          totalCount: obj.length,
+          items: []
+        });
       }
     });
   });
