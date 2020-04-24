@@ -33,3 +33,16 @@ exports.getOptimizationsList = function(filterQuery,filter,sortBy,start,limit) {
     });
   });
 };
+
+
+/**
+ * publishes optimization
+ *
+ * optimizationId String optimization id
+ * no response value expected for this operation
+ **/
+exports.publishOptimization = function(optimizationId) {
+  return new Promise(function(resolve, reject) {
+    resolve('Published');
+  });
+}

@@ -1042,10 +1042,10 @@ components:
         SCENARIO_CD:
           type: string
           description: User scenario code
-        UPLOAD_DATE:
+        BUSINESS_DTIME:
           type: string
           description: business date
-        PREV_OPTIMIZATION_ID:
+        OPTIMIZATION_ID:
           type: string
           description: optimization id
         TEXT_COMMENT:

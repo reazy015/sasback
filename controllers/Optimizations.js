@@ -13,12 +13,14 @@ module.exports.getOptimizationsList = function getOptimizationsList (req, res, n
     });
 };
 
+
 module.exports.publishOptimization = function publishOptimization (req, res, next, optimizationId) {
-  Optimizations.publishOptimization(optimizationId)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+    Optimizations.publishOptimization(optimizationId)
+        .then(function (response) {
+            utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+            utils.writeJson(res, response);
+        });
 };
+

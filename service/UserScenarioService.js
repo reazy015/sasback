@@ -168,8 +168,8 @@ exports.getUserScenarioOptimizationIdList = function(userScenarioId) {
                 console.log(true);
                 const result = opts.map(item => {
                     return {
-                        OPTIMIZATION_ID: item.OPTIMIZATION_ID,
-                        DATE: item.UPLOAD_DATE
+                        PREV_OPTIMIZATION_ID: item.PREV_OPTIMIZATION_ID,
+                        DTIME_LAST_OPTIMIZATION: item.DTIME_LAST_OPTIMIZATION
                     }
                 });
                 resolve(result);
@@ -194,10 +194,10 @@ exports.startOptimization = function(body) {
 
             body.OPTIMIZATION_ID = getUniqueIds(1, objOpt, 'OPTIMIZATION_ID', 'OPT')[0];
             body.USER_UPDATED = 'Cas'; //temp
-            body.BUSINESS_DTIME = new Date();
+            body.UPLOAD_DATE = new Date();
             body.OPTIMIZATION_STATUS = 'test';
             body.OPTIMIZATION_PUBLICATION_STATUS = 'test';
-            body.DTIME_LAST_OPTIMIZATION = null;
+            body.DTIME_LAST_OPTIMIZATION = new Date();
 
             jsonfile.readFile(appRoot + file, function (err, obj) {
                 const scenario = obj.items.find(item => item.SCENARIO_CD === body.SCENARIO_CD);
