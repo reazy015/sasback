@@ -194,7 +194,6 @@ exports.startOptimization = function(body) {
 
             body.OPTIMIZATION_ID = getUniqueIds(1, objOpt, 'OPTIMIZATION_ID', 'OPT')[0];
             body.USER_UPDATED = 'Cas'; //temp
-            body.BUSINESS_DTIME = new Date();
             body.OPTIMIZATION_STATUS = 'test';
             body.OPTIMIZATION_PUBLICATION_STATUS = 'test';
             body.DTIME_LAST_OPTIMIZATION = new Date();
