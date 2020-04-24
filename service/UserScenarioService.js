@@ -168,7 +168,7 @@ exports.getUserScenarioOptimizationIdList = function(userScenarioId) {
                 console.log(true);
                 const result = opts.map(item => {
                     return {
-                        PREV_OPTIMIZATION_ID: item.PREV_OPTIMIZATION_ID,
+                        OPTIMIZATION_ID: item.OPTIMIZATION_ID,
                         DTIME_LAST_OPTIMIZATION: item.DTIME_LAST_OPTIMIZATION
                     }
                 });
