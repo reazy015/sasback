@@ -7,7 +7,7 @@ servers:
   - url: http://localhost:8080/
 tags:
   - name: scenarioTemplate
-    description: Scenario templates
+    description: Scenario teаmplates
   - name: DIM, NUM constraints
     description: DIM, NUM constraints endpoints
   - name: userScenario
@@ -18,6 +18,8 @@ tags:
     description: costs ref dictionary
   - name: classification tables
     description: classification tables endpoints
+  - name: user
+    description: user model
 paths:
   /scenarioTemplate:
     get:
@@ -856,6 +858,20 @@ paths:
         "400":
           description: file not valid
       x-swagger-router-controller: ClassificationTables
+  /getUser:
+    get:
+      tags:
+        - user
+      description: return user information
+      operationId: getUser
+      responses:
+        "200":
+          description: user model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+      x-swagger-router-controller: User
 components:
   schemas:
     baseCollection:
@@ -1150,6 +1166,22 @@ components:
               description: array of optimizations
               items:
                 $ref: '#/components/schemas/classificationTableList_items'
+    user:
+      properties:
+        USER_NAME:
+          type: string
+          description: user name
+        USER_ROLE:
+          type: string
+          description: user role
+        USER_ID:
+          type: string
+          description: user id
+      description: user information
+      example:
+        USER_ID: USER_ID
+        USER_NAME: USER_NAME
+        USER_ROLE: USER_ROLE
     body:
       type: object
       properties:
