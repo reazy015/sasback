@@ -43,6 +43,8 @@ exports.getOptimizationsList = function(filterQuery,filter,sortBy,start,limit) {
  **/
 exports.publishOptimization = function(optimizationId) {
   return new Promise(function(resolve, reject) {
-    resolve('Published');
+    resolve({
+      message: 'Published'
+    });
   });
 }
