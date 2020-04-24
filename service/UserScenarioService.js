@@ -201,8 +201,8 @@ exports.startOptimization = function(body) {
 
             jsonfile.readFile(appRoot + file, function (err, obj) {
                 const scenario = obj.items.find(item => item.SCENARIO_CD === body.SCENARIO_CD);
-                body.SCENARIO_TEMPLATE_NAME = scenario.SCENARIO_TEMPLATE_NAME;
-                console.log(body);
+                body.SCENARIO_TEMPLATE_NAME = scenario.NAME_SCT;
+                // console.log(body);
                 objOpt.push(body);
 
                 jsonfile.writeFile(appRoot + optimizations, objOpt, function (err) {
