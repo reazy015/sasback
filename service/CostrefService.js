@@ -33,19 +33,16 @@ exports.createCostrefRecord = function (body) {
  **/
 exports.deleteCostrefRecord = function (costrefId) {
     return new Promise(function (resolve, reject) {
-        return new Promise(function (resolve, reject) {
-            jsonfile.readFile(appRoot + file, function (err, obj) {
-                const indexOfItem = obj.findIndex(item => item['CHANNEL_ID'] === costrefId);
-                const deletedItem = obj.splice(indexOfItem, 1);
-                jsonfile.writeFile(appRoot + file, obj, function (err) {
-                    if (err) console.error(err);
-                    resolve(deletedItem);
-                });
+        jsonfile.readFile(appRoot + file, function (err, obj) {
+            const indexOfItem = obj.findIndex(item => item['CHANNEL_ID'] === costrefId);
+            const deletedItem = obj.splice(indexOfItem, 1);
+            jsonfile.writeFile(appRoot + file, obj, function (err) {
+                if (err) console.error(err);
+                resolve(deletedItem);
             });
         });
-
     });
-}
+};
 
 
 /**
