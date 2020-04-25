@@ -67,23 +67,23 @@ exports.deleteScenarioTemplate = function (scenarioTemplateCd, ifMatch, ifUnmodi
  * returns scenarioTemplateCollection
  **/
 exports.getScenarioTemplates = function (filterQuery, filter, sortBy, start, limit) {
-    return new Promise(function (resolve, reject) {
-        jsonfile.readFile(appRoot + file, function (err, obj) {
-            if (err) console.error(err);
-
-            if (Object.keys(obj).length > 0) {
-                const final = {
-                    start: start ? start : 0,
-                    limit: limit ? limit : 0,
-                    totalCount: Object.keys(obj)[0].length,
-                    ...obj
-                }
-                resolve(final);
-            } else {
-                resolve();
-            }
-        });
-    });
+    // return new Promise(function (resolve, reject) {
+    //     jsonfile.readFile(appRoot + file, function (err, obj) {
+    //         if (err) console.error(err);
+    //
+    //         if (Object.keys(obj).length > 0) {
+    //             const final = {
+    //                 start: start ? start : 0,
+    //                 limit: limit ? limit : 0,
+    //                 totalCount: Object.keys(obj)[0].length,
+    //                 ...obj
+    //             }
+    //             resolve(final);
+    //         } else {
+    //             resolve();
+    //         }
+    //     });
+    // });
 }
 
 
