@@ -18,7 +18,7 @@ exports.createCostrefRecord = function (body) {
             obj.push(body);
             jsonfile.writeFile(appRoot + file, obj, function (err) {
                 if (err) console.error(err);
-                resolve();
+                resolve(body);
             })
         });
     });
