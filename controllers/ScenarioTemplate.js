@@ -30,7 +30,7 @@ module.exports.deleteScenarioTemplate = function deleteScenarioTemplate(req, res
 module.exports.getScenarioTemplates = function getScenarioTemplates(req, res, next, filterQuery, filter, sortBy, start, limit) {
     ScenarioTemplate.getScenarioTemplates(filterQuery, filter, sortBy, start, limit)
         .then(function (response) {
-            console.log(response);
+            // console.log(response);
             utils.writeJson(res, response);
         })
         .catch(function (response) {

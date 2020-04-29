@@ -1,5 +1,54 @@
 {
   "items": [
-
+    {
+      "PATH": "string",
+      "TARGET_ATTR_LABEL": "string",
+      "TEXT_COMMENT": "string",
+      "SCT_CONSTRAINT_DIM_PARAMS": [
+        {
+          "ATTR_NAME": "string",
+          "ATTR_LABEL": "string",
+          "DIM_TABLE_NAME": "string",
+          "CONSTRAINT_BUNDLE_CD": "string"
+        }
+      ],
+      "SCT_CONSTRAINT_NUM_PARAMS": [
+        {
+          "ATTR_NAME": "CONV",
+          "ATTR_LABEL": "Конверсия"
+        }
+      ],
+      "NAME": "string",
+      "SCENARIO_TEMPLATE_CD": "SCT001",
+      "USER_CREATED": "string",
+      "DTTM_CREATED": "2020-04-27T13:36:32.379Z",
+      "USER_UPDATED": "string",
+      "DTTM_UPDATED": "2020-04-27T13:36:32.379Z"
+    },
+    {
+      "PATH": "string",
+      "TARGET_ATTR_LABEL": "string",
+      "TEXT_COMMENT": "string",
+      "SCT_CONSTRAINT_DIM_PARAMS": [
+        {
+          "ATTR_NAME": "string",
+          "ATTR_LABEL": "string",
+          "DIM_TABLE_NAME": "string",
+          "CONSTRAINT_BUNDLE_CD": "string"
+        }
+      ],
+      "SCT_CONSTRAINT_NUM_PARAMS": [
+        {
+          "ATTR_NAME": "CONV",
+          "ATTR_LABEL": "Конверсия"
+        }
+      ],
+      "NAME": "string",
+      "SCENARIO_TEMPLATE_CD": "SCT002",
+      "USER_CREATED": "string",
+      "DTTM_CREATED": "2020-04-27T13:36:32.379Z",
+      "USER_UPDATED": "string",
+      "DTTM_UPDATED": "2020-04-27T13:36:32.379Z"
+    }
   ]
 }

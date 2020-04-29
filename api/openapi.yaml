@@ -7,7 +7,7 @@ servers:
   - url: http://localhost:8080/
 tags:
   - name: scenarioTemplate
-    description: Scenario teаmplates
+    description: Scenario templates
   - name: DIM, NUM constraints
     description: DIM, NUM constraints endpoints
   - name: userScenario
@@ -1223,6 +1223,9 @@ components:
         DTIME_LAST_OPTIMIZATION:
           type: string
           description: datetime of last optimization start
+        SCHEDULED_FLG:
+          type: string
+          description: schedule flag
     constraints_inner:
       properties:
         ATTR_NAME:

@@ -67,6 +67,9 @@ exports.deleteScenarioTemplate = function (scenarioTemplateCd, ifMatch, ifUnmodi
  * returns scenarioTemplateCollection
  **/
 exports.getScenarioTemplates = function (filterQuery, filter, sortBy, start, limit) {
+    // console.log('req params: ', filter, sortBy);
+    console.log('start: ', start);
+    console.log('limit: ', limit);
     return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
             if (err) console.error(err);
@@ -75,7 +78,7 @@ exports.getScenarioTemplates = function (filterQuery, filter, sortBy, start, lim
                 const final = {
                     start: start ? start : 0,
                     limit: limit ? limit : 0,
-                    totalCount: Object.keys(obj)[0].length,
+                    totalCount: obj.items.length,
                     ...obj
                 }
                 resolve(final);
