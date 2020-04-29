@@ -1,14 +1,14 @@
 [
   {
     "ATTR_NAME": "CPCHANNEL_ID",
-    "ATTR_LABEL" : "Канал"
+    "ATTR_LABEL" : "Канал коммуникаци"
   },
   {
     "ATTR_NAME": "OFFER_ID",
-    "ATTR_LABEL" : "Предложение"
+    "ATTR_LABEL" : "ID предложения"
   },
   {
     "ATTR_NAME": "USECASE_ID",
-    "ATTR_LABEL" : "Юзкейс"
+    "ATTR_LABEL" : "ID юзкейса"
   }
 ]

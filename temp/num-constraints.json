@@ -1,14 +1,14 @@
 [
   {
     "ATTR_NAME" : "CONV",
-    "ATTR_LABEL" : "Конверсия"
+    "ATTR_LABEL" : "Вероятность купить продукт"
   },
   {
     "ATTR_NAME" : "COUNT",
-    "ATTR_LABEL" : "Count"
+    "ATTR_LABEL" : "Количество"
   },
   {
     "ATTR_NAME": "REVENUE",
-    "ATTR_LABEL": "Revenue"
+    "ATTR_LABEL": "Выручка от абонента, руб"
   }
 ]
