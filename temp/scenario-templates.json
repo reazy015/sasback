@@ -1,5 +1,36 @@
 {
   "items": [
-
+    {
+      "NAME": "Шаблон базового сценария",
+      "PATH": "base_sct_code.sas",
+      "TARGET_ATTR_LABEL": "Выручка(с учетом стоимости канала)",
+      "SCT_CONSTRAINT_DIM_PARAMS": [
+        {
+          "ATTR_NAME": "CPCHANNEL_ID",
+          "ATTR_LABEL": "Канал коммуникации",
+          "DIM_TABLE_NAME": "name"
+        }
+      ],
+      "SCT_CONSTRAINT_NUM_PARAMS": [
+        {
+          "ATTR_NAME": "CONV",
+          "ATTR_LABEL": "Вероятность купить продукт"
+        },
+        {
+          "ATTR_NAME": "REVENUE",
+          "ATTR_LABEL": "Выручка от абонента, руб"
+        },
+        {
+          "ATTR_NAME": "COUNT",
+          "ATTR_LABEL": "Количество"
+        }
+      ],
+      "DTTM_CREATED": "2020-03-20T13:00:00.274Z",
+      "SCENARIO_TEMPLATE_CD": "SCT001",
+      "USER_CREATED": "casbatch",
+      "TEXT_COMMENT": "dim updated dim updateddim updateddim updateddim updateddim dim updated dim updateddim updateddim updateddim updateddim dim updated dim updateddim updateddim updateddim updateddim",
+      "DTTM_UPDATED": "2020-03-21T13:00:00.274Z",
+      "USER_UPDATED": "casbatch"
+    }
   ]
 }
