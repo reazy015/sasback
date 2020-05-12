@@ -10,11 +10,12 @@ const getUniqueIds = require('../utils/idGen.js');
  * costrefId String id of channel cost ref
  * returns costRefRecord
  **/
-exports.createCostrefRecord = function (body) {
+exports.createCostrefRecord = function (body,userScenarioCd) {
     return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
             if (err) console.error(err);
             body.CHANNEL_ID = getUniqueIds(1, obj, 'CHANNEL_ID', 'CCR')[0];
+            body.SCENARIO_CD = userScenarioCd;
             obj.push(body);
             jsonfile.writeFile(appRoot + file, obj, function (err) {
                 if (err) console.error(err);
@@ -50,16 +51,16 @@ exports.deleteCostrefRecord = function (costrefId) {
  *
  * returns costRefRecord
  **/
-exports.getCostrefRecords = function () {
+exports.getCostrefRecords = function (userScenarioCd) {
     return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
             if (err) console.error(err);
-            if (Object.keys(obj).length > 0) {
-                resolve(obj);
+            const result = obj.filter(item => item.SCENARIO_CD === userScenarioCd);
+            if (result.length > 0) {
+                resolve(result);
             } else {
                 resolve([]);
             }
         });
     });
 }
-

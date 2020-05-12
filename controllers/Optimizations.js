@@ -14,8 +14,8 @@ module.exports.getOptimizationsList = function getOptimizationsList (req, res, n
 };
 
 
-module.exports.publishOptimization = function publishOptimization (req, res, next, optimizationId) {
-    Optimizations.publishOptimization(optimizationId)
+module.exports.publishOptimization = function publishOptimization (req, res, next, body) {
+    Optimizations.publishOptimization(body)
         .then(function (response) {
             utils.writeJson(res, response);
         })

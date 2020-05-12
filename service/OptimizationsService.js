@@ -35,16 +35,15 @@ exports.getOptimizationsList = function(filterQuery,filter,sortBy,start,limit) {
 };
 
 
+
 /**
  * publishes optimization
  *
- * optimizationId String optimization id
+ * body Body_1  (optional)
  * no response value expected for this operation
  **/
-exports.publishOptimization = function(optimizationId) {
+exports.publishOptimization = function(body) {
   return new Promise(function(resolve, reject) {
-    resolve({
-      message: 'Published'
-    });
+    resolve(body);
   });
 }

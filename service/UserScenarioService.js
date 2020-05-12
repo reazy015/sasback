@@ -215,3 +215,31 @@ exports.startOptimization = function(body) {
         });
     });
 };
+
+/**
+ * Posts  user scenario
+ *
+ * userScenarioCd String user scenario code
+ * returns inline_response_201
+ **/
+exports.copyUserScenario = function(body,userScenarioCd) {
+    return new Promise(function(resolve, reject) {
+        jsonfile.readFile(appRoot + file, function (err, obj) {
+            if (err) console.error(err);
+            const scenario = obj.items.find(item => item.NAME_SCN === body.NAME_SCN);
+            if (scenario) {
+                resolve('Name exists');
+            } else {
+                const scenarioTemplateCd = scenario.SCENARIO_TEMPLATE_CD;
+                body.SCENARIO_CD = getUniqueIds(1, obj.items, 'SCENARIO_CD', 'SCN')[0];
+                body.USER_UPDATED = 'Cas'; //temp
+                // console.log(body);
+                obj['items'].push(body);
+                jsonfile.writeFile(appRoot + file, obj, function (err) {
+                    if (err) console.error(err);
+                    resolve();
+                })
+            }
+        });
+    });
+}

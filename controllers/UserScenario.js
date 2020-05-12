@@ -76,3 +76,14 @@ module.exports.startOptimization = function startOptimization (req, res, next, b
       utils.writeJson(res, response);
     });
 };
+
+
+module.exports.copyUserScenario = function copyUserScenario (req, res, next, body, userScenarioCd) {
+    UserScenario.copyUserScenario(body, userScenarioCd)
+        .then(function (response) {
+            utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+            utils.writeJson(res, response);
+        });
+};
