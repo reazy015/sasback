@@ -254,7 +254,7 @@ paths:
             type: string
         - name: constraintName
           in: path
-          description: user scenario constraint name
+          description: user scenario constraint name or CBN001 id for common constraint
           required: true
           style: simple
           explode: false
@@ -377,6 +377,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/userScenarioConstraints'
       x-swagger-router-controller: DIMNUMConstraints
+  /constraints/{userScenarioCd}/status:
     patch:
       tags:
         - DIM, NUM constraints
@@ -414,7 +415,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/userScenarioConstraintsUpdate'
+              $ref: '#/components/schemas/userScenarioConstraintsUpdateStatus'
         required: true
       responses:
         "200":
@@ -449,6 +450,22 @@ paths:
                 $ref: '#/components/schemas/userScenarioConstraintsCreateResponse'
         "400":
           description: invalid body input
+      x-swagger-router-controller: DIMNUMConstraints
+    patch:
+      tags:
+        - DIM, NUM constraints
+      summary: Updates user scenario constraints item
+      operationId: patchUserScenarioConstraint
+      requestBody:
+        description: The new scenario template
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioConstraintsCreate'
+        required: true
+      responses:
+        "200":
+          description: Scenario constraint item successfully updated
       x-swagger-router-controller: DIMNUMConstraints
   /userScenario:
     get:
@@ -1212,11 +1229,16 @@ components:
       description: Schema for creating scenario constraints
       items:
         $ref: '#/components/schemas/userScenarioConstraintsCreateResponse_inner'
-    userScenarioConstraintsUpdate:
+    userScenarioConstraintsUpdateStatus:
       type: array
       description: Scenario constraints
       items:
-        $ref: '#/components/schemas/userScenarioConstraintsUpdate_inner'
+        $ref: '#/components/schemas/userScenarioConstraintsUpdateStatus_inner'
+    userScenarioConstraintsUpdateItem:
+      type: array
+      description: Scenario constraints
+      items:
+        $ref: '#/components/schemas/userScenarioConstraintsUpdateStatus_inner'
     costRefRecord:
       type: array
       description: cost ref record item
@@ -1453,7 +1475,7 @@ components:
           - ""
           - ""
         CONSTRAINT_PARAMETER: CONSTRAINT_PARAMETER
-    userScenarioConstraintsUpdate_inner:
+    userScenarioConstraintsUpdateStatus_inner:
       properties:
         SCENARIO_CONSTRAINT_CD:
           type: string

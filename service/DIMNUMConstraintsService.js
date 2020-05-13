@@ -347,3 +347,59 @@ exports.clearScenarioDimConstraint = function (userScenarioCd, constraintName) {
         }
     });
 }
+
+/**
+ * Updates user scenario constraints item
+ *
+ * body List The new scenario template
+ * no response value expected for this operation
+ **/
+exports.patchUserScenarioConstraint = function(body) {
+    console.log(body);
+    return new Promise(function(resolve, reject) {
+        jsonfile.readFile(appRoot + fileScenarioConstraint, function(err, obj) {
+            if (err) console.log(err);
+
+            obj.constraints = obj.constraints.filter(item => {
+                return item.SCENARIO_CONSTRAINT_CD !== body[0].SCENARIO_CONSTRAINT_CD;
+            });
+
+            // console.log(obj.constraints);
+
+            if (body[0].CONSTRAINT_BUNDLE_ITEMS.length) {
+                jsonfile.readFile(appRoot + fileConstraintBundleItems, function(err, objBundles) {
+                    if (err) console.log(err);
+
+                    objBundles.bundles = objBundles.bundles.filter(item => item.SCENARIO_CONSTRAINT_CD !== body[0].SCENARIO_CONSTRAINT_CD);
+
+                    body[0].CONSTRAINT_BUNDLE_ITEMS.forEach(item => {
+                        objBundles.bundles.push(item);
+                    });
+
+                    delete body.CONSTRAINT_BUNDLE_ITEMS;
+                    obj.constraints.push(body[0]);
+
+                    jsonfile.writeFile(appRoot + fileConstraintBundleItems, objBundles, function (err, resultB) {
+                        if(err) console.log(err);
+
+                        jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function(err, resultC) {
+                            if(err) console.log(err);
+
+                            resolve(body);
+                        })
+                    })
+                })
+
+            } else {
+                delete body.CONSTRAINT_BUNDLE_ITEMS;
+                obj.constraints.push(body[0]);
+
+                jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err) {
+                    if (err) console.error(err);
+
+                    resolve(body);
+                });
+            }
+        });
+    });
+}

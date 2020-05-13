@@ -93,3 +93,13 @@ module.exports.postScenarioConstraint = function postScenarioConstraint (req, re
             utils.writeJson(res, response);
         });
 };
+
+module.exports.patchUserScenarioConstraint = function patchUserScenarioConstraint (req, res, next, body) {
+    DIMNUMConstraints.patchUserScenarioConstraint(body)
+        .then(function (response) {
+            utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+            utils.writeJson(res, response);
+        });
+};
