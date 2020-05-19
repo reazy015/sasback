@@ -969,7 +969,7 @@ paths:
         "400":
           description: file not valid
       x-swagger-router-controller: ClassificationTables
-  /getUser:
+  /user:
     get:
       tags:
         - user
@@ -1510,12 +1510,12 @@ components:
         OPTIMIZATION_ID:
           type: string
           description: optimization id item
-        DATE:
+        PROCESSED_DTTM:
           type: string
           description: date of optimization
       example:
         OPTIMIZATION_ID: OPTIMIZATION_ID
-        DATE: DATE
+        PROCESSED_DTTM: PROCESSED_DTTM
     optimizationStartCollection_items:
       properties:
         OPTIMIZATION_ID:
