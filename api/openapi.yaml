@@ -973,7 +973,7 @@ paths:
     get:
       tags:
         - user
-      description: return user information
+      description: return user information, roles are - dev, admin, business, readonly, report
       operationId: getUser
       responses:
         "200":
