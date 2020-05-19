@@ -43,6 +43,7 @@ exports.getOptimizationsList = function(filterQuery,filter,sortBy,start,limit) {
  * no response value expected for this operation
  **/
 exports.publishOptimization = function(body) {
+  console.log(body);
   return new Promise(function(resolve, reject) {
     resolve(body);
   });

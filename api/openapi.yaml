@@ -1166,7 +1166,7 @@ components:
           type: string
           description: business date
         OPTIMIZATION_ID:
-          type: string
+          type: number
           description: optimization id
         TEXT_COMMENT:
           type: string
@@ -1309,7 +1309,7 @@ components:
         SCENARIO_CD: SCENARIO_CD
     body_1:
       properties:
-        ID:
+        OPTIMIZATION_ID:
           type: string
           description: id
     body_2:
@@ -1500,11 +1500,11 @@ components:
         CHANNEL_NAME: CHANNEL_NAME
     businessDates_inner:
       properties:
-        DATE:
+        BUSINESS_DT:
           type: string
           description: business date
       example:
-        DATE: DATE
+        BUSINESS_DT: BUSINESS_DT
     optimizationsIdList_inner:
       properties:
         OPTIMIZATION_ID:
@@ -1533,10 +1533,10 @@ components:
         TEXT_COMMENT:
           type: string
           description: text comment
-        USER_UPDATED:
+        USER_CREATED:
           type: string
           description: authour of optimization
-        DTIME_LAST_OPTIMIZATION:
+        PROCESSED_DTTM:
           type: string
           description: date of last optimization
         OPTIMIZATION_STATUS:

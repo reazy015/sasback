@@ -112,34 +112,34 @@ exports.getBusinessDates = function() {
     return new Promise(function(resolve, reject) {
         var examples = [
             {
-                DATE: new Date(2020, 3,21)
+                BUSINESS_DT: new Date(2020, 3,21)
             },
             {
-                DATE: new Date(2020, 3,22)
+                BUSINESS_DT: new Date(2020, 3,22)
             },
             {
-                DATE: new Date(2020, 3,23)
+                BUSINESS_DT: new Date(2020, 3,23)
             },
             {
-                DATE: new Date(2020, 3,24)
+                BUSINESS_DT: new Date(2020, 3,24)
             },
             {
-                DATE: new Date(2020, 3,25)
+                BUSINESS_DT: new Date(2020, 3,25)
             },
             {
-                DATE: new Date(2020, 4,3)
+                BUSINESS_DT: new Date(2020, 4,3)
             },
             {
-                DATE: new Date(2020, 4,4)
+                BUSINESS_DT: new Date(2020, 4,4)
             },
             {
-                DATE: new Date(2020, 4,5)
+                BUSINESS_DT: new Date(2020, 4,5)
             },
             {
-                DATE: new Date(2020, 4,6)
+                BUSINESS_DT: new Date(2020, 4,6)
             },
             {
-                DATE: new Date(2020, 3,24)
+                BUSINESS_DT: new Date(2020, 3,24)
             }
         ];
         if (examples.length > 0) {
@@ -169,7 +169,7 @@ exports.getUserScenarioOptimizationIdList = function(userScenarioId) {
                 const result = opts.map(item => {
                     return {
                         OPTIMIZATION_ID: item.OPTIMIZATION_ID,
-                        DTIME_LAST_OPTIMIZATION: item.DTIME_LAST_OPTIMIZATION
+                        PROCESSED_DTTM: item.PROCESSED_DTTM
                     }
                 });
                 resolve(result);
@@ -192,11 +192,11 @@ exports.startOptimization = function(body) {
         jsonfile.readFile(appRoot + optimizations, function (err, objOpt) {
             if (err) console.error(err);
 
-            body.OPTIMIZATION_ID = getUniqueIds(1, objOpt, 'OPTIMIZATION_ID', 'OPT')[0];
-            body.USER_UPDATED = 'Cas'; //temp
-            body.OPTIMIZATION_STATUS = 'test';
-            body.OPTIMIZATION_PUBLICATION_STATUS = 'test';
-            body.DTIME_LAST_OPTIMIZATION = new Date();
+            body.OPTIMIZATION_ID = Math.floor(Math.random() * 1000000);
+            body.USER_CREATED = 'Cas'; //temp
+            body.OPTIMIZATION_STATUS = 'В процессе запуска';
+            body.OPTIMIZATION_PUBLICATION_STATUS = 'Не опубликовано';
+            body.PROCESSED_DTTM = new Date();
 
             jsonfile.readFile(appRoot + file, function (err, obj) {
                 const scenario = obj.items.find(item => item.SCENARIO_CD === body.SCENARIO_CD);
