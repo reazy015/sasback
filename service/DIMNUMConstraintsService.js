@@ -96,13 +96,13 @@ exports.getTemplateNumConstraints = function (scenarioTemplateCd) {
  * returns userScenarioConstraints
  **/
 exports.getScenarioConstraints = function (attrlist, userScenarioCd) {
-    // console.log(attrlist);
+    // console.log(userScenarioCd);
     if (!attrlist) {
         // console.log('receiving');
         return new Promise(function (resolve, reject) {
             jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
                 const constraint = obj.constraints.filter(item => item.SCENARIO_CD === userScenarioCd);
-
+                // console.log(constraint);
                 jsonfile.readFile(appRoot + fileConstraintBundleItems, function (err, obj) {
                     if (err) console.error(err);
                     let result = constraint.map(cons => {
@@ -111,10 +111,10 @@ exports.getScenarioConstraints = function (attrlist, userScenarioCd) {
                         if (!bundles.length) {
                             return {...cons, CONSTRAINT_BUNDLE_ITEMS: []};
                         } else {
-                            console.log(false);
+                            return {...cons, CONSTRAINT_BUNDLE_ITEMS: bundles}
                         }
                     });
-
+                    console.log(result);
                     result = result.filter(item => item);
                     if (result.length > 0) {
                         resolve(result);
