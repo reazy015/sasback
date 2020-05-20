@@ -377,6 +377,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/userScenarioConstraints'
       x-swagger-router-controller: DIMNUMConstraints
+    patch:
+      tags:
+        - DIM, NUM constraints
+      summary: Updates user scenario constraints item
+      operationId: patchUserScenarioConstraint
+      parameters:
+        - name: userScenarioCd
+          in: path
+          description: user scenario code
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: The new scenario template
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userScenarioConstraintsPatch'
+        required: true
+      responses:
+        "200":
+          description: Scenario constraint item successfully updated
+      x-swagger-router-controller: DIMNUMConstraints
   /constraints/{userScenarioCd}/status:
     patch:
       tags:
@@ -450,22 +475,6 @@ paths:
                 $ref: '#/components/schemas/userScenarioConstraintsCreateResponse'
         "400":
           description: invalid body input
-      x-swagger-router-controller: DIMNUMConstraints
-    patch:
-      tags:
-        - DIM, NUM constraints
-      summary: Updates user scenario constraints item
-      operationId: patchUserScenarioConstraint
-      requestBody:
-        description: The new scenario template
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/userScenarioConstraintsCreate'
-        required: true
-      responses:
-        "200":
-          description: Scenario constraint item successfully updated
       x-swagger-router-controller: DIMNUMConstraints
   /userScenario:
     get:
@@ -973,7 +982,7 @@ paths:
     get:
       tags:
         - user
-      description: return user information, roles are - dev, admin, business, readonly, report
+      description: return user information
       operationId: getUser
       responses:
         "200":
@@ -1224,6 +1233,11 @@ components:
       description: Schema for creating scenario constraints
       items:
         $ref: '#/components/schemas/userScenarioConstraintsCreate_inner'
+    userScenarioConstraintsPatch:
+      type: array
+      description: Schema for creating scenario constraints
+      items:
+        $ref: '#/components/schemas/userScenarioConstraintsPatch_inner'
     userScenarioConstraintsCreateResponse:
       type: array
       description: Schema for creating scenario constraints
@@ -1423,6 +1437,25 @@ components:
         SCENARIO_CD:
           type: string
           description: user scenario code
+        CONSTRAINT_PARAMETER:
+          type: string
+          description: user scenario constraint parameter
+        BOUND_TYPE:
+          type: string
+          description: user scneario consrtaint bound type
+        VALUE:
+          type: string
+          description: user scneario constraint value
+        CORRECT_COEF:
+          type: string
+          description: user scenario constraint correction coef
+        CONSTRAINT_BUNDLE_ITEMS:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/userScenarioConstraintBundle'
+    userScenarioConstraintsPatch_inner:
+      properties:
         CONSTRAINT_PARAMETER:
           type: string
           description: user scenario constraint parameter

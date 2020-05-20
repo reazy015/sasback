@@ -114,7 +114,7 @@ exports.getScenarioConstraints = function (attrlist, userScenarioCd) {
                             return {...cons, CONSTRAINT_BUNDLE_ITEMS: bundles}
                         }
                     });
-                    console.log(result);
+                    // console.log(result);
                     result = result.filter(item => item);
                     if (result.length > 0) {
                         resolve(result);
@@ -354,15 +354,24 @@ exports.clearScenarioDimConstraint = function (userScenarioCd, constraintName) {
  * body List The new scenario template
  * no response value expected for this operation
  **/
-exports.patchUserScenarioConstraint = function(body) {
-    console.log(body);
+exports.patchUserScenarioConstraint = function(body, userScenarioCd) {
+    console.log(body, userScenarioCd);
+
     return new Promise(function(resolve, reject) {
         jsonfile.readFile(appRoot + fileScenarioConstraint, function(err, obj) {
             if (err) console.log(err);
 
+            ///// to be improved
+            const scenarioCdHACK = obj.constraints.find(item => {
+                return item.SCENARIO_CONSTRAINT_CD === body[0].SCENARIO_CONSTRAINT_CD;
+            });
+            body[0].SCENARIO_CD = scenarioCdHACK.SCENARIO_CD;
+            ///// to be improved
+            
             obj.constraints = obj.constraints.filter(item => {
                 return item.SCENARIO_CONSTRAINT_CD !== body[0].SCENARIO_CONSTRAINT_CD;
             });
+
 
             // console.log(obj.constraints);
 

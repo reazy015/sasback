@@ -74,8 +74,8 @@ module.exports.getTemplateNumConstraints = function getTemplateNumConstraints (r
         });
 };
 
-module.exports.patchUserScenarioBundles = function patchUserScenarioBundles (req, res, next, body, userScenarioCd, ifMatch, ifUnmodifiedSince) {
-    DIMNUMConstraints.patchUserScenarioBundles(body, userScenarioCd, ifMatch, ifUnmodifiedSince)
+module.exports.patchUserScenarioConstraint = function patchUserScenarioConstraint (req, res, next, body, userScenarioCd) {
+    DIMNUMConstraints.patchUserScenarioConstraint(body, userScenarioCd)
         .then(function (response) {
             utils.writeJson(res, response);
         })

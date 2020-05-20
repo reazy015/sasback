@@ -46,5 +46,113 @@
     "OPTIMIZATION_PUBLICATION_STATUS": "Не опубликовано",
     "PROCESSED_DTTM": "2020-05-19T07:22:49.750Z",
     "SCENARIO_TEMPLATE_NAME": "qwerty"
+  },
+  {
+    "NAME_SCN": "teddy",
+    "SCENARIO_CD": "SCN098",
+    "BUSINESS_DTIME": "2020-04-21T21:00:00.000Z",
+    "OPTIMIZATION_ID": 572688,
+    "TEXT_COMMENT": "",
+    "USER_CREATED": "Cas",
+    "OPTIMIZATION_STATUS": "В процессе запуска",
+    "OPTIMIZATION_PUBLICATION_STATUS": "Не опубликовано",
+    "PROCESSED_DTTM": "2020-05-19T07:22:49.750Z",
+    "SCENARIO_TEMPLATE_NAME": "qwerty"
+  },
+  {
+    "NAME_SCN": "teddy",
+    "SCENARIO_CD": "SCN098",
+    "BUSINESS_DTIME": "2020-04-21T21:00:00.000Z",
+    "OPTIMIZATION_ID": 572689,
+    "TEXT_COMMENT": "",
+    "USER_CREATED": "Cas",
+    "OPTIMIZATION_STATUS": "В процессе запуска",
+    "OPTIMIZATION_PUBLICATION_STATUS": "Не опубликовано",
+    "PROCESSED_DTTM": "2020-05-19T07:22:49.750Z",
+    "SCENARIO_TEMPLATE_NAME": "qwerty"
+  },
+  {
+    "NAME_SCN": "teddy",
+    "SCENARIO_CD": "SCN098",
+    "BUSINESS_DTIME": "2020-04-21T21:00:00.000Z",
+    "OPTIMIZATION_ID": 572690,
+    "TEXT_COMMENT": "",
+    "USER_CREATED": "Cas",
+    "OPTIMIZATION_STATUS": "В процессе запуска",
+    "OPTIMIZATION_PUBLICATION_STATUS": "Не опубликовано",
+    "PROCESSED_DTTM": "2020-05-19T07:22:49.750Z",
+    "SCENARIO_TEMPLATE_NAME": "qwerty"
+  },
+  {
+    "NAME_SCN": "teddy",
+    "SCENARIO_CD": "SCN098",
+    "BUSINESS_DTIME": "2020-04-21T21:00:00.000Z",
+    "OPTIMIZATION_ID": 572691,
+    "TEXT_COMMENT": "",
+    "USER_CREATED": "Cas",
+    "OPTIMIZATION_STATUS": "В процессе запуска",
+    "OPTIMIZATION_PUBLICATION_STATUS": "Не опубликовано",
+    "PROCESSED_DTTM": "2020-05-19T07:22:49.750Z",
+    "SCENARIO_TEMPLATE_NAME": "qwerty"
+  },
+  {
+    "NAME_SCN": "teddy",
+    "SCENARIO_CD": "SCN098",
+    "BUSINESS_DTIME": "2020-04-21T21:00:00.000Z",
+    "OPTIMIZATION_ID": 572692,
+    "TEXT_COMMENT": "",
+    "USER_CREATED": "Cas",
+    "OPTIMIZATION_STATUS": "В процессе запуска",
+    "OPTIMIZATION_PUBLICATION_STATUS": "Не опубликовано",
+    "PROCESSED_DTTM": "2020-05-19T07:22:49.750Z",
+    "SCENARIO_TEMPLATE_NAME": "qwerty"
+  },
+  {
+    "NAME_SCN": "teddy",
+    "SCENARIO_CD": "SCN098",
+    "BUSINESS_DTIME": "2020-04-21T21:00:00.000Z",
+    "OPTIMIZATION_ID": 572693,
+    "TEXT_COMMENT": "",
+    "USER_CREATED": "Cas",
+    "OPTIMIZATION_STATUS": "В процессе запуска",
+    "OPTIMIZATION_PUBLICATION_STATUS": "Не опубликовано",
+    "PROCESSED_DTTM": "2020-05-19T07:22:49.750Z",
+    "SCENARIO_TEMPLATE_NAME": "qwerty"
+  },
+  {
+    "NAME_SCN": "teddy",
+    "SCENARIO_CD": "SCN098",
+    "BUSINESS_DTIME": "2020-04-21T21:00:00.000Z",
+    "OPTIMIZATION_ID": 572694,
+    "TEXT_COMMENT": "",
+    "USER_CREATED": "Cas",
+    "OPTIMIZATION_STATUS": "В процессе запуска",
+    "OPTIMIZATION_PUBLICATION_STATUS": "Не опубликовано",
+    "PROCESSED_DTTM": "2020-05-19T07:22:49.750Z",
+    "SCENARIO_TEMPLATE_NAME": "qwerty"
+  },
+  {
+    "NAME_SCN": "teddy",
+    "SCENARIO_CD": "SCN098",
+    "BUSINESS_DTIME": "2020-04-21T21:00:00.000Z",
+    "OPTIMIZATION_ID": 572695,
+    "TEXT_COMMENT": "",
+    "USER_CREATED": "Cas",
+    "OPTIMIZATION_STATUS": "В процессе запуска",
+    "OPTIMIZATION_PUBLICATION_STATUS": "Не опубликовано",
+    "PROCESSED_DTTM": "2020-05-19T07:22:49.750Z",
+    "SCENARIO_TEMPLATE_NAME": "qwerty"
+  },
+  {
+    "NAME_SCN": "teddy",
+    "SCENARIO_CD": "SCN098",
+    "BUSINESS_DTIME": "2020-04-21T21:00:00.000Z",
+    "OPTIMIZATION_ID": 572697,
+    "TEXT_COMMENT": "",
+    "USER_CREATED": "Cas",
+    "OPTIMIZATION_STATUS": "В процессе запуска",
+    "OPTIMIZATION_PUBLICATION_STATUS": "Не опубликовано",
+    "PROCESSED_DTTM": "2020-05-19T07:22:49.750Z",
+    "SCENARIO_TEMPLATE_NAME": "qwerty"
   }
 ]
