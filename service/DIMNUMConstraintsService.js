@@ -101,7 +101,7 @@ exports.getScenarioConstraints = function (attrlist, userScenarioCd) {
         // console.log('receiving');
         return new Promise(function (resolve, reject) {
             jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
-                const constraint = obj.constraints.filter(item => item.SCENARIO_CD === userScenarioCd);
+                const constraint = obj.constraints.filter(item => item.SCENARIO_CD === userScenarioCd && item.CONSTRAINT_BUNDLE_CD === 'CBN001');
                 // console.log(constraint);
                 jsonfile.readFile(appRoot + fileConstraintBundleItems, function (err, obj) {
                     if (err) console.error(err);
