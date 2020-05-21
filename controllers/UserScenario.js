@@ -91,3 +91,13 @@ module.exports.copyUserScenario = function copyUserScenario (req, res, next, bod
             utils.writeJson(res, response);
         });
 };
+
+module.exports.putScenarioOnSchedule = function putScenarioOnSchedule (req, res, next, userScenarioCd) {
+    UserScenario.putScenarioOnSchedule(userScenarioCd)
+        .then(function (response) {
+            utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+            utils.writeJson(res, response);
+        });
+};

@@ -244,3 +244,23 @@ exports.copyUserScenario = function(body,userScenarioCd) {
         });
     });
 }
+
+/**
+ * post user scenario on schedule
+ *
+ * userScenarioCd String user scenario code
+ * no response value expected for this operation
+ **/
+exports.putScenarioOnSchedule = function(userScenarioCd) {
+    return new Promise(function (resolve, reject) {
+        jsonfile.readFile(appRoot + file, function (err, obj) {
+            const indexOfItem = obj['items'].findIndex(item => item['SCENARIO_CD'] === userScenarioCd);
+            obj.items.forEach(item => item.SCHEDULED_FLG = false);
+            obj['items'][indexOfItem].SCHEDULED_FLG = true;
+            jsonfile.writeFile(appRoot + file, obj, function (err) {
+                if (err) console.error(err);
+                resolve();
+            });
+        });
+    });
+}
