@@ -223,6 +223,7 @@ exports.startOptimization = function(body) {
  * returns inline_response_201
  **/
 exports.copyUserScenario = function(body,userScenarioCd) {
+    console.log(userScenarioCd);
     return new Promise(function(resolve, reject) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
             if (err) console.error(err);
@@ -230,7 +231,7 @@ exports.copyUserScenario = function(body,userScenarioCd) {
             if (scenario) {
                 resolve('Name exists');
             } else {
-                const scenarioTemplateCd = scenario.SCENARIO_TEMPLATE_CD;
+
                 body.SCENARIO_CD = getUniqueIds(1, obj.items, 'SCENARIO_CD', 'SCN')[0];
                 body.USER_UPDATED = 'Cas'; //temp
                 // console.log(body);

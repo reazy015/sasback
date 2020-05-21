@@ -81,7 +81,11 @@ module.exports.startOptimization = function startOptimization (req, res, next, b
 module.exports.copyUserScenario = function copyUserScenario (req, res, next, body, userScenarioCd) {
     UserScenario.copyUserScenario(body, userScenarioCd)
         .then(function (response) {
-            utils.writeJson(res, response);
+            if (response === 'Name exists') {
+                utils.writeJson(res, response, 409);
+            } else {
+                utils.writeJson(res, response);
+            }
         })
         .catch(function (response) {
             utils.writeJson(res, response);

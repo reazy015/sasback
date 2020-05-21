@@ -169,7 +169,7 @@ exports.getScenarioConstraints = function (attrlist, userScenarioCd) {
  **/
 exports.postScenarioConstraint = function (body) {
     let bundles = [];
-    console.log(body);
+
     if (!body[0].CONSTRAINT_BUNDLE_ITEMS.length) {
         return new Promise(function (resolve, reject) {
             jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
@@ -367,7 +367,7 @@ exports.patchUserScenarioConstraint = function(body, userScenarioCd) {
             });
             body[0].SCENARIO_CD = scenarioCdHACK.SCENARIO_CD;
             ///// to be improved
-            
+
             obj.constraints = obj.constraints.filter(item => {
                 return item.SCENARIO_CONSTRAINT_CD !== body[0].SCENARIO_CONSTRAINT_CD;
             });
@@ -412,3 +412,173 @@ exports.patchUserScenarioConstraint = function(body, userScenarioCd) {
         });
     });
 }
+
+
+/**
+ * Put scenario constraints from user scenario constraints grid
+ *
+ * body List New user scenario constraint
+ * userScenarioCd String user scenario code
+ * returns userScenarioConstraintsCreateResponse
+ **/
+exports.putScenarioConstraint = function(body,userScenarioCd) {
+    if (!body[0].CONSTRAINT_BUNDLE_ITEMS.length) {
+        return new Promise(function (resolve, reject) {
+            jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
+
+                const idList = getUniqueIds(body.length, obj.constraints, 'SCENARIO_CONSTRAINT_CD', 'SCC');
+                idList.forEach((item, index) => {
+                    body[index]['SCENARIO_CONSTRAINT_CD'] = item;
+                    body[index]['SCENARIO_CD'] = userScenarioCd;
+                    body[index]['CONSTRAINT_BUNDLE_CD'] = 'CBN001';
+                });
+                const response = [...body];
+                body.forEach(item => {
+                    delete item.CONSTRAINT_BUNDLE_ITEMS;
+                    obj.constraints.push(item);
+                });
+
+                jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err) {
+                    if (err) console.error(err);
+
+                    resolve(response);
+                });
+            });
+        });
+    } else {
+        return new Promise(function (resolve, reject) {
+            jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
+                // console.log('Constraints', obj);
+
+                const idList = getUniqueIds(body.length, obj, 'SCENARIO_CONSTRAINT_CD', 'SCC');
+                idList.forEach((item, index) => {
+                    body[index]['SCENARIO_CONSTRAINT_CD'] = item;
+                    body[index]['CONSTRAINT_BUNDLE_ITEMS'].forEach(bundle => bundle['SCENARIO_CONSTRAINT_CD'] = item);
+                });
+
+                const bundles = body.map(item => {
+                    return item.CONSTRAINT_BUNDLE_ITEMS;
+                });
+                // bundles = [].concat(bundles);
+
+                body.forEach(item => {
+                    delete item.CONSTRAINT_BUNDLE_ITEMS;
+                    item['SCENARIO_CD'] = userScenarioCd;
+                    obj.constraints.push(item);
+                });
+
+                jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err) {
+                    if (err) console.error(err);
+
+                    jsonfile.readFile(appRoot + fileConstraintBundleItems, function (err, obj) {
+                        obj.bundles = obj.bundles.concat(...bundles);
+
+                        jsonfile.writeFile(appRoot + fileConstraintBundleItems, obj, function (err) {
+                            if (err) console.error(err);
+
+                            resolve(idList);
+                        });
+                    });
+                });
+            });
+        });
+    }
+}
+
+
+/**
+ * Put scenario dim constraint
+ *
+ * userScenarioCd String user scenario code
+ * attrName String user scenario constraint name or CBN001 id for common constraint
+ * no response value expected for this operation
+ **/
+exports.putScenarioDimConstraint = function(body,userScenarioCd,attrName) {
+    console.log(body, userScenarioCd, attrName);
+    return new Promise(function(resolve, reject) {
+        jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
+            if (err) console.log(err);
+            const constraintCdList = [];
+            const currentScenarioConstraints = obj.constraints.filter(item => item.SCENARIO_CD === userScenarioCd);
+            const scenarioConstraintCds = currentScenarioConstraints.map(item => item.SCENARIO_CONSTRAINT_CD);
+
+            jsonfile.readFile(appRoot + fileConstraintBundleItems, function (err, bundle) {
+                if (err) console.log(err);
+
+                for (let i = 0; i < scenarioConstraintCds.length; i++) {
+                    const foundItem = bundle.bundles.filter(bundleItem => bundleItem.SCENARIO_CONSTRAINT_CD !== scenarioConstraintCds[i] && bundleItem.ATTR_NAME !== attrName);
+                    if (foundItem) {
+                        constraintCdList.push(scenarioConstraintCds[i]);
+                    }
+                }
+
+                constraintCdList.forEach(item => {
+                    bundle.bundles = bundle.bundles.filter(bundleItem => bundleItem.SCENARIO_CONSTRAINT_CD !== item);
+                    obj.constraint = obj.constraints.filter(constraintItem => constraintItem.SCENARIO_CONSTRAINT_CD !== item);
+                });
+
+
+                const idList = getUniqueIds(body.length, obj, 'SCENARIO_CONSTRAINT_CD', 'SCC');
+                idList.forEach((item, index) => {
+                    body[index]['SCENARIO_CONSTRAINT_CD'] = item;
+                    body[index]['CONSTRAINT_BUNDLE_ITEMS'].forEach(bundle => bundle['SCENARIO_CONSTRAINT_CD'] = item);
+                });
+
+                const bundles = body.map(item => {
+                    return item.CONSTRAINT_BUNDLE_ITEMS;
+                });
+                // bundles = [].concat(bundles);
+
+                body.forEach(item => {
+                    delete item.CONSTRAINT_BUNDLE_ITEMS;
+                    item['SCENARIO_CD'] = userScenarioCd;
+                    obj.constraints.push(item);
+                });
+
+                bundle.bundles = bundle.bundles.concat(...bundles);
+
+                jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function(err, obj) {
+                    if (err) console.log(err);
+
+                    jsonfile.writeFile(appRoot + fileConstraintBundleItems, bundle, function(err, obj) {
+                        if (err) console.log(err);
+
+                        resolve();
+                    })
+                })
+            })
+        })
+    });
+}
+
+
+/**
+ * Put scenario general dim constraint
+ *
+ * userScenarioCd String user scenario code
+ * no response value expected for this operation
+ **/
+exports.putScenarioDimConstraintGeneral = function(body,userScenarioCd) {
+    // console.log(body, userScenarioCd);
+    return new Promise(function (resolve, reject) {
+        jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
+            if (err) console.log(err);
+            obj.constraints = obj.constraints.filter(item => item.SCENARIO_CD === userScenarioCd && item.CONSTRAINT_BUNDLE_CD === 'CBN001');
+
+            const idList = getUniqueIds(body.length, obj, 'SCENARIO_CONSTRAINT_CD', 'SCC');
+
+            idList.forEach((item, index) => {
+                body[index]['SCENARIO_CONSTRAINT_CD'] = item;
+                body[index]['SCENARIO_CD'] = userScenarioCd;
+            });
+
+            body.forEach(item => obj.constraints.push(item));
+
+            jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err) {
+                if (err) console.error(err);
+
+                resolve(idList);
+            });
+        })
+    });
+};

@@ -13,8 +13,8 @@ module.exports.createCostrefRecord = function createCostrefRecord (req, res, nex
         });
 };
 
-module.exports.deleteCostrefRecord = function deleteCostrefRecord (req, res, next, costrefId) {
-    Costref.deleteCostrefRecord(costrefId)
+module.exports.deleteCostrefRecord = function deleteCostrefRecord (req, res, next, channelName, userScenarioCd) {
+    Costref.deleteCostrefRecord(channelName, userScenarioCd)
         .then(function (response) {
             utils.writeJson(res, response);
         })

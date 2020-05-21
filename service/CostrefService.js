@@ -32,10 +32,10 @@ exports.createCostrefRecord = function (body,userScenarioCd) {
  * costrefId String id of channel cost ref
  * returns costRefRecord
  **/
-exports.deleteCostrefRecord = function (costrefId) {
+exports.deleteCostrefRecord = function (channelName,userScenarioCd) {
     return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
-            const indexOfItem = obj.findIndex(item => item['CHANNEL_ID'] === costrefId);
+            const indexOfItem = obj.findIndex(item => item['CHANNEL_NAME'] === channelName && item['SCENARIO_CD'] === userScenarioCd);
             const deletedItem = obj.splice(indexOfItem, 1);
             jsonfile.writeFile(appRoot + file, obj, function (err) {
                 if (err) console.error(err);

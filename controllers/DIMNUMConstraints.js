@@ -3,18 +3,7 @@
 var utils = require('../utils/writer.js');
 var DIMNUMConstraints = require('../service/DIMNUMConstraintsService');
 
-module.exports.clearScenarioDimConstraint = function clearScenarioDimConstraint (req, res, next, userScenarioCd, constraintName) {
-    DIMNUMConstraints.clearScenarioDimConstraint(userScenarioCd, constraintName)
-        .then(function (response) {
-            utils.writeJson(res, response);
-        })
-        .catch(function (response) {
-            utils.writeJson(res, response);
-        });
-};
-
 module.exports.deleteScenarioConstraintBundle = function deleteScenarioConstraintBundle (req, res, next, userScenarioCd, scenarioConstraintCd, ifMatch, ifUnmodifiedSince) {
-    console.log(true);
     DIMNUMConstraints.deleteScenarioConstraintBundle(userScenarioCd, scenarioConstraintCd, ifMatch, ifUnmodifiedSince)
         .then(function (response) {
             utils.writeJson(res, response);
@@ -74,6 +63,16 @@ module.exports.getTemplateNumConstraints = function getTemplateNumConstraints (r
         });
 };
 
+module.exports.patchUserScenarioBundles = function patchUserScenarioBundles (req, res, next, body, userScenarioCd, ifMatch, ifUnmodifiedSince) {
+    DIMNUMConstraints.patchUserScenarioBundles(body, userScenarioCd, ifMatch, ifUnmodifiedSince)
+        .then(function (response) {
+            utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+            utils.writeJson(res, response);
+        });
+};
+
 module.exports.patchUserScenarioConstraint = function patchUserScenarioConstraint (req, res, next, body, userScenarioCd) {
     DIMNUMConstraints.patchUserScenarioConstraint(body, userScenarioCd)
         .then(function (response) {
@@ -84,8 +83,8 @@ module.exports.patchUserScenarioConstraint = function patchUserScenarioConstrain
         });
 };
 
-module.exports.postScenarioConstraint = function postScenarioConstraint (req, res, next, body) {
-    DIMNUMConstraints.postScenarioConstraint(body)
+module.exports.putScenarioConstraint = function putScenarioConstraint (req, res, next, body, userScenarioCd) {
+    DIMNUMConstraints.putScenarioConstraint(body, userScenarioCd)
         .then(function (response) {
             utils.writeJson(res, response);
         })
@@ -94,8 +93,18 @@ module.exports.postScenarioConstraint = function postScenarioConstraint (req, re
         });
 };
 
-module.exports.patchUserScenarioConstraint = function patchUserScenarioConstraint (req, res, next, body) {
-    DIMNUMConstraints.patchUserScenarioConstraint(body)
+module.exports.putScenarioDimConstraint = function putScenarioDimConstraint (req, res, next, body, userScenarioCd, attrName) {
+    DIMNUMConstraints.putScenarioDimConstraint(body, userScenarioCd, attrName)
+        .then(function (response) {
+            utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+            utils.writeJson(res, response);
+        });
+};
+
+module.exports.putScenarioDimConstraintGeneral = function putScenarioDimConstraintGeneral (req, res, next, body, userScenarioCd) {
+    DIMNUMConstraints.putScenarioDimConstraintGeneral(body, userScenarioCd)
         .then(function (response) {
             utils.writeJson(res, response);
         })
