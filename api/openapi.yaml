@@ -473,50 +473,6 @@ paths:
         "200":
           description: Scenario constraint item successfully updated
       x-swagger-router-controller: DIMNUMConstraints
-  /constraints/{userScenarioCd}/status:
-    patch:
-      tags:
-        - DIM, NUM constraints
-      summary: Updates user scenario constraints bundles ACTIVE_FLG status
-      operationId: patchUserScenarioBundles
-      parameters:
-        - name: userScenarioCd
-          in: path
-          description: user scenario code
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: If-Match
-          in: header
-          description: The entity tag obtained from the most recent ETag response header.
-            It must match the current entity tag.
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: If-Unmodified-Since
-          in: header
-          description: The value of the lastModified date of the object. If the object
-            has been updated since this time, the update fails.
-          required: false
-          style: simple
-          explode: false
-          schema:
-            type: string
-      requestBody:
-        description: The new scenario template
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/userScenarioConstraintsUpdateStatus'
-        required: true
-      responses:
-        "200":
-          description: Bundles successfully updated
-      x-swagger-router-controller: DIMNUMConstraints
   /userScenario:
     get:
       tags:
@@ -1450,6 +1406,9 @@ components:
         CONSTRAINT_BUNDLE_CD: CONSTRAINT_BUNDLE_CD
     userScenarioConstraints_inner:
       properties:
+        ACTIVE_FLG:
+          type: string
+          description: active flag
         CONSTRAINT_PARAMETER:
           type: string
           description: user scenario constraint bundle parameter
@@ -1469,6 +1428,7 @@ components:
       example:
         CORRECT_COEF: CORRECT_COEF
         BOUND_TYPE: BOUND_TYPE
+        ACTIVE_FLG: ACTIVE_FLG
         VALUE: VALUE
         CONSTRAINT_BUNDLE_ITEMS:
           - CVALUE: CVALUE
@@ -1504,6 +1464,9 @@ components:
               - $ref: '#/components/schemas/userScenarioConstraintBundle'
     userScenarioConstraintsPatch_inner:
       properties:
+        ACTIVE_FLG:
+          type: string
+          description: active flag
         CONSTRAINT_PARAMETER:
           type: string
           description: user scenario constraint parameter
@@ -1562,7 +1525,7 @@ components:
           type: string
           description: Single attr name
         ACTIVE_FLG:
-          type: boolean
+          type: string
           description: Constraint flag status
     costRefRecord_inner:
       properties:

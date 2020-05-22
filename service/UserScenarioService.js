@@ -255,8 +255,8 @@ exports.putScenarioOnSchedule = function(userScenarioCd) {
     return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + file, function (err, obj) {
             const indexOfItem = obj['items'].findIndex(item => item['SCENARIO_CD'] === userScenarioCd);
-            obj.items.forEach(item => item.SCHEDULED_FLG = false);
-            obj['items'][indexOfItem].SCHEDULED_FLG = true;
+            obj.items.forEach(item => item.SCHEDULED_FLG = 'N');
+            obj['items'][indexOfItem].SCHEDULED_FLG = 'Y';
             jsonfile.writeFile(appRoot + file, obj, function (err) {
                 if (err) console.error(err);
                 resolve();
