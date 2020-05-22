@@ -563,13 +563,14 @@ exports.putScenarioDimConstraintGeneral = function(body,userScenarioCd) {
     return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
             if (err) console.log(err);
-            obj.constraints = obj.constraints.filter(item => item.SCENARIO_CD === userScenarioCd && item.CONSTRAINT_BUNDLE_CD === 'CBN001');
+            obj.constraints = obj.constraints.filter(item => item.SCENARIO_CD !== userScenarioCd && item.CONSTRAINT_BUNDLE_CD === 'CBN001');
 
             const idList = getUniqueIds(body.length, obj, 'SCENARIO_CONSTRAINT_CD', 'SCC');
 
             idList.forEach((item, index) => {
                 body[index]['SCENARIO_CONSTRAINT_CD'] = item;
                 body[index]['SCENARIO_CD'] = userScenarioCd;
+                body[index]['CONSTRAINT_BUNDLE_CD'] = 'CBN001';
             });
 
             body.forEach(item => obj.constraints.push(item));
