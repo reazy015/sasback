@@ -7,7 +7,8 @@ const fileDim = '/temp/dim-constraints.json';
 const fileScenarioTemplate = '/temp/scenario-templates.json';
 const fileScenarioConstraint = '/temp/scenario-constraint.json';
 const fileConstraintBundleItems = '/temp/constraint-bundle-items.json';
-
+const fileCommonConstraints = '/temp/common-constraints.json';
+const fileAttrnamesMocks = '/temp/attrname-mock.json';
 /**
  * Returns list of DIM constraints
  *
@@ -100,65 +101,43 @@ exports.getScenarioConstraints = function (attrlist, userScenarioCd) {
     if (!attrlist) {
         // console.log('receiving');
         return new Promise(function (resolve, reject) {
-            jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
-                const constraint = obj.constraints.filter(item => item.SCENARIO_CD === userScenarioCd && item.CONSTRAINT_BUNDLE_CD === 'CBN001');
-                // console.log(constraint);
-                jsonfile.readFile(appRoot + fileConstraintBundleItems, function (err, obj) {
-                    if (err) console.error(err);
-                    let result = constraint.map(cons => {
-                        const bundles = obj.bundles.filter(bundle => bundle.SCENARIO_CONSTRAINT_CD === cons.SCENARIO_CONSTRAINT_CD);
+            jsonfile.readFile(appRoot + fileCommonConstraints, function (err, obj) {
+                if (err) reject(err);
 
-                        if (!bundles.length) {
-                            return {...cons, CONSTRAINT_BUNDLE_ITEMS: []};
-                        } else {
-                            return {...cons, CONSTRAINT_BUNDLE_ITEMS: bundles}
-                        }
-                    });
-                    // console.log(result);
-                    result = result.filter(item => item);
-                    if (result.length > 0) {
-                        resolve(result);
-                    } else {
-                        resolve([]);
-                    }
-                });
+                const result = obj.filter(objItem => objItem.SCENARIO_CD === userScenarioCd
+                    && objItem.CONSTRAINT_BUNDLE_CD === 'CBN001');
 
-
-            });
+                if (result.length) {
+                    resolve(result);
+                } else {
+                    resolve([]);
+                }
+            })
         });
     } else {
         return new Promise(function (resolve, reject) {
-            jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
-                const attrNamesList = attrlist.split(',');
-                const constraint = obj.constraints.filter(item => item.SCENARIO_CD === userScenarioCd);
+            jsonfile.readFile(appRoot + fileCommonConstraints, function (err, obj) {
+                if (err) reject(err);
 
-                jsonfile.readFile(appRoot + fileConstraintBundleItems, function (err, obj) {
-                    if (err) console.error(err);
-                    let result = constraint.map(cons => {
-                        let bundles = obj.bundles.filter(bundle => bundle.SCENARIO_CONSTRAINT_CD === cons.SCENARIO_CONSTRAINT_CD);
-                        const bundlesAttrsNames = bundles.map(bundle => bundle.ATTR_NAME);
-                        bundles = bundles.map(item => {
-                            delete item.SCENARIO_CONSTRAINT_CD;
-                            return item;
-                        })
-                        if (bundlesAttrsNames.sort().toString() === attrNamesList.sort().toString()) {
-                            return {...cons, CONSTRAINT_BUNDLE_ITEMS: [...bundles]}
-                        } else {
-                            console.log(false);
-                        }
-                    });
+                attrlist = attrlist.split(',').sort().join('');
 
-                    result = result.filter(item => item);
-                    if (result.length > 0) {
-                        resolve(result);
-                    } else {
-                        resolve([]);
+                const result = obj.filter(objItem => {
+                    if (objItem.CONSTRAINT_BUNDLE_ITEMS) {
+                        let objAttrList = objItem.CONSTRAINT_BUNDLE_ITEMS.map(constraintName => constraintName.ATTR_NAME);
+                        objAttrList = objAttrList.sort().join('');
+                        return objAttrList === attrlist;
                     }
                 });
-            });
+
+                if (result.length) {
+                    resolve(result);
+                } else {
+                    resolve([]);
+                }
+            })
         });
     }
-}
+};
 
 
 /**
@@ -439,69 +418,90 @@ exports.patchUserScenarioConstraint = function(body, userScenarioCd) {
  * userScenarioCd String user scenario code
  * returns userScenarioConstraintsCreateResponse
  **/
-exports.putScenarioConstraint = function(body,userScenarioCd) {
-    if (!body[0].CONSTRAINT_BUNDLE_ITEMS.length) {
-        return new Promise(function (resolve, reject) {
-            jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
+exports.putScenarioConstraint = function(body, userScenarioCd) {
+    return new Promise(function (resolve, reject) {
+        if (body.length && userScenarioCd) {
+            jsonfile.readFile(appRoot + fileCommonConstraints, function(err, obj) {
+                if (err) reject(err);
+                const generalBundleFlag = !!body[0].CONSTRAINT_BUNDLE_ITEMS;
 
-                const idList = getUniqueIds(body.length, obj.constraints, 'SCENARIO_CONSTRAINT_CD', 'SCC');
-                idList.forEach((item, index) => {
-                    body[index]['SCENARIO_CONSTRAINT_CD'] = item;
-                    body[index]['SCENARIO_CD'] = userScenarioCd;
-                    body[index]['CONSTRAINT_BUNDLE_CD'] = 'CBN001';
-                });
-                const response = [...body];
-                body.forEach(item => {
-                    delete item.CONSTRAINT_BUNDLE_ITEMS;
-                    obj.constraints.push(item);
-                });
-
-                jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err) {
-                    if (err) console.error(err);
-
-                    resolve(response);
-                });
-            });
-        });
-    } else {
-        return new Promise(function (resolve, reject) {
-            jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
-                // console.log('Constraints', obj);
-
-                const idList = getUniqueIds(body.length, obj, 'SCENARIO_CONSTRAINT_CD', 'SCC');
-                idList.forEach((item, index) => {
-                    body[index]['SCENARIO_CONSTRAINT_CD'] = item;
-                    body[index]['CONSTRAINT_BUNDLE_ITEMS'].forEach(bundle => bundle['SCENARIO_CONSTRAINT_CD'] = item);
-                });
-
-                const bundles = body.map(item => {
-                    return item.CONSTRAINT_BUNDLE_ITEMS;
-                });
-                // bundles = [].concat(bundles);
-
-                body.forEach(item => {
-                    delete item.CONSTRAINT_BUNDLE_ITEMS;
-                    item['SCENARIO_CD'] = userScenarioCd;
-                    obj.constraints.push(item);
-                });
-
-                jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err) {
-                    if (err) console.error(err);
-
-                    jsonfile.readFile(appRoot + fileConstraintBundleItems, function (err, obj) {
-                        obj.bundles = obj.bundles.concat(...bundles);
-
-                        jsonfile.writeFile(appRoot + fileConstraintBundleItems, obj, function (err) {
-                            if (err) console.error(err);
-
-                            resolve(idList);
-                        });
+                // clear prev constraints
+                if (!generalBundleFlag) {
+                    obj = obj.filter(objItem => {
+                        if (objItem.CONSTRAINT_BUNDLE_CD === 'CBN001') {
+                            return objItem.SCENARIO_CD !== userScenarioCd;
+                        }
+                        return true;
                     });
-                });
-            });
-        });
-    }
-}
+                } else {
+                    const currentPutAttrName = body[0].CONSTRAINT_BUNDLE_ITEMS.map(constraintBundleItem => {
+                        return constraintBundleItem.ATTR_NAME;
+                    }).sort().toString();
+
+                    obj = obj.filter(objItem => {
+
+
+                        if (objItem.CONSTRAINT_BUNDLE_ITEMS && objItem.SCENARIO_CD === userScenarioCd) {
+                            const objItemAttrName = objItem.CONSTRAINT_BUNDLE_ITEMS.map(bundleItem => {
+                                return bundleItem.ATTR_NAME;
+                            }).sort().toString();
+
+                            return currentPutAttrName !== objItemAttrName;
+                        }
+
+                        return true;
+                    });
+                }
+
+                const actionGroups = body.reduce((groupName, item) => {
+                    if (!item.MDF_FLG) {
+                        item.MDF_FLG = 'U';
+                    }
+                    const name = item.MDF_FLG;
+                    if(!groupName[name]) groupName[name] = [];
+                    if(!generalBundleFlag) item.CONSTRAINT_BUNDLE_CD = 'CBN001';
+
+                    groupName[name].push(item);
+                    return groupName;
+                }, {});
+
+                for (let group in actionGroups) {
+                    if (group === 'I') {
+                        actionGroups[group].forEach(item => {
+                            const id = getUniqueIds(1, obj, 'SCENARIO_CONSTRAINT_CD', 'SCC');
+                            item.SCENARIO_CONSTRAINT_CD = id[0];
+                            delete item.MDF_FLG;
+                            obj.push(item);
+                        });
+                    }
+
+                    if (group === 'U') {
+                        actionGroups[group].forEach(item => {
+                            delete item.MDF_FLG;
+                            obj.push(item)
+                        })
+                    }
+
+                    if (group === 'D') {
+                        actionGroups[group].forEach(item => {
+                            const idx = obj.findIndex(objItem => objItem.SCENARIO_CONSTRAINT_CD === item.SCENARIO_CONSTRAINT_CD);
+                            delete item.MDF_FLG;
+                            obj.splice(idx, 1);
+                        })
+                    }
+                }
+
+                jsonfile.writeFile(appRoot + fileCommonConstraints, obj, function (err) {
+                    if (err) reject(err);
+
+                    resolve(obj);
+                })
+            })
+        } else {
+            resolve([]);
+        }
+    })
+};
 
 
 /**
@@ -598,6 +598,26 @@ exports.putScenarioDimConstraintGeneral = function(body,userScenarioCd) {
 
                 resolve(idList);
             });
+        })
+    });
+};
+
+/**
+ * Returns list of constraint attrs
+ *
+ * attrlist String list if of constraint attrs separated by comma (optional)
+ * returns constraintsAttrNamesList
+ **/
+exports.getScenarioConstraintsAttrs = function(attrlist) {
+    console.log(attrlist);
+    return new Promise(function(resolve, reject) {
+        jsonfile.readFile(appRoot + fileAttrnamesMocks, function (err, obj) {
+            if(err) reject(err);
+
+            attrlist = attrlist.split(',').map(attrItem => obj.filter(objItem => objItem.ATTR_NAME === attrItem));
+            attrlist = [].concat.apply([], attrlist);
+
+            resolve(attrlist);
         })
     });
 };

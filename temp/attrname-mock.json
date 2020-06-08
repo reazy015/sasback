@@ -1,0 +1,254 @@
+[
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 25,
+    "DISPLAY_VALUE": "Умная защита"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 35,
+    "DISPLAY_VALUE": "VAS Телеком"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 6,
+    "DISPLAY_VALUE": "Мульти-СИМ"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 0,
+    "DISPLAY_VALUE": "Не определено"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 16,
+    "DISPLAY_VALUE": "Продажа девайсов"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 27,
+    "DISPLAY_VALUE": "Inbound"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 36,
+    "DISPLAY_VALUE": "КПП (ЩП)"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 1,
+    "DISPLAY_VALUE": "Допродажа потребляемых услуг"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 15,
+    "DISPLAY_VALUE": "В2С Like"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 26,
+    "DISPLAY_VALUE": "КПП (ПКУ)"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 12,
+    "DISPLAY_VALUE": "Привлечение новых клиентов"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 10,
+    "DISPLAY_VALUE": "Умная реакция"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 28,
+    "DISPLAY_VALUE": "FMC"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 33,
+    "DISPLAY_VALUE": "VAS Приоритетные"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 14,
+    "DISPLAY_VALUE": "Лояльность"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 5,
+    "DISPLAY_VALUE": "Кредитно-платежные продукты  (ОП, АОП, АП)"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 19,
+    "DISPLAY_VALUE": "Репрайс"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 13,
+    "DISPLAY_VALUE": "Привлечение новых клиентов (digital)"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 30,
+    "DISPLAY_VALUE": "Voice"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 8,
+    "DISPLAY_VALUE": "Борьба с downsell (общая)"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 22,
+    "DISPLAY_VALUE": "КПП (ОП, ЩП)"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 31,
+    "DISPLAY_VALUE": "Roaming"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 29,
+    "DISPLAY_VALUE": "Data"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 9,
+    "DISPLAY_VALUE": "Борьба с оттоком и downsell (триггерная)"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 32,
+    "DISPLAY_VALUE": "VAS Финансовые"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 24,
+    "DISPLAY_VALUE": "Подземный ноль"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 7,
+    "DISPLAY_VALUE": "Борьба с оттоком (общая)"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 20,
+    "DISPLAY_VALUE": "КПП (АОП)"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 23,
+    "DISPLAY_VALUE": "3G/4G"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 17,
+    "DISPLAY_VALUE": "Развитие новой базы"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 3,
+    "DISPLAY_VALUE": "Апгрейд тарифов"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 11,
+    "DISPLAY_VALUE": "VAS"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 18,
+    "DISPLAY_VALUE": "VAS Инновационные"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 4,
+    "DISPLAY_VALUE": "Кредитно-платежные продукты (ПКУ, ЩП)"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 2,
+    "DISPLAY_VALUE": "Продажа не потребляемых услуг"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 37,
+    "DISPLAY_VALUE": "CVMaaS"
+  },
+  {
+    "ATTR_NAME": "USECASE_ID",
+    "CVALUE": "",
+    "NVALUE": 21,
+    "DISPLAY_VALUE": "Роуминг"
+  },
+  {
+    "ATTR_NAME": "CPCHANNEL_CD",
+    "CVALUE": "SMS",
+    "NVALUE": null,
+    "DISPLAY_VALUE": "SMS"
+  },
+  {
+    "ATTR_NAME": "CPCHANNEL_CD",
+    "CVALUE": "TM",
+    "NVALUE": null,
+    "DISPLAY_VALUE": "Телемаркетинг"
+  },
+  {
+    "ATTR_NAME": "OFFER_ID",
+    "CVALUE": "",
+    "NVALUE": 1,
+    "DISPLAY_VALUE": "Продукт А"
+  },
+  {
+    "ATTR_NAME": "OFFER_ID",
+    "CVALUE": "",
+    "NVALUE": 2,
+    "DISPLAY_VALUE": "Продукт Б"
+  },
+  {
+    "ATTR_NAME": "OFFER_ID",
+    "CVALUE": "",
+    "NVALUE": 3,
+    "DISPLAY_VALUE": "Продукт В"
+  }
+]

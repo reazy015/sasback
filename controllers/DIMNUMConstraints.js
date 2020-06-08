@@ -112,3 +112,13 @@ module.exports.putScenarioDimConstraintGeneral = function putScenarioDimConstrai
             utils.writeJson(res, response);
         });
 };
+
+module.exports.getScenarioConstraintsAttrs = function getScenarioConstraintsAttrs (req, res, next, attrlist) {
+    DIMNUMConstraints.getScenarioConstraintsAttrs(attrlist)
+        .then(function (response) {
+            utils.writeJson(res, response);
+        })
+        .catch(function (response) {
+            utils.writeJson(res, response);
+        });
+};

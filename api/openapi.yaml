@@ -473,6 +473,29 @@ paths:
         "200":
           description: Scenario constraint item successfully updated
       x-swagger-router-controller: DIMNUMConstraints
+  /constraints/attr:
+    get:
+      tags:
+        - DIM, NUM constraints
+      summary: Returns list of constraint attrs
+      operationId: getScenarioConstraintsAttrs
+      parameters:
+        - name: attrlist
+          in: query
+          description: list if of constraint attrs separated by comma
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User scenario constraints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/constraintsAttrNamesList'
+      x-swagger-router-controller: DIMNUMConstraints
   /userScenario:
     get:
       tags:
@@ -1294,6 +1317,25 @@ components:
               description: array of optimizations
               items:
                 $ref: '#/components/schemas/classificationTableList_items'
+    constraintsAttrNamesList:
+      properties:
+        ATTR_NAME:
+          type: string
+          description: attr name
+        CVALUE:
+          type: string
+          description: attr name string value
+        NVALUE:
+          type: number
+          description: attr name number value
+        DISPLAY_VALUE:
+          type: string
+      description: list of constraint attr names
+      example:
+        CVALUE: CVALUE
+        ATTR_NAME: ATTR_NAME
+        NVALUE: 0.80082819046101150206595775671303272247314453125
+        DISPLAY_VALUE: DISPLAY_VALUE
     user:
       properties:
         USER_NAME:
@@ -1464,6 +1506,9 @@ components:
               - $ref: '#/components/schemas/userScenarioConstraintBundle'
     userScenarioConstraintsPatch_inner:
       properties:
+        MDF_FLG:
+          type: string
+          description: modification type flag
         ACTIVE_FLG:
           type: string
           description: active flag
