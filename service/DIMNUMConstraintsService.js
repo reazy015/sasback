@@ -284,7 +284,7 @@ exports.clearScenarioDimConstraint = function (userScenarioCd, constraintName) {
                 if (err) console.log(err);
                 obj.constraints = obj.constraints.filter(item => item.SCENARIO_CD === userScenarioCd && item.CONSTRAINT_BUNDLE_CD !== constraintName);
 
-                jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function(err, obj) {
+                jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err, obj) {
                     if (err) console.log(err);
 
                     resolve();
@@ -312,10 +312,10 @@ exports.clearScenarioDimConstraint = function (userScenarioCd, constraintName) {
                         obj.constraint = obj.constraints.filter(constraintItem => constraintItem.SCENARIO_CONSTRAINT_CD !== item);
                     });
 
-                    jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function(err, obj) {
+                    jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err, obj) {
                         if (err) console.log(err);
 
-                        jsonfile.writeFile(appRoot + fileConstraintBundleItems, bundle, function(err, obj) {
+                        jsonfile.writeFile(appRoot + fileConstraintBundleItems, bundle, function (err, obj) {
                             if (err) console.log(err);
 
                             resolve();
@@ -333,7 +333,7 @@ exports.clearScenarioDimConstraint = function (userScenarioCd, constraintName) {
  * body List The new scenario template
  * no response value expected for this operation
  **/
-exports.patchUserScenarioConstraint = function(body, userScenarioCd) {
+exports.patchUserScenarioConstraint = function (body, userScenarioCd) {
     console.log(body, userScenarioCd);
 
     if (!body[0].CONSTRAINT_PARAMETER) {
@@ -352,8 +352,8 @@ exports.patchUserScenarioConstraint = function(body, userScenarioCd) {
             resolve();
         });
     } else {
-        return new Promise(function(resolve, reject) {
-            jsonfile.readFile(appRoot + fileScenarioConstraint, function(err, obj) {
+        return new Promise(function (resolve, reject) {
+            jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
                 if (err) console.log(err);
 
                 ///// to be improved
@@ -371,7 +371,7 @@ exports.patchUserScenarioConstraint = function(body, userScenarioCd) {
                 // console.log(obj.constraints);
 
                 if (body[0].CONSTRAINT_BUNDLE_ITEMS.length) {
-                    jsonfile.readFile(appRoot + fileConstraintBundleItems, function(err, objBundles) {
+                    jsonfile.readFile(appRoot + fileConstraintBundleItems, function (err, objBundles) {
                         if (err) console.log(err);
 
                         objBundles.bundles = objBundles.bundles.filter(item => item.SCENARIO_CONSTRAINT_CD !== body[0].SCENARIO_CONSTRAINT_CD);
@@ -384,10 +384,10 @@ exports.patchUserScenarioConstraint = function(body, userScenarioCd) {
                         obj.constraints.push(body[0]);
 
                         jsonfile.writeFile(appRoot + fileConstraintBundleItems, objBundles, function (err, resultB) {
-                            if(err) console.log(err);
+                            if (err) console.log(err);
 
-                            jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function(err, resultC) {
-                                if(err) console.log(err);
+                            jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err, resultC) {
+                                if (err) console.log(err);
 
                                 resolve(body);
                             })
@@ -418,10 +418,11 @@ exports.patchUserScenarioConstraint = function(body, userScenarioCd) {
  * userScenarioCd String user scenario code
  * returns userScenarioConstraintsCreateResponse
  **/
-exports.putScenarioConstraint = function(body, userScenarioCd) {
+exports.putScenarioConstraint = function (body, attrlist, userScenarioCd) {
+    console.log('body: ', body, 'scenarioCd: ', userScenarioCd, ' attrlist: ', attrlist);
     return new Promise(function (resolve, reject) {
-        if (body.length && userScenarioCd) {
-            jsonfile.readFile(appRoot + fileCommonConstraints, function(err, obj) {
+        if (Array.isArray(body)) {
+            jsonfile.readFile(appRoot + fileCommonConstraints, function (err, obj) {
                 if (err) reject(err);
                 const generalBundleFlag = !!body[0].CONSTRAINT_BUNDLE_ITEMS;
 
@@ -458,8 +459,8 @@ exports.putScenarioConstraint = function(body, userScenarioCd) {
                         item.MDF_FLG = 'U';
                     }
                     const name = item.MDF_FLG;
-                    if(!groupName[name]) groupName[name] = [];
-                    if(!generalBundleFlag) item.CONSTRAINT_BUNDLE_CD = 'CBN001';
+                    if (!groupName[name]) groupName[name] = [];
+                    if (!generalBundleFlag) item.CONSTRAINT_BUNDLE_CD = 'CBN001';
 
                     groupName[name].push(item);
                     return groupName;
@@ -497,8 +498,53 @@ exports.putScenarioConstraint = function(body, userScenarioCd) {
                     resolve(obj);
                 })
             })
-        } else {
-            resolve([]);
+        } else { // mess with params!!!!
+            jsonfile.readFile(appRoot + fileCommonConstraints, function (err, obj) {
+                if (err) reject(err);
+
+                if (!body) {
+                    console.log('ENTER!!!');
+                    obj = obj.filter(objItem => {
+                        if (objItem.CONSTRAINT_BUNDLE_CD === 'CBN001') {
+                            return objItem.SCENARIO_CD !== attrlist
+                        }
+                        return true;
+                    })
+                } else {
+
+                    if (body.length) {
+                        const currentPutAttrName = body.split(',').sort().toString();
+                        console.log('THERE!!!');
+                        obj = obj.filter(objItem => {
+                            if (objItem.CONSTRAINT_BUNDLE_ITEMS && objItem.SCENARIO_CD === attrlist) {
+                                const objItemAttrName = objItem.CONSTRAINT_BUNDLE_ITEMS.map(bundleItem => {
+                                    return bundleItem.ATTR_NAME;
+                                }).sort().toString();
+
+                                return currentPutAttrName !== objItemAttrName;
+                            }
+
+                            return true;
+                        });
+                    } else {
+                        console.log('HERE!!!!');
+                        obj = obj.filter(objItem => {
+                            if (objItem.CONSTRAINT_BUNDLE_CD === 'CBN001') {
+                                return objItem.SCENARIO_CD !== attrlist;
+                            }
+
+                            return true;
+                        });
+                    }
+                }
+
+
+                jsonfile.writeFile(appRoot + fileCommonConstraints, obj, function (err, obj) {
+                    if (err) reject(err);
+
+                    resolve([]);
+                })
+            });
         }
     })
 };
@@ -511,9 +557,9 @@ exports.putScenarioConstraint = function(body, userScenarioCd) {
  * attrName String user scenario constraint name or CBN001 id for common constraint
  * no response value expected for this operation
  **/
-exports.putScenarioDimConstraint = function(body,userScenarioCd,attrName) {
+exports.putScenarioDimConstraint = function (body, userScenarioCd, attrName) {
     console.log(body, userScenarioCd, attrName);
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
             if (err) console.log(err);
             const constraintCdList = [];
@@ -555,10 +601,10 @@ exports.putScenarioDimConstraint = function(body,userScenarioCd,attrName) {
 
                 bundle.bundles = bundle.bundles.concat(...bundles);
 
-                jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function(err, obj) {
+                jsonfile.writeFile(appRoot + fileScenarioConstraint, obj, function (err, obj) {
                     if (err) console.log(err);
 
-                    jsonfile.writeFile(appRoot + fileConstraintBundleItems, bundle, function(err, obj) {
+                    jsonfile.writeFile(appRoot + fileConstraintBundleItems, bundle, function (err, obj) {
                         if (err) console.log(err);
 
                         resolve();
@@ -576,7 +622,7 @@ exports.putScenarioDimConstraint = function(body,userScenarioCd,attrName) {
  * userScenarioCd String user scenario code
  * no response value expected for this operation
  **/
-exports.putScenarioDimConstraintGeneral = function(body,userScenarioCd) {
+exports.putScenarioDimConstraintGeneral = function (body, userScenarioCd) {
     // console.log(body, userScenarioCd);
     return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + fileScenarioConstraint, function (err, obj) {
@@ -608,11 +654,11 @@ exports.putScenarioDimConstraintGeneral = function(body,userScenarioCd) {
  * attrlist String list if of constraint attrs separated by comma (optional)
  * returns constraintsAttrNamesList
  **/
-exports.getScenarioConstraintsAttrs = function(attrlist) {
+exports.getScenarioConstraintsAttrs = function (attrlist) {
     console.log(attrlist);
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         jsonfile.readFile(appRoot + fileAttrnamesMocks, function (err, obj) {
-            if(err) reject(err);
+            if (err) reject(err);
 
             attrlist = attrlist.split(',').map(attrItem => obj.filter(objItem => objItem.ATTR_NAME === attrItem));
             attrlist = [].concat.apply([], attrlist);

@@ -83,8 +83,8 @@ module.exports.patchUserScenarioConstraint = function patchUserScenarioConstrain
         });
 };
 
-module.exports.putScenarioConstraint = function putScenarioConstraint (req, res, next, body, userScenarioCd) {
-    DIMNUMConstraints.putScenarioConstraint(body, userScenarioCd)
+module.exports.putScenarioConstraint = function putScenarioConstraint (req, res, next, body, attrlist = '', userScenarioCd) {
+    DIMNUMConstraints.putScenarioConstraint(body, attrlist, userScenarioCd)
         .then(function (response) {
             utils.writeJson(res, response);
         })

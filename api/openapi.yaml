@@ -237,66 +237,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/scenarioTemplateDIMConstraints'
       x-swagger-router-controller: DIMNUMConstraints
-  /constraints/dim/{userScenarioCd}/{attrName}:
-    put:
-      tags:
-        - DIM, NUM constraints
-      summary: Put scenario dim constraint
-      operationId: putScenarioDimConstraint
-      parameters:
-        - name: userScenarioCd
-          in: path
-          description: user scenario code
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-        - name: attrName
-          in: path
-          description: user scenario constraint name or CBN001 id for common constraint
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      requestBody:
-        description: New user scenario constraint
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/userScenarioConstraintsPatch'
-        required: true
-      responses:
-        "200":
-          description: user scenario dim constraint deleted
-      x-swagger-router-controller: DIMNUMConstraints
-  /constraints/dim/{userScenarioCd}/generalConstraint:
-    put:
-      tags:
-        - DIM, NUM constraints
-      summary: Put scenario general dim constraint
-      operationId: putScenarioDimConstraintGeneral
-      parameters:
-        - name: userScenarioCd
-          in: path
-          description: user scenario code
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
-      requestBody:
-        description: New user scenario constraint
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/userScenarioConstraintsPatch'
-        required: true
-      responses:
-        "200":
-          description: user scenario dim constraint deleted
-      x-swagger-router-controller: DIMNUMConstraints
   /constraints/{userScenarioCd}/{scenarioConstraintCd}:
     delete:
       tags:
@@ -413,7 +353,7 @@ paths:
     put:
       tags:
         - DIM, NUM constraints
-      summary: Put scenario constraints from user scenario constraints grid
+      summary: Put scenario constraint
       operationId: putScenarioConstraint
       parameters:
         - name: userScenarioCd
@@ -422,6 +362,15 @@ paths:
           required: true
           style: simple
           explode: false
+          schema:
+            type: string
+        - name: attrlist
+          in: query
+          description: user scenario constraint name or CBN001 id for common constraint
+          required: false
+          allowEmptyValue: true
+          style: form
+          explode: true
           schema:
             type: string
       requestBody:
@@ -433,20 +382,7 @@ paths:
         required: true
       responses:
         "200":
-          description: User scenario constraint been created
-          headers:
-            Location:
-              description: The URI of the newly created scenario template.
-              style: simple
-              explode: false
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/userScenarioConstraintsCreateResponse'
-        "400":
-          description: invalid body input
+          description: user scenario dim constraint deleted
       x-swagger-router-controller: DIMNUMConstraints
     patch:
       tags:
@@ -1554,16 +1490,6 @@ components:
           items:
             allOf:
               - $ref: '#/components/schemas/userScenarioConstraintBundle'
-      example:
-        SCENARIO_CONSTRAINT_CD: SCENARIO_CONSTRAINT_CD
-        CORRECT_COEF: CORRECT_COEF
-        SCENARIO_CD: SCENARIO_CD
-        BOUND_TYPE: BOUND_TYPE
-        VALUE: VALUE
-        CONSTRAINT_BUNDLE_ITEMS:
-          - ""
-          - ""
-        CONSTRAINT_PARAMETER: CONSTRAINT_PARAMETER
     userScenarioConstraintsUpdateStatus_inner:
       properties:
         SCENARIO_CONSTRAINT_CD:
