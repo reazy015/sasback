@@ -1,6 +1,6 @@
 [
   {
-    "ATTR_NAME": "CPCHANNEL_ID",
+    "ATTR_NAME": "CPCHANNEL_CD",
     "ATTR_LABEL" : "Канал коммуникаци"
   },
   {
