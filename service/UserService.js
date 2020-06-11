@@ -12,7 +12,7 @@ exports.getUser = function() {
     examples['application/json'] = {
   "USER_ID" : "UID001",
   "USER_NAME" : "Cas",
-  "USER_ROLE" : "admin"
+  "USER_ROLES" : ["readonly", "dev", "admin"]
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

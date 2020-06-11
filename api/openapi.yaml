@@ -1277,17 +1277,20 @@ components:
         USER_NAME:
           type: string
           description: user name
-        USER_ROLE:
-          type: string
-          description: user role
         USER_ID:
           type: string
           description: user id
+        USER_ROLES:
+          type: array
+          items:
+            type: string
       description: user information
       example:
         USER_ID: USER_ID
         USER_NAME: USER_NAME
-        USER_ROLE: USER_ROLE
+        USER_ROLES:
+          - USER_ROLES
+          - USER_ROLES
     body:
       properties:
         NAME_SCN:
