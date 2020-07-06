@@ -1266,11 +1266,12 @@ components:
           description: attr name number value
         DISPLAY_VALUE:
           type: string
+          description: attr name description value
       description: list of constraint attr names
       example:
         CVALUE: CVALUE
         ATTR_NAME: ATTR_NAME
-        NVALUE: 0.80082819046101150206595775671303272247314453125
+        NVALUE: 0.8008281904610115
         DISPLAY_VALUE: DISPLAY_VALUE
     user:
       properties:
@@ -1349,9 +1350,6 @@ components:
         DTTM_UPDATED:
           type: string
           description: datetime of last edition
-        DTIME_LAST_OPTIMIZATION:
-          type: string
-          description: datetime of last optimization start
         SCHEDULED_FLG:
           type: string
           description: schedule flag
