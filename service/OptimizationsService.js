@@ -45,6 +45,18 @@ exports.getOptimizationsList = function(filterQuery,filter,sortBy,start,limit) {
 exports.publishOptimization = function(body) {
   console.log(body);
   return new Promise(function(resolve, reject) {
-    resolve(body);
+    jsonfile.readFile(appRoot + optimizations, function(err, obj) {
+      console.log(obj);
+      console.log(typeof body.OPTIMIZATION_ID);
+      const index = obj.findIndex(item => item.OPTIMIZATION_ID === Number(body.OPTIMIZATION_ID));
+      console.log(index);
+      obj[index].OPTIMIZATION_PUBLICATION_STATUS = 'Опубликован';
+
+      jsonfile.writeFile(appRoot + optimizations, obj, function (err, obj)  {
+        if (err) console.log(err);
+
+        resolve(body);
+      });
+    });
   });
 }
